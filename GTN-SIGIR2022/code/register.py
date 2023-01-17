@@ -41,6 +41,8 @@ print("Test Topks:", world.topks)
 print("using bpr loss")
 print('===========end===================')
 
+# Model 사전 자료형
+# key는 gtn, value는 model 모듈의 GTN 클래스
 MODELS = {
     'gtn': model.GTN,
 }

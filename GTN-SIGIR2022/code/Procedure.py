@@ -87,6 +87,7 @@ def test_one_batch(X):
 
 def Test(dataset, Recmodel, epoch, w=None, multicore=1, val=False):
     u_batch_size = world.config['test_u_batch_size']
+    # 자료형 힌트 제공
     dataset: utils.BasicDataset
     testDict: dict = dataset.testDict
     # valDict: dict = dataset.valDict
@@ -99,6 +100,8 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=1, val=False):
     results = {'precision': np.zeros(len(world.topks)),
                'recall': np.zeros(len(world.topks)),
                'ndcg': np.zeros(len(world.topks))}
+    # with 구문: 자원 획득, 사용, 반납 프로세스를 한 번에 처리할 수 있도록 해줌
+    # 객체의 라이프사이클을 설계할 수 있음
     with torch.no_grad():
         users = list(testDict.keys())
         try:
@@ -136,6 +139,7 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=1, val=False):
             groundTrue_list.append(groundTrue)
         assert total_batch == len(users_list)
         X = zip(rating_list, groundTrue_list)
+        # pre_results 리스트 생성
         if multicore == 1:
             pre_results = pool.map(test_one_batch, X)
         else:

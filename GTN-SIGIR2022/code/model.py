@@ -15,7 +15,8 @@ The original version of this code base was from LightGCN-pytorch: https://github
 
 import world
 import torch
-from dataloader import BasicDataset
+# from dataloader import BasicDataset
+import dataloader
 from torch import nn
 import numpy as np
 

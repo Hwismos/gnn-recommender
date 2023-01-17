@@ -29,6 +29,9 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+# 입력값 파싱
+# parse 모듈의 parse_args 메소드 이용
+# parse 모듈 import 끝
 args = parse_args()
 
 ROOT_PATH = "./"
@@ -43,7 +46,10 @@ sys.path.append(join(CODE_PATH, 'sources'))
 if not os.path.exists(FILE_PATH):
     os.makedirs(FILE_PATH, exist_ok=True)
 
+# config(환경설정) 딕셔너리를 정의
+# --key format으로 value에 접근할 수 있음
 config = {}
+# 모든 데이터셋과 모델들을 리스트로 정의
 all_dataset = ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']
 all_models = ['mf', 'gtn', 'lgn']
 # config['batch_size'] = 4096
@@ -61,6 +67,7 @@ config['pretrain'] = args.pretrain
 config['A_split'] = False
 config['bigdata'] = False
 config['args'] = args
+# python run_main.py --dataset 'gowalla'
 config['dataset'] = args.dataset
 config['epochs'] = args.epochs
 config['lambda2'] = args.lambda2
@@ -78,6 +85,7 @@ TRAIN_epochs = args.epochs
 LOAD = args.load
 PATH = args.path
 topks = eval(args.topks)
+# 텐서보드: 텐서블로우의 시각화 도구
 tensorboard = args.tensorboard
 comment = args.comment
 # let pandas shut up

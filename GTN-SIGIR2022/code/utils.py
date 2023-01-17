@@ -120,6 +120,8 @@ def set_seed(seed):
 def getFileName():
     file = f"{world.args.gcn_model}-{world.dataset}.pth.tar"
 
+    # os 모듈 사용
+    # os 모듈은 운영체제 종속 기능에 대한 간단한 명령들을 모아놓은 기본 모듈
     return os.path.join(world.FILE_PATH, file)
 
 

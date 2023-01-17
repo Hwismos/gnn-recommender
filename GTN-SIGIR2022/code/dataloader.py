@@ -44,6 +44,7 @@ class BasicDataset(Dataset):
 
     @property
     def n_users(self):
+        # 일부러 에러를 발생시키고 싶을 때 raise 사용
         raise NotImplementedError
 
     @property
@@ -93,6 +94,8 @@ class Loader(BasicDataset):
     gowalla dataset,['gowalla', 'yelp2018', 'amazon-book']:
     """
 
+    # Loader 객체 초기화에 world 모듈이 사용됨
+    # world 모듈의 config 딕셔너리를 이용해서 Loader 객체의 config 필드를 초기화
     def __init__(self, config=world.config, path="../data/gowalla", flag_test=0):
         # train or test
         cprint(f'loading [{path}]')
@@ -112,6 +115,7 @@ class Loader(BasicDataset):
         self.testDataSize = 0
         self.args = config['args']
 
+        # open 메소드의 반환값을 f로 alias
         with open(train_file) as f:
             for l in f.readlines():
                 if len(l) > 0:
@@ -235,6 +239,8 @@ class Loader(BasicDataset):
             A_fold.append(self._convert_sp_mat_to_sp_tensor(A[start:end]).coalesce().to(world.device))
         return A_fold
 
+    # _method_name
+    # 변수나 함수를 모듈 내에서만 사용하고 싶을 때 변수/함수명 앞에 언더바를 한 개 붙임
     def _convert_sp_mat_to_sp_tensor(self, X):
         coo = X.tocoo().astype(np.float32)
         row = torch.Tensor(coo.row).long()
