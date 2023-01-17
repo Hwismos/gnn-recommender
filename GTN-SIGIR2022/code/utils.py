@@ -70,7 +70,7 @@ def UniformSample_original(dataset, neg_ratio=1):
         S = UniformSample_original_python(dataset)
     return S
 
-
+# UniformSample_original 메소드와의 차이를 모르겠음
 def UniformSample_original_python(dataset):
     """
     the original impliment of BPR Sampling in LightGCN
@@ -131,12 +131,16 @@ def minibatch(*tensors, **kwargs):
     if len(tensors) == 1:
         tensor = tensors[0]
         for i in range(0, len(tensor), batch_size):
+            # yield 키워드는 generator를 반환함
+            # 제너레이터: 여러 개의 데이터를 미리 만들어 놓지 않고 필요할 때마다 즉성에서 하나 씩 만들어낼 수 있는 객체
+            # 결과값을 나눠서 얻을 수 있다는 장점이 있음
             yield tensor[i:i + batch_size]
     else:
         for i in range(0, len(tensors[0]), batch_size):
             yield tuple(x[i:i + batch_size] for x in tensors)
 
 
+# *arrays는 복수 개의 변수를 인자로 받아 리스트 타입으로 저장
 def shuffle(*arrays, **kwargs):
     require_indices = kwargs.get('indices', False)
 

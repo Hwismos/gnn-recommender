@@ -15,8 +15,9 @@ The original version of this code base was from LightGCN-pytorch: https://github
 
 import world
 import torch
-# from dataloader import BasicDataset
+from dataloader import BasicDataset
 import dataloader
+# torch.nn: 그래프를 위한 기본 빌딩 블록
 from torch import nn
 import numpy as np
 
@@ -41,6 +42,8 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 
 
+# nn.Module 클래스를 인자로 전달받기 때문에 train 등의 메소드(파일 내에서는 정의되지 않은)를 사용할 수 있는 것으로 추측
+# BasicModel 클래스를 PairWiseModel, GTN 클래스가 상속 받음
 class BasicModel(nn.Module):
     def __init__(self):
         super(BasicModel, self).__init__()
@@ -69,10 +72,12 @@ class GTN(BasicModel):
     def __init__(self, config: dict, dataset: BasicDataset, args):
         super(GTN, self).__init__()
         self.config = config
+        # gtn 객체를 초기화할 때 dataset 필드의 타입 힌트를 BasicDataset 클래스로 설정
         self.dataset: dataloader.BasicDataset = dataset
         self.args = args
         self.__init_weight()
 
+        # gtn 객체를 초기화할 때 gp 필드를 gtn_propagation 모듈의 GeneralPropagation 객체로 초기화
         self.gp = GeneralPropagation(args.K, args.alpha, cached=True, args=args)
 
     def __init_weight(self):

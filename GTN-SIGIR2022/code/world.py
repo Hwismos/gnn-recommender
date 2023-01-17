@@ -84,6 +84,8 @@ model_name = args.model
 TRAIN_epochs = args.epochs
 LOAD = args.load
 PATH = args.path
+# eval 메소드: 매개변수로 받은 expression(식)을 문자열로 받아서 실행하는 함수
+# eval("1+2") -> 3
 topks = eval(args.topks)
 # 텐서보드: 텐서블로우의 시각화 도구
 tensorboard = args.tensorboard

@@ -44,6 +44,8 @@ class GeneralPropagation(MessagePassing):
     _cached_edge_index: Optional[Tuple[Tensor, Tensor]]
     _cached_adj_t: Optional[SparseTensor]
 
+    # *args: 복수 개의 인자를 받을 때 사용
+    # **kargs: 딕셔너리 타입으로 인자를 받을 때 사용
     def __init__(self, K: int, alpha: float, dropout: float = 0.,
                  cached: bool = False,
                  add_self_loops: bool = True,

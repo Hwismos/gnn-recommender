@@ -27,6 +27,8 @@ torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
+# world 모듈의 dataset 필드의 값이 [...] 리스트에 존재하는지 확인
+# argument로 전달 받은 dataset을 확인
 if world.dataset in ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']:
     dataset = dataloader.Loader(path="../data/" + world.dataset)
 
