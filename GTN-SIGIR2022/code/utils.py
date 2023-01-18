@@ -11,7 +11,8 @@ The original version of this code base was from LightGCN-pytorch: https://github
   year={2022}
 }
 '''
-
+# sampling 때문에 임시로 추가
+from scipy.stats import sampling
 
 import world
 import torch

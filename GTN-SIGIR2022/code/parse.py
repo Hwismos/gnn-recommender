@@ -82,7 +82,9 @@ def parse_args():
     parser.add_argument('--avg', type=int, default=0)
     parser.add_argument('--recdim', type=int, default=256,
                         help="the embedding size of GTN: 128, 256")
-    parser.add_argument('--gpu_id', type=int, default=1)
+    # gpu_id는 여러 개의 gpu 중 선택하기 위한 변수로 사용됨
+    # 따라서 기존에 1이었던 defaultf를 0으로 변경함
+    parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--gcn_model', type=str,
                         default='GTN', help='GTN')
     return parser.parse_args()

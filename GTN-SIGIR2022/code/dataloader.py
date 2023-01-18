@@ -25,6 +25,8 @@ import scipy.sparse as sp
 import world
 from world import cprint
 from time import time
+# 모듈은 전역변수, 함수, 클래스 등을 모아놓은 .py 확장자를 가진 파일
+# 패키지(라이브러리)는 모듈을 모아놓은 폴더
 from sklearn.model_selection import train_test_split
 import random
 
