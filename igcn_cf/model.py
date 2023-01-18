@@ -15,7 +15,9 @@ import time
 
 def get_model(config, dataset):
     config = config.copy()
+    # 모델의 데이터셋 설정
     config['dataset'] = dataset
+    # getattr(object, str)
     model = getattr(sys.modules['model'], config['name'])
     model = model(config)
     return model

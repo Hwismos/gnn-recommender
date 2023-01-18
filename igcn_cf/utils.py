@@ -20,9 +20,14 @@ def set_seed(seed=0):
     torch.backends.cudnn.deterministic = True
 
 
+# 시드 설정하고 로그 경로를 이용해 파일을 오픈
 def init_run(log_path, seed):
+    # 시드 설정
+    # 시드를 설정하면 모델을 생성할 때마다 다른 파라미터를 얻을 수 있음
     set_seed(seed)
+    # log_path가 존재하지 않는다면 생성
     if not os.path.exists(log_path): os.mkdir(log_path)
+    # os.path.join 메소드: 인수에 전달된 두 문자열을 결합해 한 개의 경로로 변환
     f = open(os.path.join(log_path, 'log.txt'), 'w')
     f = Unbuffered(f)
     sys.stderr = f
