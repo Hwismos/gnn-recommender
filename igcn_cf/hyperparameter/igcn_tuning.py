@@ -34,6 +34,7 @@ def main():
     log_path = __file__[:-3]
     # utils 모듈의 메소드
     # log 경로와 시드 값을 인자로 전달
+    # 이후에 log.txt 파일에 저장
     init_run(log_path, 2021)
     # 파라미터를 딕셔너리를 이용해 저장
     # learning rate, L2 regularization coefficient, dropout
