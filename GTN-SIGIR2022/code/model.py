@@ -104,6 +104,7 @@ class GTN(BasicModel):
 
         print(f"lgn is already to go(dropout:{self.config['dropout']})")
 
+    # 맹글링: 클래스 간 메소드 충돌을 방지
     def __dropout_x(self, x, keep_prob):
         size = x.size()
         index = x.indices().t()
