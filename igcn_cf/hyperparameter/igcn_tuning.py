@@ -55,6 +55,6 @@ def main():
             print('Maximum NDCG!')
     print('Maximum NDCG: {:.3f}, Best Parameters: {:s}'.format(max_ndcg, str(best_params)))
 
-
+# 라이브러리로 임포트될 때는 if 이하의 커맨드들이 실행되지 않음
 if __name__ == '__main__':
     main()

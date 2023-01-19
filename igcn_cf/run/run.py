@@ -23,8 +23,11 @@ def main():
     trainer.train(verbose=True, writer=writer)
     writer.close()
     results, _ = trainer.eval('test')
+
+
     print('Test result. {:s}'.format(results))
 
-
+# python -u -m run.run
+# run 패키지 아래 있는 run.py 모듈을 실행하는 스크립트
 if __name__ == '__main__':
     main()
