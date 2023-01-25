@@ -1,0 +1,308 @@
+init dataset ProcessedDataset
+{'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'device': device(type='cuda'), 'n_epochs': 100, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset_copy.ProcessedDataset object at 0x7f9688c644e0>, 'model': LightGCN(
+  (embedding): Embedding(70846, 64)
+)}
+trainer config: {'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'device': device(type='cuda'), 'n_epochs': 100, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset_copy.ProcessedDataset object at 0x7f9688c644e0>, 'model': LightGCN(
+  (embedding): Embedding(70846, 64)
+)}
+Epoch 0/100, Loss: 0.573440, Time: 22.700s
+Validation result. Precision: 1.219%@20, Recall: 7.113%@20, NDCG: 4.465%@20, Time: 4.771s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_4.465.pth
+Epoch 1/100, Loss: 0.248682, Time: 23.647s
+Validation result. Precision: 1.352%@20, Recall: 7.863%@20, NDCG: 4.977%@20, Time: 3.228s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_4.977.pth
+Epoch 2/100, Loss: 0.157143, Time: 26.011s
+Validation result. Precision: 1.435%@20, Recall: 8.322%@20, NDCG: 5.314%@20, Time: 3.244s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.314.pth
+Epoch 3/100, Loss: 0.122137, Time: 20.311s
+Validation result. Precision: 1.493%@20, Recall: 8.666%@20, NDCG: 5.565%@20, Time: 4.152s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.565.pth
+Epoch 4/100, Loss: 0.102968, Time: 23.400s
+Validation result. Precision: 1.545%@20, Recall: 8.960%@20, NDCG: 5.786%@20, Time: 3.208s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.786.pth
+Epoch 5/100, Loss: 0.091391, Time: 25.886s
+Validation result. Precision: 1.592%@20, Recall: 9.250%@20, NDCG: 5.981%@20, Time: 3.218s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.981.pth
+Epoch 6/100, Loss: 0.082739, Time: 20.518s
+Validation result. Precision: 1.629%@20, Recall: 9.472%@20, NDCG: 6.143%@20, Time: 4.182s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.143.pth
+Epoch 7/100, Loss: 0.076604, Time: 24.743s
+Validation result. Precision: 1.658%@20, Recall: 9.635%@20, NDCG: 6.258%@20, Time: 3.410s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.258.pth
+Epoch 8/100, Loss: 0.072138, Time: 20.574s
+Validation result. Precision: 1.678%@20, Recall: 9.773%@20, NDCG: 6.344%@20, Time: 3.246s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.344.pth
+Epoch 9/100, Loss: 0.067815, Time: 27.982s
+Validation result. Precision: 1.693%@20, Recall: 9.865%@20, NDCG: 6.411%@20, Time: 3.236s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.411.pth
+Epoch 10/100, Loss: 0.064824, Time: 20.355s
+Validation result. Precision: 1.712%@20, Recall: 9.959%@20, NDCG: 6.479%@20, Time: 4.247s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.479.pth
+Epoch 11/100, Loss: 0.062024, Time: 23.031s
+Validation result. Precision: 1.728%@20, Recall: 10.078%@20, NDCG: 6.548%@20, Time: 3.316s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.548.pth
+Epoch 12/100, Loss: 0.059312, Time: 25.584s
+Validation result. Precision: 1.745%@20, Recall: 10.177%@20, NDCG: 6.612%@20, Time: 3.251s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.612.pth
+Epoch 13/100, Loss: 0.057339, Time: 20.239s
+Validation result. Precision: 1.760%@20, Recall: 10.249%@20, NDCG: 6.659%@20, Time: 3.248s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.659.pth
+Epoch 14/100, Loss: 0.055478, Time: 27.515s
+Validation result. Precision: 1.779%@20, Recall: 10.362%@20, NDCG: 6.730%@20, Time: 3.252s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.730.pth
+Epoch 15/100, Loss: 0.053836, Time: 21.765s
+Validation result. Precision: 1.793%@20, Recall: 10.441%@20, NDCG: 6.783%@20, Time: 4.179s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.783.pth
+Epoch 16/100, Loss: 0.051708, Time: 21.480s
+Validation result. Precision: 1.806%@20, Recall: 10.513%@20, NDCG: 6.827%@20, Time: 3.244s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.827.pth
+Epoch 17/100, Loss: 0.050148, Time: 20.940s
+Validation result. Precision: 1.818%@20, Recall: 10.590%@20, NDCG: 6.873%@20, Time: 3.280s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.873.pth
+Epoch 18/100, Loss: 0.048318, Time: 21.463s
+Validation result. Precision: 1.835%@20, Recall: 10.680%@20, NDCG: 6.916%@20, Time: 3.192s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.916.pth
+Epoch 19/100, Loss: 0.047009, Time: 20.480s
+Validation result. Precision: 1.844%@20, Recall: 10.726%@20, NDCG: 6.944%@20, Time: 3.328s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.944.pth
+Epoch 20/100, Loss: 0.046337, Time: 20.477s
+Validation result. Precision: 1.858%@20, Recall: 10.810%@20, NDCG: 6.987%@20, Time: 3.304s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_6.987.pth
+Epoch 21/100, Loss: 0.045063, Time: 20.654s
+Validation result. Precision: 1.874%@20, Recall: 10.915%@20, NDCG: 7.037%@20, Time: 3.252s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.037.pth
+Epoch 22/100, Loss: 0.043606, Time: 20.222s
+Validation result. Precision: 1.882%@20, Recall: 10.983%@20, NDCG: 7.070%@20, Time: 3.243s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.070.pth
+Epoch 23/100, Loss: 0.042662, Time: 20.333s
+Validation result. Precision: 1.897%@20, Recall: 11.059%@20, NDCG: 7.113%@20, Time: 3.358s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.113.pth
+Epoch 24/100, Loss: 0.041561, Time: 20.479s
+Validation result. Precision: 1.904%@20, Recall: 11.092%@20, NDCG: 7.138%@20, Time: 3.539s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.138.pth
+Epoch 25/100, Loss: 0.040570, Time: 21.139s
+Validation result. Precision: 1.922%@20, Recall: 11.212%@20, NDCG: 7.188%@20, Time: 3.313s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.188.pth
+Epoch 26/100, Loss: 0.039692, Time: 20.352s
+Validation result. Precision: 1.930%@20, Recall: 11.250%@20, NDCG: 7.217%@20, Time: 3.261s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.217.pth
+Epoch 27/100, Loss: 0.039399, Time: 21.972s
+Validation result. Precision: 1.938%@20, Recall: 11.304%@20, NDCG: 7.252%@20, Time: 3.263s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.252.pth
+Epoch 28/100, Loss: 0.037655, Time: 20.272s
+Validation result. Precision: 1.952%@20, Recall: 11.405%@20, NDCG: 7.301%@20, Time: 3.197s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.301.pth
+Epoch 29/100, Loss: 0.037554, Time: 20.216s
+Validation result. Precision: 1.962%@20, Recall: 11.467%@20, NDCG: 7.334%@20, Time: 3.221s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.334.pth
+Epoch 30/100, Loss: 0.036420, Time: 20.373s
+Validation result. Precision: 1.966%@20, Recall: 11.506%@20, NDCG: 7.353%@20, Time: 3.343s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.353.pth
+Epoch 31/100, Loss: 0.036024, Time: 20.471s
+Validation result. Precision: 1.979%@20, Recall: 11.561%@20, NDCG: 7.388%@20, Time: 3.202s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.388.pth
+Epoch 32/100, Loss: 0.035960, Time: 20.528s
+Validation result. Precision: 1.989%@20, Recall: 11.612%@20, NDCG: 7.421%@20, Time: 3.257s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.421.pth
+Epoch 33/100, Loss: 0.034818, Time: 19.979s
+Validation result. Precision: 1.995%@20, Recall: 11.673%@20, NDCG: 7.455%@20, Time: 3.236s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.455.pth
+Epoch 34/100, Loss: 0.034061, Time: 20.110s
+Validation result. Precision: 2.008%@20, Recall: 11.758%@20, NDCG: 7.495%@20, Time: 3.267s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.495.pth
+Epoch 35/100, Loss: 0.033205, Time: 20.063s
+Validation result. Precision: 2.009%@20, Recall: 11.759%@20, NDCG: 7.502%@20, Time: 3.220s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.502.pth
+Epoch 36/100, Loss: 0.032975, Time: 21.212s
+Validation result. Precision: 2.019%@20, Recall: 11.827%@20, NDCG: 7.527%@20, Time: 3.206s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.527.pth
+Epoch 37/100, Loss: 0.032107, Time: 19.978s
+Validation result. Precision: 2.025%@20, Recall: 11.859%@20, NDCG: 7.553%@20, Time: 3.225s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.553.pth
+Epoch 38/100, Loss: 0.031432, Time: 20.294s
+Validation result. Precision: 2.026%@20, Recall: 11.870%@20, NDCG: 7.569%@20, Time: 3.235s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.569.pth
+Epoch 39/100, Loss: 0.031426, Time: 20.095s
+Validation result. Precision: 2.031%@20, Recall: 11.918%@20, NDCG: 7.602%@20, Time: 3.215s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.602.pth
+Epoch 40/100, Loss: 0.030406, Time: 19.794s
+Validation result. Precision: 2.035%@20, Recall: 11.941%@20, NDCG: 7.628%@20, Time: 3.201s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.628.pth
+Epoch 41/100, Loss: 0.029804, Time: 20.405s
+Validation result. Precision: 2.040%@20, Recall: 11.983%@20, NDCG: 7.643%@20, Time: 3.243s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.643.pth
+Epoch 42/100, Loss: 0.029858, Time: 20.239s
+Validation result. Precision: 2.048%@20, Recall: 12.034%@20, NDCG: 7.671%@20, Time: 3.248s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.671.pth
+Epoch 43/100, Loss: 0.028923, Time: 19.911s
+Validation result. Precision: 2.055%@20, Recall: 12.078%@20, NDCG: 7.700%@20, Time: 3.221s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.700.pth
+Epoch 44/100, Loss: 0.028765, Time: 20.169s
+Validation result. Precision: 2.063%@20, Recall: 12.120%@20, NDCG: 7.723%@20, Time: 3.322s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.723.pth
+Epoch 45/100, Loss: 0.028090, Time: 21.555s
+Validation result. Precision: 2.067%@20, Recall: 12.154%@20, NDCG: 7.743%@20, Time: 3.224s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.743.pth
+Epoch 46/100, Loss: 0.027940, Time: 19.789s
+Validation result. Precision: 2.071%@20, Recall: 12.169%@20, NDCG: 7.763%@20, Time: 3.196s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.763.pth
+Epoch 47/100, Loss: 0.027146, Time: 19.778s
+Validation result. Precision: 2.077%@20, Recall: 12.200%@20, NDCG: 7.785%@20, Time: 3.209s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.785.pth
+Epoch 48/100, Loss: 0.026749, Time: 20.281s
+Validation result. Precision: 2.085%@20, Recall: 12.216%@20, NDCG: 7.803%@20, Time: 3.193s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.803.pth
+Epoch 49/100, Loss: 0.027044, Time: 20.076s
+Validation result. Precision: 2.091%@20, Recall: 12.262%@20, NDCG: 7.832%@20, Time: 3.256s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.832.pth
+Epoch 50/100, Loss: 0.026065, Time: 20.166s
+Validation result. Precision: 2.097%@20, Recall: 12.288%@20, NDCG: 7.843%@20, Time: 3.260s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.843.pth
+Epoch 51/100, Loss: 0.026005, Time: 19.848s
+Validation result. Precision: 2.102%@20, Recall: 12.334%@20, NDCG: 7.867%@20, Time: 3.200s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.867.pth
+Epoch 52/100, Loss: 0.025238, Time: 27.218s
+Validation result. Precision: 2.112%@20, Recall: 12.400%@20, NDCG: 7.901%@20, Time: 3.389s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.901.pth
+Epoch 53/100, Loss: 0.024480, Time: 20.535s
+Validation result. Precision: 2.112%@20, Recall: 12.416%@20, NDCG: 7.902%@20, Time: 3.261s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.902.pth
+Epoch 54/100, Loss: 0.024567, Time: 24.289s
+Validation result. Precision: 2.120%@20, Recall: 12.458%@20, NDCG: 7.926%@20, Time: 3.485s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.926.pth
+Epoch 55/100, Loss: 0.024195, Time: 19.944s
+Validation result. Precision: 2.118%@20, Recall: 12.479%@20, NDCG: 7.936%@20, Time: 3.236s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.936.pth
+Epoch 56/100, Loss: 0.024023, Time: 27.014s
+Validation result. Precision: 2.123%@20, Recall: 12.476%@20, NDCG: 7.945%@20, Time: 3.210s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.945.pth
+Epoch 57/100, Loss: 0.023275, Time: 19.942s
+Validation result. Precision: 2.125%@20, Recall: 12.477%@20, NDCG: 7.959%@20, Time: 4.138s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.959.pth
+Epoch 58/100, Loss: 0.023671, Time: 22.656s
+Validation result. Precision: 2.131%@20, Recall: 12.521%@20, NDCG: 7.978%@20, Time: 3.255s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.978.pth
+Epoch 59/100, Loss: 0.022271, Time: 22.084s
+Validation result. Precision: 2.134%@20, Recall: 12.531%@20, NDCG: 7.990%@20, Time: 4.156s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_7.990.pth
+Epoch 60/100, Loss: 0.022574, Time: 19.911s
+Validation result. Precision: 2.140%@20, Recall: 12.574%@20, NDCG: 8.028%@20, Time: 3.254s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.028.pth
+Epoch 61/100, Loss: 0.022032, Time: 27.129s
+Validation result. Precision: 2.141%@20, Recall: 12.565%@20, NDCG: 8.027%@20, Time: 3.390s
+Epoch 62/100, Loss: 0.021605, Time: 20.637s
+Validation result. Precision: 2.144%@20, Recall: 12.584%@20, NDCG: 8.038%@20, Time: 3.192s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.038.pth
+Epoch 63/100, Loss: 0.021972, Time: 22.167s
+Validation result. Precision: 2.152%@20, Recall: 12.634%@20, NDCG: 8.070%@20, Time: 4.125s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.070.pth
+Epoch 64/100, Loss: 0.021485, Time: 19.892s
+Validation result. Precision: 2.157%@20, Recall: 12.660%@20, NDCG: 8.086%@20, Time: 3.262s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.086.pth
+Epoch 65/100, Loss: 0.021134, Time: 24.237s
+Validation result. Precision: 2.165%@20, Recall: 12.720%@20, NDCG: 8.110%@20, Time: 3.157s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.110.pth
+Epoch 66/100, Loss: 0.021168, Time: 20.328s
+Validation result. Precision: 2.165%@20, Recall: 12.726%@20, NDCG: 8.106%@20, Time: 3.266s
+Epoch 67/100, Loss: 0.020820, Time: 27.138s
+Validation result. Precision: 2.172%@20, Recall: 12.765%@20, NDCG: 8.131%@20, Time: 3.258s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.131.pth
+Epoch 68/100, Loss: 0.020578, Time: 19.959s
+Validation result. Precision: 2.175%@20, Recall: 12.779%@20, NDCG: 8.139%@20, Time: 4.081s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.139.pth
+Epoch 69/100, Loss: 0.019856, Time: 22.450s
+Validation result. Precision: 2.177%@20, Recall: 12.782%@20, NDCG: 8.145%@20, Time: 3.227s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.145.pth
+Epoch 70/100, Loss: 0.019853, Time: 23.216s
+Validation result. Precision: 2.179%@20, Recall: 12.790%@20, NDCG: 8.149%@20, Time: 3.436s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.149.pth
+Epoch 71/100, Loss: 0.019534, Time: 21.656s
+Validation result. Precision: 2.185%@20, Recall: 12.829%@20, NDCG: 8.183%@20, Time: 3.235s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.183.pth
+Epoch 72/100, Loss: 0.019199, Time: 21.202s
+Validation result. Precision: 2.187%@20, Recall: 12.862%@20, NDCG: 8.196%@20, Time: 4.158s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.196.pth
+Epoch 73/100, Loss: 0.019081, Time: 23.765s
+Validation result. Precision: 2.195%@20, Recall: 12.889%@20, NDCG: 8.213%@20, Time: 3.195s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.213.pth
+Epoch 74/100, Loss: 0.018596, Time: 21.467s
+Validation result. Precision: 2.203%@20, Recall: 12.949%@20, NDCG: 8.240%@20, Time: 4.186s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.240.pth
+Epoch 75/100, Loss: 0.018256, Time: 19.641s
+Validation result. Precision: 2.212%@20, Recall: 12.992%@20, NDCG: 8.261%@20, Time: 3.279s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.261.pth
+Epoch 76/100, Loss: 0.018451, Time: 22.444s
+Validation result. Precision: 2.212%@20, Recall: 12.999%@20, NDCG: 8.272%@20, Time: 4.071s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.272.pth
+Epoch 77/100, Loss: 0.017895, Time: 19.706s
+Validation result. Precision: 2.211%@20, Recall: 12.987%@20, NDCG: 8.280%@20, Time: 3.225s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.280.pth
+Epoch 78/100, Loss: 0.017988, Time: 26.857s
+Validation result. Precision: 2.211%@20, Recall: 12.987%@20, NDCG: 8.294%@20, Time: 3.264s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.294.pth
+Epoch 79/100, Loss: 0.017154, Time: 20.021s
+Validation result. Precision: 2.217%@20, Recall: 13.035%@20, NDCG: 8.301%@20, Time: 3.225s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.301.pth
+Epoch 80/100, Loss: 0.017717, Time: 27.431s
+Validation result. Precision: 2.225%@20, Recall: 13.087%@20, NDCG: 8.321%@20, Time: 3.320s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.321.pth
+Epoch 81/100, Loss: 0.016988, Time: 21.824s
+Validation result. Precision: 2.231%@20, Recall: 13.132%@20, NDCG: 8.345%@20, Time: 3.192s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.345.pth
+Epoch 82/100, Loss: 0.017028, Time: 22.592s
+Validation result. Precision: 2.235%@20, Recall: 13.159%@20, NDCG: 8.357%@20, Time: 4.058s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.357.pth
+Epoch 83/100, Loss: 0.016487, Time: 20.087s
+Validation result. Precision: 2.241%@20, Recall: 13.204%@20, NDCG: 8.371%@20, Time: 3.209s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.371.pth
+Epoch 84/100, Loss: 0.016176, Time: 25.246s
+Validation result. Precision: 2.242%@20, Recall: 13.199%@20, NDCG: 8.384%@20, Time: 3.230s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.384.pth
+Epoch 85/100, Loss: 0.016359, Time: 19.736s
+Validation result. Precision: 2.245%@20, Recall: 13.230%@20, NDCG: 8.400%@20, Time: 3.277s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.400.pth
+Epoch 86/100, Loss: 0.016284, Time: 27.018s
+Validation result. Precision: 2.256%@20, Recall: 13.281%@20, NDCG: 8.417%@20, Time: 3.208s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.417.pth
+Epoch 87/100, Loss: 0.015654, Time: 19.911s
+Validation result. Precision: 2.254%@20, Recall: 13.304%@20, NDCG: 8.431%@20, Time: 3.249s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.431.pth
+Epoch 88/100, Loss: 0.015724, Time: 26.565s
+Validation result. Precision: 2.259%@20, Recall: 13.325%@20, NDCG: 8.445%@20, Time: 3.255s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.445.pth
+Epoch 89/100, Loss: 0.015620, Time: 19.764s
+Validation result. Precision: 2.263%@20, Recall: 13.343%@20, NDCG: 8.459%@20, Time: 4.152s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.459.pth
+Epoch 90/100, Loss: 0.015608, Time: 23.999s
+Validation result. Precision: 2.262%@20, Recall: 13.349%@20, NDCG: 8.460%@20, Time: 3.249s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.460.pth
+Epoch 91/100, Loss: 0.015365, Time: 19.819s
+Validation result. Precision: 2.264%@20, Recall: 13.369%@20, NDCG: 8.472%@20, Time: 3.183s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.472.pth
+Epoch 92/100, Loss: 0.015052, Time: 26.582s
+Validation result. Precision: 2.266%@20, Recall: 13.367%@20, NDCG: 8.477%@20, Time: 3.227s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.477.pth
+Epoch 93/100, Loss: 0.015237, Time: 19.644s
+Validation result. Precision: 2.268%@20, Recall: 13.374%@20, NDCG: 8.479%@20, Time: 4.094s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.479.pth
+Epoch 94/100, Loss: 0.014678, Time: 24.293s
+Validation result. Precision: 2.273%@20, Recall: 13.413%@20, NDCG: 8.504%@20, Time: 3.203s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.504.pth
+Epoch 95/100, Loss: 0.014648, Time: 20.882s
+Validation result. Precision: 2.275%@20, Recall: 13.416%@20, NDCG: 8.506%@20, Time: 4.134s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.506.pth
+Epoch 96/100, Loss: 0.014405, Time: 20.077s
+Validation result. Precision: 2.281%@20, Recall: 13.464%@20, NDCG: 8.531%@20, Time: 3.229s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.531.pth
+Epoch 97/100, Loss: 0.014343, Time: 25.426s
+Validation result. Precision: 2.281%@20, Recall: 13.468%@20, NDCG: 8.537%@20, Time: 3.241s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.537.pth
+Epoch 98/100, Loss: 0.014312, Time: 19.989s
+Validation result. Precision: 2.290%@20, Recall: 13.489%@20, NDCG: 8.550%@20, Time: 3.225s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.550.pth
+Epoch 99/100, Loss: 0.014080, Time: 28.158s
+Validation result. Precision: 2.289%@20, Recall: 13.474%@20, NDCG: 8.554%@20, Time: 3.340s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_8.554.pth
+NDCG: 0.086, Parameters: {'l2_reg': 0.0, 'lr': 0.001}
+Maximum NDCG!
+Maximum NDCG: 0.086, Best Parameters: {'l2_reg': 0.0, 'lr': 0.001}

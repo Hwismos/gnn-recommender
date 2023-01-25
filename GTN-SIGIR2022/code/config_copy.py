@@ -1,5 +1,9 @@
 def get_gowalla_config(device):
-    dataset_config = {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time',
+    # dataset_config = {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time',
+    #                   'device': device}
+    
+    # 데이터셋 경로 변경
+    dataset_config = {'name': 'ProcessedDataset', 'path': '..data/Gowalla',
                       'device': device}
     gowalla_config = []
 
@@ -14,17 +18,13 @@ def get_gowalla_config(device):
                       'test_batch_size': 512, 'topks': [20]}
     gowalla_config.append((dataset_config, model_config, trainer_config))
 
-    # GTN 추가
-    model_config = {'name': 'GTN', 'embedding_size': 64, 'n_layers': 3, 'device': device}
-    trainer_config = {'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 1.e-4,
-                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
-                      'test_batch_size': 512, 'topks': [20]}
-    gowalla_config.append((dataset_config, model_config, trainer_config))
-
     model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device,
                     'dropout': 0.3, 'feature_ratio': 1.}
+    # trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 0., 'aux_reg': 0.01,
+    #                   'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
+    #                   'test_batch_size': 512, 'topks': [20]}
     trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 0., 'aux_reg': 0.01,
-                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
+                      'device': device, 'n_epochs': 100, 'batch_size': 2048, 'dataloader_num_workers': 6,
                       'test_batch_size': 512, 'topks': [20]}
     gowalla_config.append((dataset_config, model_config, trainer_config))
 

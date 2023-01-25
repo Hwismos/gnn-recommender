@@ -3,7 +3,7 @@ import torch.nn as nn
 import scipy.sparse as sp
 import numpy as np
 # from utils import get_sparse_tensor, graph_rank_nodes, generate_daj_mat
-from utils_of_igcn_cf import get_sparse_tensor, graph_rank_nodes, generate_daj_mat
+from utils_copy import get_sparse_tensor, graph_rank_nodes, generate_daj_mat
 from torch.nn.init import kaiming_uniform_, xavier_normal, normal_, zeros_, ones_
 import sys
 import torch.nn.functional as F
@@ -19,7 +19,7 @@ def get_model(config, dataset):
     # 모델의 데이터셋 설정
     config['dataset'] = dataset
     # getattr(object, str)
-    model = getattr(sys.modules['model'], config['name'])
+    model = getattr(sys.modules['model_copy'], config['name'])
     model = model(config)
     return model
 
@@ -40,10 +40,10 @@ class BasicModel(nn.Module):
         self.config = model_config
         self.name = model_config['name']
         self.device = model_config['device']
-        # self.n_users = model_config['dataset'].n_users
-        # self.n_items = model_config['dataset'].n_items
-        self.n_users = 29858
-        self.n_items = 40988
+        self.n_users = model_config['dataset'].n_users
+        self.n_items = model_config['dataset'].n_items
+        # self.n_users = 29858
+        # self.n_items = 40988
         self.trainable = True
 
     def predict(self, users):
@@ -457,7 +457,7 @@ class IGCN(BasicModel):
         final_rep = all_layer_rep.mean(dim=0)
         
         # print(f'FINAL REPRESENTATIONS: {final_rep}')
-        # print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
+        # print(f'IGCN ALL_EMB SHAPE: {final_rep.shape}')
         # exit()
         
         return final_rep
@@ -557,8 +557,10 @@ class IMF(IGCN):
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = IGCN.inductive_rep_layer(self, feat_mat)
-        print(f'representations: {representations[0]}')
-        exit()
+        
+        # print(f'representations: {representations[0]}')
+        # exit()
+        
         return representations
 
 

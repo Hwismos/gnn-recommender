@@ -5,17 +5,17 @@ from torch.optim import Adam, SGD
 import time
 import numpy as np
 import os
-from utils import AverageMeter, get_sparse_tensor
+from utils_copy import AverageMeter, get_sparse_tensor
 import torch.nn.functional as F
 import scipy.sparse as sp
-from dataset import AuxiliaryDataset
+from dataset_copy import AuxiliaryDataset
 
 
 def get_trainer(config, dataset, model):
     config = config.copy()
     config['dataset'] = dataset
     config['model'] = model
-    trainer = getattr(sys.modules['trainer'], config['name'])
+    trainer = getattr(sys.modules['trainer_copy'], config['name'])
     trainer = trainer(config)
     print(f'trainer config: {config}')
     return trainer
@@ -172,6 +172,8 @@ class BasicTrainer:
         recall = ''
         ndcg = ''
         for k in self.topks:
+            # 100을 곱해주고 있음
+            # 100으로 나눠주면 GTN 패키지에서의 값과 비슷함
             precison += '{:.3f}%@{:d}, '.format(metrics['Precision'][k] * 100., k)
             recall += '{:.3f}%@{:d}, '.format(metrics['Recall'][k] * 100., k)
             ndcg += '{:.3f}%@{:d}, '.format(metrics['NDCG'][k] * 100., k)

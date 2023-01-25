@@ -14,37 +14,36 @@ The original version of this code base was from LightGCN-pytorch: https://github
 
 
 import world
-import torch
 from dataloader import BasicDataset
 import dataloader
-# torch.nn: 그래프를 위한 기본 빌딩 블록
-from torch import nn
-import numpy as np
-
 from gtn_propagation import GeneralPropagation
+
+# torch.nn: 그래프를 위한 기본 빌딩 블록
+import numpy as np
 import warnings
+import torch
+from torch import nn
+
+
 from torch_sparse import SparseTensor
+from torch_sparse import SparseTensor
+import torch_geometric
 import torch_geometric.transforms as T
 from torch_geometric.nn.conv import MessagePassing, GCNConv
-from torch_scatter import scatter_add
 from torch_geometric.utils import add_remaining_self_loops
-import torch_geometric
-from torch_sparse import SparseTensor
+from torch_scatter import scatter_add
 
 # In[2]:
 seed = 2020
 import random
 import numpy as np
 
-# inmo 모듈을 이용한 임베딩 확인
-# import igcn_tuning_of_igcn_cf
-import utils_copy
-import model_copy
-
 torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
+
+import igcn_copy
 
 
 # nn.Module 클래스를 인자로 전달받기 때문에 train 등의 메소드(파일 내에서는 정의되지 않은)를 사용할 수 있는 것으로 추측
@@ -117,14 +116,16 @@ class LightGCN(BasicModel):
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])
+        
         # print(f'ALL_EMB: {all_emb}')
-        print(f'ALL_EMB SHAPE: {all_emb.shape}')
+        print(f'LightGCN ALL_EMB SHAPE: {all_emb.shape}')
+        # igcn_copy.main()
 
         # inmo 모듈 적용
-        model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': 'cuda', 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': self.dataset}
-        final_rep = model_of_igcn_cf.IGCN(model_config).get_rep
-        print(f'FINAL EMBEDDING: {final_rep.shape}')
-        exit()
+        # model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': 'cuda', 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': self.dataset}
+        # final_rep = model_of_igcn_cf.IGCN(model_config).get_rep
+        # print(f'FINAL EMBEDDING: {final_rep.shape}')
+        # exit()
         
         self.f = nn.Sigmoid()
         self.Graph = self.dataset.getSparseGraph()
@@ -339,6 +340,7 @@ class GTN(BasicModel):
         emb, embs = self.gp.forward(x, edge_index, mode=self.args.gcn_model)
         light_out = emb
 
+        # 합친 뒤 학습시키고 분리하는 것 같음
         users, items = torch.split(light_out, [self.num_users, self.num_items])
         return users, items
 

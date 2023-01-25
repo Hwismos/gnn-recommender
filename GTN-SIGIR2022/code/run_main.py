@@ -85,10 +85,18 @@ if world.LOAD:
 Neg_k = 1
 
 # init tensorboard
-# 텐서보드 초기화
+# w = None
+# world.cprint("not enable tensorflowboard")
 
-w = None
-world.cprint("not enable tensorflowboard")
+# 아래 코드가 없이 w에 None 타입의 객체만 저장해두고 있었음
+if world.tensorboard:
+    w : SummaryWriter = SummaryWriter(
+                                    join(world.BOARD_PATH, time.strftime("%m-%d-%Hh%Mm%Ss-") + "-" + world.comment)
+                                    )
+else:
+    w = None
+    world.cprint("not enable tensorflowboard")
+
 
 final_topk_txt = ""
 # 새로운 모델을 학습

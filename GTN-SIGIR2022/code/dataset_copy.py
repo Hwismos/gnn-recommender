@@ -13,7 +13,8 @@ def get_dataset(config):
     # print(f'CONFIG: {config}')
     # exit()
 
-    dataset = getattr(sys.modules['dataset'], config['name'])
+    # key 변경: dataset → dataset_copy
+    dataset = getattr(sys.modules['dataset_copy'], config['name'])
     dataset = dataset(config)
     return dataset
 
@@ -50,7 +51,11 @@ def output_data(file_path, data):
 
 class BasicDataset(Dataset):
     def __init__(self, dataset_config):
-        print(dataset_config)
+        
+        # temp = dataset_config['path']
+        # print(f'PATH: {temp}')
+        # exit()
+
         self.config = dataset_config
         self.name = dataset_config['name']
         self.min_interactions = dataset_config.get('min_inter')

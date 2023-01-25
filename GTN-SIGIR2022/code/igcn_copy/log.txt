@@ -1,0 +1,8 @@
+init dataset ProcessedDataset
+{'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'aux_reg': 0.001, 'device': device(type='cuda'), 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset_copy.ProcessedDataset object at 0x7fada1e60ac8>, 'model': IGCN(
+  (embedding): Embedding(70848, 64)
+)}
+trainer config: {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'aux_reg': 0.001, 'device': device(type='cuda'), 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset_copy.ProcessedDataset object at 0x7fada1e60ac8>, 'model': IGCN(
+  (embedding): Embedding(70848, 64)
+)}
+IGCN ALL_EMB SHAPE: torch.Size([70846, 64])
