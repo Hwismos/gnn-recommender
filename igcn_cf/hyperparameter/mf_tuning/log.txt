@@ -1,0 +1,4 @@
+{'name': 'ProcessedDataset', 'path': 'data/Gowalla/time', 'device': device(type='cuda')}
+init dataset ProcessedDataset
+{'name': 'MF', 'embedding_size': 64, 'device': device(type='cuda'), 'dataset': <dataset.ProcessedDataset object at 0x7fbc21094fa0>}
+user_embedding: <class 'torch.nn.modules.sparse.Embedding'>

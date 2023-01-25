@@ -59,6 +59,11 @@ class MF(BasicModel):
         self.item_embedding = nn.Embedding(self.n_items, self.embedding_size)
         normal_(self.user_embedding.weight, std=0.1)
         normal_(self.item_embedding.weight, std=0.1)
+        
+        # print(f'user_embedding: {self.user_embedding[0]}')
+        # print(f'user_embedding: {type(self.user_embedding)}')
+        # exit()
+        
         self.to(device=self.device)
 
     def bpr_forward(self, users, pos_items, neg_items):
@@ -74,90 +79,56 @@ class MF(BasicModel):
         return scores
 
 
-# LightGCN의 부모 클래스가 BasicModel
 class LightGCN(BasicModel):
-    # 초기화
-    # 모델의 설정값을 인자로 받음
     def __init__(self, model_config):
-        # 부모 클래스 불러옴
-        # save, load, predict 메소드를 사용할 수 있음
         super(LightGCN, self).__init__(model_config)
         self.embedding_size = model_config['embedding_size']
         self.n_layers = model_config['n_layers']
-        # torch에서 임포트 함
-        # 유저와 아이템을 더하는 것의 의미를 모르겠음
-        # 임베딩 사이즈도 어떤 의미인지 모르겠음
         self.embedding = nn.Embedding(self.n_users + self.n_items, self.embedding_size)
-        # 데이터셋을 이용해 그래프 생성
         self.norm_adj = self.generate_graph(model_config['dataset'])
         normal_(self.embedding.weight, std=0.1)
         self.to(device=self.device)
 
-    # 그래프 생성
     def generate_graph(self, dataset):
-        # 인접 행렬 생성
         adj_mat = generate_daj_mat(dataset)
-        # degree 계산, 대각 성분을 1로 변경
-        # 대각행렬 정규화
         degree = np.array(np.sum(adj_mat, axis=1)).squeeze()
         degree = np.maximum(1., degree)
-        # D^{-1/2}
         d_inv = np.power(degree, -0.5)
         d_mat = sp.diags(d_inv, format='csr', dtype=np.float32)
 
         norm_adj = d_mat.dot(adj_mat).dot(d_mat)
         norm_adj = get_sparse_tensor(norm_adj, self.device)
-        # 정규화된 인접행렬 생성
         return norm_adj
 
-    # 임베딩 생성
     def get_rep(self):
-        # representation을 객체의 임베딩 가중치로 초기화
         representations = self.embedding.weight
-        # 모든 노드의 임베딩을 리스트로 묶음
         all_layer_rep = [representations]
-        # 인접 행렬의 row와 column을 분해
         row, column = self.norm_adj.indices()
-        # dgl.graph 메소드는 그래프를 생성하고 반환함
-        # g가 그래프
         g = dgl.graph((column, row), num_nodes=self.norm_adj.shape[0], device=self.device)
         for _ in range(self.n_layers):
-            # 그래프 상의 메시지 패싱을 위한 연산자
             representations = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=representations, rhs_data=self.norm_adj.values())
-            # 전체 임베딩 리스트에 k번재 레이어의 임베딩 추가
             all_layer_rep.append(representations)
-        # 텐서를 적재
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
-        # final 임베딩을 평균내어 계산
         final_rep = all_layer_rep.mean(dim=0)
-        # 파이널 임베딩 반환
         return final_rep
 
-    # bpr loss를 이용해서 학습
     def bpr_forward(self, users, pos_items, neg_items):
-        # 학습된 임베딩을 가져옴
         rep = self.get_rep()
-        # 유저들의 임베딩만 따로 가져옴
         users_e = self.embedding(users)
-        # positive(observed) item와 negative(unobserved) item으로 분리
         pos_items_e, neg_items_e = self.embedding(self.n_users + pos_items), self.embedding(self.n_users + neg_items)
-        # l2 정규화
-        l2_norm_sq = torch.norm(users_e, p=2, dim=1) ** 2 \
-                    + torch.norm(pos_items_e, p=2, dim=1) ** 2 \
-                    + torch.norm(neg_items_e, p=2, dim=1) ** 2
-        # 유저와 pos 아이템, neg 아이템의 표상을 가져와서 반환
+        l2_norm_sq = torch.norm(users_e, p=2, dim=1) ** 2 + torch.norm(pos_items_e, p=2, dim=1) ** 2 \
+                     + torch.norm(neg_items_e, p=2, dim=1) ** 2
         users_r = rep[users, :]
         pos_items_r, neg_items_r = rep[self.n_users + pos_items, :], rep[self.n_users + neg_items, :]
         return users_r, pos_items_r, neg_items_r, l2_norm_sq
 
-    # predict 재정의
     def predict(self, users):
         rep = self.get_rep()
         users_r = rep[users, :]
         all_items_r = rep[self.n_users:, :]
         scores = torch.mm(users_r, all_items_r.t())
         return scores
-
+        
 
 class RelationGAT(nn.Module):
     def __init__(self, in_size, out_size):
@@ -203,8 +174,7 @@ class IDCF_LGCN(BasicModel):
 
     def generate_feat(self, dataset):
         feat_mat = generate_daj_mat(dataset)
-        feat_mat = sp.hstack(
-            [feat_mat[:, :self.n_old_users], feat_mat[:, self.n_users:self.n_users + self.n_old_items]])
+        feat_mat = sp.hstack([feat_mat[:, :self.n_old_users], feat_mat[:, self.n_users:self.n_users + self.n_old_items]])
         feat_mat = get_sparse_tensor(feat_mat, self.device)
         return feat_mat
 
@@ -388,7 +358,6 @@ class Popularity(BasicModel):
         return self.item_degree[None, :].repeat(users.shape[0], 1)
 
 
-# LightGCN의 특성을 고려하며 IGCN이 어떻게 모델링 됐는지를 알아야 함
 class IGCN(BasicModel):
     def __init__(self, model_config):
         super(IGCN, self).__init__(model_config)
@@ -396,17 +365,14 @@ class IGCN(BasicModel):
         self.n_layers = model_config['n_layers']
         self.dropout = model_config['dropout']
         self.feature_ratio = model_config['feature_ratio']
-        # IGCN 방식으로 그래프를 생성해서 IGCN 객체의 norm_adj 필드에 저장
         self.norm_adj = self.generate_graph(model_config['dataset'])
         self.alpha = 1.
         self.delta = model_config.get('delta', 0.99)
-        # feature map, user map, item map, row_sum에 generate_feat 메소드의 반환값을 저장
         self.feat_mat, self.user_map, self.item_map, self.row_sum = \
             self.generate_feat(model_config['dataset'],
                                ranking_metric=model_config.get('ranking_metric', 'sort'))
-        # feature matrix 업데이트 메소드
         self.update_feat_mat()
-        # lgcn과 임베딩 필드 저장 방법이 다름
+
         self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)
         self.w = nn.Parameter(torch.ones([self.embedding_size], dtype=torch.float32, device=self.device))
         normal_(self.embedding.weight, std=0.1)
@@ -417,8 +383,6 @@ class IGCN(BasicModel):
         edge_values = torch.pow(self.row_sum[row], (self.alpha - 1.) / 2. - 0.5)
         self.feat_mat = torch.sparse.FloatTensor(self.feat_mat.indices(), edge_values, self.feat_mat.shape).coalesce()
 
-    # 객체의 alpha를 갱신한 뒤 feat matrix를 업데이트
-    # annealing ↔ pooling
     def feat_mat_anneal(self):
         self.alpha *= self.delta
         self.update_feat_mat()
@@ -426,43 +390,29 @@ class IGCN(BasicModel):
     def generate_graph(self, dataset):
         return LightGCN.generate_graph(self, dataset)
 
-    # feature 생성
     def generate_feat(self, dataset, is_updating=False, ranking_metric=None):
-        # is_updating 변수가 false일 때 동작
         if not is_updating:
-            # feature 비율이 1보다 작을 때 동작
             if self.feature_ratio < 1.:
-                # utils 모듈의 메소드를 이용해서 ranked_users와 ranked_items 변수를 초기화
                 ranked_users, ranked_items = graph_rank_nodes(dataset, ranking_metric)
-                # core 유저와 아이템을 ranked 리스트로부터 feature_ratio 만큼 가져옴
                 core_users = ranked_users[:int(self.n_users * self.feature_ratio)]
                 core_items = ranked_items[:int(self.n_items * self.feature_ratio)]
             else:
-                # feature_ration가 1일 때인 것 같음
-                # 모든 user와 item을 core user, core item으로 설정하는 것 같음
                 core_users = np.arange(self.n_users, dtype=np.int64)
                 core_items = np.arange(self.n_items, dtype=np.int64)
 
-            # 유저 맵과 아이템 맵을 딕셔너리로 생성
-            # core 유저, 아이템으로부터 유저 맵과 아이템 맵 딕셔너리를 초기화
             user_map = dict()
             for idx, user in enumerate(core_users):
                 user_map[user] = idx
             item_map = dict()
             for idx, item in enumerate(core_items):
                 item_map[item] = idx
-        # is_upadation이 True면 필드 값에 저장된 user_map과 item_map으로 user_map, item_map을 초기화
         else:
             user_map = self.user_map
             item_map = self.item_map
 
-        # 유저 맵과 아이템 맵이 초기화 됨
-
-        # 유저 맵과 아이템 맵의 길이를 이용해 유저와 아이템의 dimension 결정
         user_dim, item_dim = len(user_map), len(item_map)
         indices = []
         for user, item in dataset.train_array:
-            # 아이템 맵, 유저 맵에 있는 아이템, 유저들만으로 indices 리스트를 초기화
             if item in item_map:
                 indices.append([user, user_dim + item_map[item]])
             if user in user_map:
@@ -471,76 +421,53 @@ class IGCN(BasicModel):
             indices.append([user, user_dim + item_dim])
         for item in range(self.n_items):
             indices.append([self.n_users + item, user_dim + item_dim + 1])
-        # 위 과정에서 indices 리스트 초기화가 완료됨
-
-        # sp는 scipy 패키지의 sparse 모듈의 alias
-        # feature 생성인 것 같음
         feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
                              shape=(self.n_users + self.n_items, user_dim + item_dim + 2), dtype=np.float32).tocsr()
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
-        # utils 모듈의 메소드로 feature를 초기화
         feat = get_sparse_tensor(feat, self.device)
-        # generate feature 메소드는 feature와 유저 맵, 아이템 맵, row_sum을 반환
         return feat, user_map, item_map, row_sum
 
-    # inductive 표상 층인 것 같음
     def inductive_rep_layer(self, feat_mat):
         padding_tensor = torch.empty([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size],
                                      dtype=torch.float32, device=self.device)
         padding_features = torch.cat([self.embedding.weight, padding_tensor], dim=0)
 
         row, column = feat_mat.indices()
-        # dgl은 딥러닝 그래프 라이브러리
-        # dgl 라이브러리를 이용해서 그래프를 생성
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
-        # LightGCN에서와 유사한 방법
-        # LightGCN에서는 dgl.ops.gspmm 메소드를 이용해서 각 레이어마다 representation을 만들었음
-        # IGCN에서는 x를 만듦
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
         x = x[:self.feat_mat.shape[0], :]
-        # 어쨌든 x가 representation
         return x
 
-    # final representation을 얻는 과정
-    # 여기는 LightGCN과 유사한 과정
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
-        # inductive한 방식으로 생성한 레이어를 representation 변수에 저장
         representations = self.inductive_rep_layer(feat_mat)
 
-        # 모든 레이어들의 표상을 생성
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
-        # 그래프 생성
-        # LightGCN과 동일
         g = dgl.graph((column, row), num_nodes=self.norm_adj.shape[0], device=self.device)
-        # 앞서 inductive한 방식으로 representation을 생성한 것만 다름
-        # 밑에는 LightGCN과 동일
         for _ in range(self.n_layers):
             representations = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=representations, rhs_data=self.norm_adj.values())
             all_layer_rep.append(representations)
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
         final_rep = all_layer_rep.mean(dim=0)
+        
+        # print(f'FINAL REPRESENTATIONS: {final_rep}')
+        # print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
+        # exit()
+        
         return final_rep
 
-    # NGCF의 bpr_forward 메소드를 호출
-    # LightGCN의 메소드를 호출하지 않는 이유가 의문
     def bpr_forward(self, users, pos_items, neg_items):
         return NGCF.bpr_forward(self, users, pos_items, neg_items)
 
-    # predict는 LightGCN의 predict 메소드를 호출
     def predict(self, users):
         return LightGCN.predict(self, users)
 
-    # save, load 메소드는 부모 클래스의 메소드를 재정의
-    # torch 모듈의 save 메소드를 이용해서 params를 path에 저장하는 것 같음
     def save(self, path):
         params = {'sate_dict': self.state_dict(), 'user_map': self.user_map,
                   'item_map': self.item_map, 'alpha': self.alpha}
         torch.save(params, path)
 
-    # torch 모듈의 load 메소드를 이용해서 객체에 유저 맵, 아이템 맵, 알파, feature matrix 필드를 초기화
-    # 객체의 update_feat_mat 메소드를 호출
     def load(self, path):
         params = torch.load(path, map_location=self.device)
         self.load_state_dict(params['sate_dict'])
@@ -625,6 +552,8 @@ class IMF(IGCN):
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = IGCN.inductive_rep_layer(self, feat_mat)
+        print(f'representations: {representations[0]}')
+        exit()
         return representations
 
 

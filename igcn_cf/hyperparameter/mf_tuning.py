@@ -24,8 +24,14 @@ def fitness(lr, l2_reg):
 
 def main():
     log_path = __file__[:-3]
+
+    print(f'log_path: {log_path}')
     init_run(log_path, 2021)
-    param_grid = {'lr': [1.e-4, 1.e-3, 1.e-2], 'l2_reg': [1.e-4, 1.e-3, 1.e-2]}
+
+    # 하나로 수정
+    # param_grid = {'lr': [1.e-4, 1.e-3, 1.e-2], 'l2_reg': [1.e-4, 1.e-3, 1.e-2]}
+    param_grid = {'lr': [1.e-4], 'l2_reg': [1.e-3]}
+
     grid = ParameterGrid(param_grid)
     max_ndcg = -np.inf
     best_params = None

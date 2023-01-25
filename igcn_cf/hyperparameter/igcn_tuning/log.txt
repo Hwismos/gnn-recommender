@@ -1,0 +1,1 @@
+CONFIG: {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time', 'device': device(type='cuda')}

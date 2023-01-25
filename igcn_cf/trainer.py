@@ -17,6 +17,7 @@ def get_trainer(config, dataset, model):
     config['model'] = model
     trainer = getattr(sys.modules['trainer'], config['name'])
     trainer = trainer(config)
+    print(f'trainer config: {config}')
     return trainer
 
 
@@ -54,8 +55,6 @@ class BasicTrainer:
                                   .format(self.model.name, self.name, stage, metric, k)
                                   , metrics[metric][k], self.epoch)
 
-    # tuning 모듈에서 반환되며 호출되는 메소드
-    # best_ndcg 값을 반환
     def train(self, verbose=True, writer=None):
         if not self.model.trainable:
             results, metrics = self.eval('val')
@@ -64,9 +63,7 @@ class BasicTrainer:
             ndcg = metrics['NDCG'][self.topks[0]]
             return ndcg
 
-        if not os.path.exists('checkpoints'):
-            os.mkdir('checkpoints')
-
+        if not os.path.exists('checkpoints'): os.mkdir('checkpoints')
         patience = self.max_patience
         for self.epoch in range(self.n_epochs):
             start_time = time.time()
@@ -93,17 +90,14 @@ class BasicTrainer:
                 self.record(writer, 'validation', metrics)
 
             ndcg = metrics['NDCG'][self.topks[0]]
-            # best ndcg값을 갖는 모델이 나오면 저장
             if ndcg > self.best_ndcg:
                 if self.save_path:
                     os.remove(self.save_path)
-                # best_ndcg 값으로 pth 파일 갱신됨
                 self.save_path = os.path.join('checkpoints', '{:s}_{:s}_{:s}_{:.3f}.pth'
                                               .format(self.model.name, self.name, self.dataset.name, ndcg * 100))
                 self.best_ndcg = ndcg
                 self.model.save(self.save_path)
                 patience = self.max_patience
-                # save 경로에 저장
                 print('Best NDCG, save model to {:s}'.format(self.save_path))
             else:
                 patience -= self.val_interval
@@ -176,8 +170,6 @@ class BasicTrainer:
         precison = ''
         recall = ''
         ndcg = ''
-        # 이 값이 로그 파일에 출력됨
-        # top K에 대한 평가 메트릭
         for k in self.topks:
             precison += '{:.3f}%@{:d}, '.format(metrics['Precision'][k] * 100., k)
             recall += '{:.3f}%@{:d}, '.format(metrics['Recall'][k] * 100., k)

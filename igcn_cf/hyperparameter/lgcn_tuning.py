@@ -13,8 +13,10 @@ def fitness(lr, l2_reg):
     dataset_config = {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time',
                       'device': device}
     model_config = {'name': 'LightGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device}
+    # epochs 1000 → 5로 줄여서 실행
+    # gtn과 igtn을 만들어야 함
     trainer_config = {'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': lr, 'l2_reg': l2_reg,
-                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
+                      'device': device, 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6,
                       'test_batch_size': 512, 'topks': [20]}
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)

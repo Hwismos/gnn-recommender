@@ -8,8 +8,14 @@ def get_gowalla_config(device):
                       'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
                       'test_batch_size': 512, 'topks': [20]}
     gowalla_config.append((dataset_config, model_config, trainer_config))
-
     model_config = {'name': 'LightGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device}
+    trainer_config = {'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 1.e-4,
+                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
+                      'test_batch_size': 512, 'topks': [20]}
+    gowalla_config.append((dataset_config, model_config, trainer_config))
+
+    # GTN 추가
+    model_config = {'name': 'GTN', 'embedding_size': 64, 'n_layers': 3, 'device': device}
     trainer_config = {'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 1.e-4,
                       'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
                       'test_batch_size': 512, 'topks': [20]}

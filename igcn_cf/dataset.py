@@ -9,6 +9,10 @@ import json
 
 def get_dataset(config):
     config = config.copy()
+
+    # print(f'CONFIG: {config}')
+    # exit()
+
     dataset = getattr(sys.modules['dataset'], config['name'])
     dataset = dataset(config)
     return dataset

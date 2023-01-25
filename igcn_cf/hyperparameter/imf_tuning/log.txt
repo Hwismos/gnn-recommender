@@ -1,0 +1,20 @@
+{'name': 'ProcessedDataset', 'path': 'data/Gowalla/time', 'device': device(type='cuda')}
+init dataset ProcessedDataset
+{'name': 'IMF', 'embedding_size': 64, 'n_layers': 0, 'device': device(type='cuda'), 'dropout': 0.1, 'feature_ratio': 1.0, 'dataset': <dataset.ProcessedDataset object at 0x7fc0e198bfa0>}
+{'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 1e-05, 'aux_reg': 0.001, 'device': device(type='cuda'), 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset.ProcessedDataset object at 0x7fc0e198bfa0>, 'model': IMF(
+  (embedding): Embedding(70848, 64)
+)}
+/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 6 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+trainer config: {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 1e-05, 'aux_reg': 0.001, 'device': device(type='cuda'), 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset.ProcessedDataset object at 0x7fc0e198bfa0>, 'model': IMF(
+  (embedding): Embedding(70848, 64)
+)}
+representations: tensor([ 0.0096,  0.0367,  0.0348,  0.0978, -0.0517,  0.0023,  0.0956,  0.1646,
+        -0.1369, -0.0034,  0.0495, -0.1406,  0.0002,  0.0567,  0.1337, -0.1082,
+         0.0528, -0.1153, -0.1401, -0.1344, -0.0796,  0.0509,  0.0584,  0.0891,
+         0.0636,  0.1966, -0.0957,  0.0790, -0.1556, -0.1099, -0.1902,  0.1897,
+         0.0125, -0.1916,  0.0318, -0.0062,  0.0746, -0.0818, -0.1496, -0.1985,
+         0.0937,  0.0158,  0.1258, -0.0335,  0.0203, -0.0450, -0.0951, -0.1622,
+         0.1956, -0.1691,  0.0767, -0.1968, -0.0975, -0.1317, -0.0409, -0.1333,
+        -0.1032,  0.0927, -0.0481,  0.0285,  0.0305,  0.0148,  0.1458, -0.1164],
+       device='cuda:0', grad_fn=<SelectBackward0>)

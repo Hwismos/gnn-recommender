@@ -20,8 +20,9 @@ def fitness(lr, l2_reg, dropout, aux_reg):
                       'device': device}
     model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device,
                     'dropout': dropout, 'feature_ratio': 1.}
+                    # epochs 1000 → 5
     trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': lr, 'l2_reg': l2_reg, 'aux_reg': aux_reg,
-                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
+                      'device': device, 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6,
                       'test_batch_size': 512, 'topks': [20]}
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)
@@ -31,10 +32,10 @@ def fitness(lr, l2_reg, dropout, aux_reg):
 
 def main():
     # __file__은 현재 python file이 존재하는 경로를 반환
+    # .py 지움
     log_path = __file__[:-3]
     # utils 모듈의 메소드
     # log 경로와 시드 값을 인자로 전달
-    # 이후에 log.txt 파일에 저장
     init_run(log_path, 2021)
     # 파라미터를 딕셔너리를 이용해 저장
     # learning rate, L2 regularization coefficient, dropout

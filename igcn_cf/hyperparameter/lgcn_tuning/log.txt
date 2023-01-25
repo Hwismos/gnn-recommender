@@ -1,0 +1,31 @@
+{'name': 'ProcessedDataset', 'path': 'data/Gowalla/time', 'device': device(type='cuda')}
+init dataset ProcessedDataset
+{'name': 'LightGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device(type='cuda'), 'dataset': <dataset.ProcessedDataset object at 0x7fc6fba05fd0>}
+{'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'device': device(type='cuda'), 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset.ProcessedDataset object at 0x7fc6fba05fd0>, 'model': LightGCN(
+  (embedding): Embedding(70846, 64)
+)}
+/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 6 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+Epoch 0/5, Loss: 0.573440, Time: 22.002s
+Validation result. Precision: 1.219%@20, Recall: 7.113%@20, NDCG: 4.465%@20, Time: 1.398s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_4.465.pth
+Epoch 1/5, Loss: 0.248682, Time: 20.624s
+Validation result. Precision: 1.352%@20, Recall: 7.863%@20, NDCG: 4.977%@20, Time: 1.355s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_4.977.pth
+Epoch 2/5, Loss: 0.157143, Time: 21.193s
+Validation result. Precision: 1.435%@20, Recall: 8.322%@20, NDCG: 5.314%@20, Time: 1.372s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.314.pth
+Epoch 3/5, Loss: 0.122137, Time: 23.379s
+Validation result. Precision: 1.493%@20, Recall: 8.666%@20, NDCG: 5.565%@20, Time: 1.356s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.565.pth
+Epoch 4/5, Loss: 0.102968, Time: 20.833s
+Validation result. Precision: 1.545%@20, Recall: 8.960%@20, NDCG: 5.786%@20, Time: 1.365s
+Best NDCG, save model to checkpoints/LightGCN_BPRTrainer_ProcessedDataset_5.786.pth
+NDCG: 0.058, Parameters: {'l2_reg': 0.0, 'lr': 0.001}
+Maximum NDCG!
+{'name': 'ProcessedDataset', 'path': 'data/Gowalla/time', 'device': device(type='cuda')}
+init dataset ProcessedDataset
+{'name': 'LightGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device(type='cuda'), 'dataset': <dataset.ProcessedDataset object at 0x7fc6fba05fd0>}
+{'name': 'BPRTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 1e-05, 'device': device(type='cuda'), 'n_epochs': 5, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 512, 'topks': [20], 'dataset': <dataset.ProcessedDataset object at 0x7fc6fba05fd0>, 'model': LightGCN(
+  (embedding): Embedding(70846, 64)
+)}
