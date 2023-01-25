@@ -463,9 +463,9 @@ class IGCN(BasicModel):
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
         final_rep = all_layer_rep.mean(dim=0)
         
-        print(f'FINAL REPRESENTATIONS: {final_rep}')
-        print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
-        exit()
+        # print(f'FINAL REPRESENTATIONS: {final_rep}')
+        # print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
+        # exit()
         
         return final_rep
 

@@ -136,6 +136,7 @@ try:
             # top k 텍스트 생성 및 출력
             topk_txt = f'Testing EPOCH[{epoch + 1}/{world.TRAIN_epochs}]  {output_information} | Results Top-k (pre, recall, ndcg): {pre}, {recall}, {ndcg}'
             print(topk_txt)
+    
         # 종료 시간 업데이트
         end = time.time()
         # 학습에 걸린 시간 계산

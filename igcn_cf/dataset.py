@@ -14,6 +14,10 @@ def get_dataset(config):
     # exit()
 
     dataset = getattr(sys.modules['dataset'], config['name'])
+
+    print(f'SYS MODULES: {dataset}')
+    exit()
+
     dataset = dataset(config)
     return dataset
 

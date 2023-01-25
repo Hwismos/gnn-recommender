@@ -126,8 +126,13 @@ class GeneralPropagation(MessagePassing):
         # import ipdb; ipdb.set_trace()
         assert diff < 0.000001, f'error: {diff} need to make sure L=B^TB'
 
-    def forward(self, x: Tensor, edge_index: Adj, x_idx: Tensor = None,
-                edge_weight: OptTensor = None, mode=None, niter=None,
+    def forward(self, 
+                x: Tensor, 
+                edge_index: Adj, 
+                x_idx: Tensor = None,
+                edge_weight: OptTensor = None, 
+                mode=None, 
+                niter=None,
                 data=None) -> Tensor:
         """"""
         start_time = time.time()
