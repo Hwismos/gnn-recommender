@@ -82,7 +82,9 @@ def parse_args():
                         help="available datasets: [gowalla,  lastfm, yelp2018, amazon-book]")
     parser.add_argument('--model', type=str, default='gtn', help='rec-model, support [gnt, lgn]')
     parser.add_argument('--avg', type=int, default=0)
-    parser.add_argument('--recdim', type=int, default=256,
+    # 256차원에서 64차원으로 임시 수정
+    # igcn 논문 코드의 default embedding_size가 64
+    parser.add_argument('--recdim', type=int, default=64,
                         help="the embedding size of GTN: 128, 256")
     # gpu_id는 여러 개의 gpu 중 선택하기 위한 변수로 사용됨
     # 따라서 기존에 1이었던 defaultf를 0으로 변경함 → 1로 변경

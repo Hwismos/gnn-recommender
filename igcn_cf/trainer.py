@@ -63,7 +63,8 @@ class BasicTrainer:
             ndcg = metrics['NDCG'][self.topks[0]]
             return ndcg
 
-        if not os.path.exists('checkpoints'): os.mkdir('checkpoints')
+        if not os.path.exists('checkpoints'): 
+            os.mkdir('checkpoints')
         patience = self.max_patience
         for self.epoch in range(self.n_epochs):
             start_time = time.time()

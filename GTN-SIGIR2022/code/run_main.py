@@ -44,6 +44,9 @@ from register import dataset
 # LightGCN
 # Recmodel = register.MODELS[world.model_name](world.config, dataset)
 
+# print(f'DEVICE: {world.device}')
+# exit()
+
 if world.model_name == 'gtn':
     Recmodel = register.MODELS[world.model_name](world.config, dataset, world.args)
 else:
@@ -54,6 +57,7 @@ cprint(world.model_name)
 # gpu, cpu 사용 가능 여부 결정
 # to <- UFunctionCastingError 클래스의 필드
 Recmodel = Recmodel.to(world.device)
+
 
 # utils 모듈을 이용해 BPRLoss 설정
 # 인자로 전달하는 추천 모델이 PairWiseModel

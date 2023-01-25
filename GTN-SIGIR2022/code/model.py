@@ -36,6 +36,11 @@ seed = 2020
 import random
 import numpy as np
 
+# inmo 모듈을 이용한 임베딩 확인
+# import igcn_tuning_of_igcn_cf
+import utils_copy
+import model_copy
+
 torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
@@ -80,14 +85,21 @@ class LightGCN(BasicModel):
     def __init_weight(self):
         self.num_users  = self.dataset.n_users
         self.num_items  = self.dataset.m_items
+        
+        # igcn 논문의 gowall/time 디렉토리의 데이터셋으로 맞춤
+        # print(f'N_USERS: {self.dataset.n_users}')
+        # print(f'N_ITEMS: {self.dataset.m_items}')
+        # exit()
+
+        
         self.latent_dim = self.config['latent_dim_rec']
         self.n_layers = 3   # self.config['lightGCN_n_layers']
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
-        self.embedding_user = torch.nn.Embedding(
-            num_embeddings=self.num_users, embedding_dim=self.latent_dim)
-        self.embedding_item = torch.nn.Embedding(
-            num_embeddings=self.num_items, embedding_dim=self.latent_dim)
+        self.embedding_user = torch.nn.Embedding(num_embeddings=self.num_users, 
+                                                 embedding_dim=self.latent_dim)
+        self.embedding_item = torch.nn.Embedding(num_embeddings=self.num_items, 
+                                                 embedding_dim=self.latent_dim)
         if self.config['pretrain'] == 0:
             # nn.init.xavier_uniform_(self.embedding_user.weight, gain=1)
             # nn.init.xavier_uniform_(self.embedding_item.weight, gain=1)
@@ -100,8 +112,28 @@ class LightGCN(BasicModel):
             self.embedding_user.weight.data.copy_(torch.from_numpy(self.config['user_emb']))
             self.embedding_item.weight.data.copy_(torch.from_numpy(self.config['item_emb']))
             print('use pretarined data')
+        
+
+        users_emb = self.embedding_user.weight
+        items_emb = self.embedding_item.weight
+        all_emb = torch.cat([users_emb, items_emb])
+        # print(f'ALL_EMB: {all_emb}')
+        print(f'ALL_EMB SHAPE: {all_emb.shape}')
+
+        # inmo 모듈 적용
+        model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': 'cuda', 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': self.dataset}
+        final_rep = model_of_igcn_cf.IGCN(model_config).get_rep
+        print(f'FINAL EMBEDDING: {final_rep.shape}')
+        exit()
+        
         self.f = nn.Sigmoid()
         self.Graph = self.dataset.getSparseGraph()
+
+        # print(f'유저 임베딩: {self.embedding_user}')
+        # print(f'아이템 임베딩: {self.embedding_item}')
+        # print(f'유저 임베딩 타입: {type(self.embedding_user)}')
+        # exit()
+
 
         print(f"lgn is already to go(dropout:{self.config['dropout']})")
 
@@ -133,8 +165,15 @@ class LightGCN(BasicModel):
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])
+
+        # print(f'ALL_EMB: {all_emb}')
+        # print(f'ALL_EMB SHAPE: {all_emb.shape}')
+        # exit()
+
         #   torch.split(all_emb , [self.num_users, self.num_items])
         embs = [all_emb]
+
+
         if self.config['dropout']:
             if self.training:
                 print("droping")

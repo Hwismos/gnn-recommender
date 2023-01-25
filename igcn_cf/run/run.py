@@ -12,6 +12,10 @@ def main():
     init_run(log_path, 2021)
 
     device = torch.device('cuda')
+
+    print(f'DEVICE: {device}')
+    exit()
+
     config = get_gowalla_config(device)
     dataset_config, model_config, trainer_config = config[2]
     dataset_config['path'] = dataset_config['path'][:-4] + str(1)

@@ -22,8 +22,6 @@ def set_seed(seed=0):
 
 # 시드 설정하고 로그 경로를 이용해 파일을 오픈
 def init_run(log_path, seed):
-    print('init_run 메소드 실행 확인')
-
     # 시드 설정
     # 시드를 설정하면 모델을 생성할 때마다 다른 파라미터를 얻을 수 있음
     set_seed(seed)
@@ -49,6 +47,9 @@ def get_sparse_tensor(mat, device):
 
 
 def generate_daj_mat(dataset):
+    print(f'DATASET 객체정보: {dir(dataset)}')
+    exit()
+
     train_array = np.array(dataset.train_array)
     users, items = train_array[:, 0], train_array[:, 1]
     row = np.concatenate([users, items + dataset.n_users], axis=0)

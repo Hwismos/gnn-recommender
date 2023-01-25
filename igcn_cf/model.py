@@ -361,13 +361,22 @@ class Popularity(BasicModel):
 class IGCN(BasicModel):
     def __init__(self, model_config):
         super(IGCN, self).__init__(model_config)
-        self.embedding_size = model_config['embedding_size']
+
+        # print(f'N_USERS: {self.n_users}')
+        # print(f'N_ITEMS: {self.n_items}')
+        # exit()
+
+        self.embedding_size = model_config['embedding_size']    # 64
         self.n_layers = model_config['n_layers']
         self.dropout = model_config['dropout']
         self.feature_ratio = model_config['feature_ratio']
         self.norm_adj = self.generate_graph(model_config['dataset'])
         self.alpha = 1.
         self.delta = model_config.get('delta', 0.99)
+
+        # temp = model_config.get('ranking_metric', 'sort')
+        # print(f'RANKING AND SORT: {temp}') → sort
+
         self.feat_mat, self.user_map, self.item_map, self.row_sum = \
             self.generate_feat(model_config['dataset'],
                                ranking_metric=model_config.get('ranking_metric', 'sort'))
@@ -377,6 +386,9 @@ class IGCN(BasicModel):
         self.w = nn.Parameter(torch.ones([self.embedding_size], dtype=torch.float32, device=self.device))
         normal_(self.embedding.weight, std=0.1)
         self.to(device=self.device)
+
+        # print(f'MODEL_CONFIG: {model_config}')
+        # exit()
 
     def update_feat_mat(self):
         row, _ = self.feat_mat.indices()
@@ -451,9 +463,9 @@ class IGCN(BasicModel):
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
         final_rep = all_layer_rep.mean(dim=0)
         
-        # print(f'FINAL REPRESENTATIONS: {final_rep}')
-        # print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
-        # exit()
+        print(f'FINAL REPRESENTATIONS: {final_rep}')
+        print(f'FINAL REPRESENTATIONS SHAPE: {final_rep.shape}')
+        exit()
         
         return final_rep
 
