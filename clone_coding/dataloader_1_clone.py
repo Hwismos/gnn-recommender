@@ -1,3 +1,5 @@
+import numpy as np
+import random
 import pandas as pd     # 데이터 조작 및 분석을 위한 라이브러리
 from torch.utils.data import Dataset, DataLoader
 
@@ -12,8 +14,6 @@ from time import time
 from sklearn.model.selection import train_test_split
 
 seed = 2020
-import random
-import numpy as np
 
 torch.manual_seed(seed)
 np.random.seed(seed)
@@ -21,6 +21,8 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 
 # Dataset 클래스를 상속 받음
+
+
 class BasicDataset(Dataset):
     def __init__(self):
         print("init dataset")
@@ -45,9 +47,9 @@ class BasicDataset(Dataset):
     @property
     def allPos(self):
         raise NotImplementedError
-    
+
     def getUserItemFeedback(self, users, items):
-       raise NotImplementedError
+        raise NotImplementedError
 
     def getUserPosItems(self, users):
         raise NotImplementedError
@@ -71,6 +73,8 @@ class BasicDataset(Dataset):
 
 # 파이토치 라이브러리를 위한 데이터셋 구상
 # 그래프 정보도 포함돼 있다고 함
+
+
 class Loader(BasicDataset):
     def __init__(self,
                  config=world.config,
@@ -125,9 +129,11 @@ class Loader(BasicDataset):
     # 스파스 그래프 생성 → 그래프 정보를 포함한다는게 이거인 것 같음
     # 객체의 인접행렬 초기화 함
     # 텐서 타입으로 반환하는 것 같음
+    # * 그래프를 인접행렬로 생각한다면, 그리포 텐서를 매트릭스의 집합으로 생각한다면
+    # * 하나의 매트릭스 역시 텐서가 되므로 그래프를 인접행렬로 표현했다는 추측이 맞을 수 있음
     def getSparseGraph(self) -> Tensor:
         return super().getSparseGraph()
-    
+
     # {user: [item]} 형태의 테스트 데이터셋 반환
     def __build_test(self) -> dict:
         pass
@@ -140,7 +146,7 @@ class Loader(BasicDataset):
     # 어떤 역할인지는 잘 모르겠음
     def getUserItemFeedback(self, users, items) -> np.array:
         return super().getUserItemFeedback(users, items)
-    
+
     # getuserNegItems는 안해도 써 있었음
     # 유저와 관계있는, positive한 아이템 리스트를 반환
     def getUserPosItems(self, users) -> list:
