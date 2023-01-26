@@ -227,8 +227,8 @@ class LightGCN(BasicModel):
         (users_emb, pos_emb, neg_emb, 
         userEmb0,  posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1/2)*(userEmb0.norm(2).pow(2) + 
-                         posEmb0.norm(2).pow(2)  +
-                         negEmb0.norm(2).pow(2))/float(len(users))
+                            posEmb0.norm(2).pow(2)  +
+                            negEmb0.norm(2).pow(2))/float(len(users))
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
         neg_scores = torch.mul(users_emb, neg_emb)
@@ -341,9 +341,9 @@ class GTN(BasicModel):
         c = rc[1]
         num_nodes = g_droped.shape[0]
         edge_index = SparseTensor(row=r,
-                                  col=c,
-                                  value=g_droped.values(),
-                                  sparse_sizes=(num_nodes, num_nodes))
+                                    col=c,
+                                    value=g_droped.values(),
+                                    sparse_sizes=(num_nodes, num_nodes))
         emb, embs = self.gp.forward(x, edge_index, mode=self.args.gcn_model)
         light_out = emb
 
@@ -379,8 +379,8 @@ class GTN(BasicModel):
         (users_emb, pos_emb, neg_emb,
         userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1 / 2) * (userEmb0.norm(2).pow(2) +
-                              posEmb0.norm(2).pow(2) +
-                              negEmb0.norm(2).pow(2)) / float(len(users))
+                                posEmb0.norm(2).pow(2) +
+                                negEmb0.norm(2).pow(2)) / float(len(users))
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
 

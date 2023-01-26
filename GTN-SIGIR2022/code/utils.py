@@ -52,7 +52,7 @@ class BPRLoss:
         loss = mf_loss + reg_loss
 
         self.opt.zero_grad()
-        loss.backward()
+        loss.backward()     # ! Tensor.backward 
         self.opt.step()
 
         return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item()
