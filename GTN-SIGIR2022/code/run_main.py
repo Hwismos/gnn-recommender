@@ -54,8 +54,6 @@ else:
 
 cprint(world.model_name)
 
-# gpu, cpu 사용 가능 여부 결정
-# to <- UFunctionCastingError 클래스의 필드
 Recmodel = Recmodel.to(world.device)
 
 

@@ -174,7 +174,6 @@ class LightGCN(BasicModel):
         #   torch.split(all_emb , [self.num_users, self.num_items])
         embs = [all_emb]
 
-
         if self.config['dropout']:
             if self.training:
                 print("droping")
@@ -228,8 +227,8 @@ class LightGCN(BasicModel):
         (users_emb, pos_emb, neg_emb, 
         userEmb0,  posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1/2)*(userEmb0.norm(2).pow(2) + 
-                         posEmb0.norm(2).pow(2)  +
-                         negEmb0.norm(2).pow(2))/float(len(users))
+                            posEmb0.norm(2).pow(2)  +
+                            negEmb0.norm(2).pow(2))/float(len(users))
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
         neg_scores = torch.mul(users_emb, neg_emb)
@@ -238,7 +237,7 @@ class LightGCN(BasicModel):
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
         
         return loss, reg_loss
-       
+
     def forward(self, users, items):
         # compute embedding
         all_users, all_items = self.computer()
@@ -370,10 +369,10 @@ class GTN(BasicModel):
 
     def bpr_loss(self, users, pos, neg):
         (users_emb, pos_emb, neg_emb,
-         userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
+        userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1 / 2) * (userEmb0.norm(2).pow(2) +
-                              posEmb0.norm(2).pow(2) +
-                              negEmb0.norm(2).pow(2)) / float(len(users))
+                            posEmb0.norm(2).pow(2) +
+                            negEmb0.norm(2).pow(2)) / float(len(users))
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
         neg_scores = torch.mul(users_emb, neg_emb)

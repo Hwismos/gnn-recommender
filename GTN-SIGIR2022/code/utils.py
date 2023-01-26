@@ -39,8 +39,8 @@ sample_ext = False
 
 class BPRLoss:
     def __init__(self,
-                 recmodel: PairWiseModel,
-                 config: dict):
+                recmodel: PairWiseModel,
+                config: dict):
         self.model = recmodel
         self.weight_decay = config['decay']
         self.lr = config['lr']
@@ -64,7 +64,7 @@ def UniformSample_original(dataset, neg_ratio=1):
     start = time()
     if sample_ext:
         S = sampling.sample_negative(dataset.n_users, dataset.m_items,
-                                     dataset.trainDataSize, allPos, neg_ratio)
+                                    dataset.trainDataSize, allPos, neg_ratio)
     else:
         S = UniformSample_original_python(dataset)
     return S
@@ -72,7 +72,7 @@ def UniformSample_original(dataset, neg_ratio=1):
 # UniformSample_original 메소드와의 차이를 모르겠음
 def UniformSample_original_python(dataset):
     """
-    the original impliment of BPR Sampling in LightGCN
+    the original implement of BPR Sampling in LightGCN
     :return:
         np.array
     """
@@ -131,7 +131,7 @@ def minibatch(*tensors, **kwargs):
         tensor = tensors[0]
         for i in range(0, len(tensor), batch_size):
             # yield 키워드는 generator를 반환함
-            # 제너레이터: 여러 개의 데이터를 미리 만들어 놓지 않고 필요할 때마다 즉성에서 하나 씩 만들어낼 수 있는 객체
+            # 제너레이터: 여러 개의 데이터를 미리 만들어 놓지 않고 필요할 때마다 즉석에서 하나 씩 만들어낼 수 있는 객체
             # 결과값을 나눠서 얻을 수 있다는 장점이 있음
             yield tensor[i:i + batch_size]
     else:
@@ -145,7 +145,7 @@ def shuffle(*arrays, **kwargs):
 
     if len(set(len(x) for x in arrays)) != 1:
         raise ValueError('All inputs to shuffle must have '
-                         'the same length.')
+                        'the same length.')
 
     shuffle_indices = np.arange(len(arrays[0]))
     np.random.shuffle(shuffle_indices)
@@ -227,7 +227,8 @@ class timer:
 # =========================================================
 def RecallPrecision_ATk(test_data, r, k):
     """
-    test_data should be a list? cause users may have different amount of pos items. shape (test_batch, k)
+    test_data should be a list? 
+        cause users may have different amount of pos items. shape (test_batch, k)
     pred_data : shape (test_batch, k) NOTE: pred_data should be pre-sorted
     k : top-k
     """
