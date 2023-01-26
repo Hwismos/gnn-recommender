@@ -74,8 +74,8 @@ class PairWiseModel(BasicModel):
 
 class LightGCN(BasicModel):
     def __init__(self,
-                 config: dict,
-                 dataset: BasicDataset):
+                config: dict,
+                dataset: BasicDataset):
         super(LightGCN, self).__init__()
         self.config = config
         self.dataset: dataloader.BasicDataset = dataset
@@ -95,9 +95,9 @@ class LightGCN(BasicModel):
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
         self.embedding_user = torch.nn.Embedding(num_embeddings=self.num_users,
-                                                 embedding_dim=self.latent_dim)
+                                                embedding_dim=self.latent_dim)
         self.embedding_item = torch.nn.Embedding(num_embeddings=self.num_items,
-                                                 embedding_dim=self.latent_dim)
+                                                embedding_dim=self.latent_dim)
         if self.config['pretrain'] == 0:
             # nn.init.xavier_uniform_(self.embedding_user.weight, gain=1)
             # nn.init.xavier_uniform_(self.embedding_item.weight, gain=1)

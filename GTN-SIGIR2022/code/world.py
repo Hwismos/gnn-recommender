@@ -29,29 +29,35 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
 # 입력값 파싱
 # parse 모듈의 parse_args 메소드 이용
 # parse 모듈 import 끝
 args = parse_args()
 
-ROOT_PATH = "./"
+ROOT_PATH = "/home/hwiric/Internship/GTN-SIGIR2022"
 CODE_PATH = join(ROOT_PATH, 'code')
 DATA_PATH = join(ROOT_PATH, 'data')
-BOARD_PATH = join(CODE_PATH, 'runs')
-FILE_PATH = join(CODE_PATH, 'checkpoints')
-import sys
+BOARD_PATH = join(CODE_PATH, 'run_GTN')
+FILE_PATH = join(CODE_PATH, 'checkpoints_GTN')
 
+# print(os.getcwd())  →   /home/hwiric/Internship/GTN-SIGIR2022/code
+# print(f'BOARD_PATH: {BOARD_PATH}\nFILE_PATH: {FILE_PATH}')
+
+import sys
 sys.path.append(join(CODE_PATH, 'sources'))
 
 if not os.path.exists(FILE_PATH):
     os.makedirs(FILE_PATH, exist_ok=True)
 
-# config(환경설정) 딕셔너리를 정의
-# --key format으로 value에 접근할 수 있음
-config = {}
+
 # 모든 데이터셋과 모델들을 리스트로 정의
 all_dataset = ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']
 all_models = ['mf', 'gtn', 'lgn']
+
+# config(환경설정) 딕셔너리를 정의
+# --key format으로 value에 접근할 수 있음
+config = {}
 # config['batch_size'] = 4096
 config['bpr_batch_size'] = args.bpr_batch
 config['latent_dim_rec'] = args.recdim
@@ -93,9 +99,7 @@ comment = args.comment
 
 # let pandas shut up
 from warnings import simplefilter
-
 simplefilter(action="ignore", category=FutureWarning)
-
 
 def cprint(words: str):
     print("##########################")

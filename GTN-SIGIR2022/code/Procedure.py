@@ -204,7 +204,7 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=1, val=False):
         # results['auc'] = np.mean(auc_record)
         
         # world.tensorboard에 저장된 값이 0 이어서 아래 if문이 동작하고 있지 않음
-        print(f'\nworld.tensorboard: {world.tensorboard}\n')
+        # print(f'\nworld.tensorboard: {world.tensorboard}\n')
 
         if world.tensorboard:
             w.add_scalars(f'Test/Recall@{world.topks}',

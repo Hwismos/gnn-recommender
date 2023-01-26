@@ -5,10 +5,10 @@ Pytorch Implementation of GTN in Graph Trend Filtering Networks for Recommendati
 The original version of this code base was from LightGCN-pytorch: https://github.com/gusye1234/LightGCN-PyTorch
 
 @inproceedings{fan2022graph,
-  title={Graph Trend Filtering Networks for Recommendations},
-  author={Fan, Wenqi and Liu, Xiaorui and Jin, Wei and Zhao, Xiangyu and Tang, Jiliang and Li, Qing},
-  booktitle={International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)},
-  year={2022}
+    title={Graph Trend Filtering Networks for Recommendations},
+    author={Fan, Wenqi and Liu, Xiaorui and Jin, Wei and Zhao, Xiangyu and Tang, Jiliang and Li, Qing},
+    booktitle={International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)},
+    year={2022}
 }
 
 '''
@@ -39,20 +39,12 @@ print(">>SEED:", world.seed)
 import register
 from register import dataset
 
-# 추천 모델 객체 생성 → GTN
-# Recmodel = register.MODELS[world.model_name](world.config, dataset, world.args)
-# LightGCN
-# Recmodel = register.MODELS[world.model_name](world.config, dataset)
-
-# print(f'DEVICE: {world.device}')
-# exit()
-
 if world.model_name == 'gtn':
     Recmodel = register.MODELS[world.model_name](world.config, dataset, world.args)
 else:
     Recmodel = register.MODELS[world.model_name](world.config, dataset)
 
-cprint(world.model_name)
+# cprint(world.model_name)
 
 Recmodel = Recmodel.to(world.device)
 
@@ -73,7 +65,7 @@ weight_file = utils.getFileName()
 # 기존에 학습시킨 모델이 있는 경우인 것 같음
 if world.LOAD:
     try:
-        # load_state_dict 메소드가 어디 있는지 모르겠음
+        # load_state_dict 메소드가 어디 있는지 모르겠음 → torch.nn.Module
         Recmodel.load_state_dict(torch.load(weight_file, map_location=torch.device('cpu')))
         # word 모듈의 cprint 메소드를 이용해 모델 가중치가 로딩된 경로를 출력
         world.cprint(f"loaded model weights from {weight_file}")
@@ -102,8 +94,6 @@ try:
     # time 모듈을 이용해 timeStamp 변수 초기화
     timeStamp = time.time()
 
-    # arguments 출력
-    print(world.args)
     import matplotlib.pyplot as plt
 
     y = []
@@ -120,7 +110,7 @@ try:
         # 에포크마다 객체를 다시 생성?
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w)
 
-        if epoch % 5 == 0:
+        if epoch % 10 == 0:
             cprint("[TEST]")
             # 에포크가 5의 배수일 때마다 Procedure 모듈의 Test 객체 생성
             # 테스트 데이터 결과를 results 변수에 저장
@@ -133,7 +123,7 @@ try:
 
             # top k 텍스트 생성 및 출력
             topk_txt = f'Testing EPOCH[{epoch + 1}/{world.TRAIN_epochs}]  {output_information} | Results Top-k (pre, recall, ndcg): {pre}, {recall}, {ndcg}'
-            print(topk_txt)
+            print(f'\n{topk_txt}\n')
     
         # 종료 시간 업데이트
         end = time.time()

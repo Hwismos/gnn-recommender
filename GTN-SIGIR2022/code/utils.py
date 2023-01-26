@@ -34,6 +34,7 @@ np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
 
+# LightGCN과 다르게 여기서는 바로 False로 박아둠
 sample_ext = False
 
 

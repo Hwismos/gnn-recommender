@@ -325,7 +325,7 @@ class Loader(BasicDataset):
         # (users,items), bipartite graph
         # R 
         self.UserItemNet = csr_matrix((np.ones(len(self.trainUser)), (self.trainUser, self.trainItem)),
-                                      shape=(self.n_user, self.m_item))
+                                        shape=(self.n_user, self.m_item))
 
         self.users_D = np.array(self.UserItemNet.sum(axis=1)).squeeze()
         self.users_D[self.users_D == 0.] = 1
@@ -416,10 +416,6 @@ class Loader(BasicDataset):
             # 비슷한 거 아닌가?
             
             # 사용하는 메모리가 너무 큰 경우 발생한다고 함 → LIL 쓰면 좀 덜한거 아님?
-            # 그런데 gowalla에서 그러면 다른 데이터셋은 아예 못 돌리는 것 아닌가?
-            # tcmalloc: large alloc 9788891136 bytes == 0x7faa305ea000 @  0x7fad2ebd9680 0x7fad2ebf92ec 0x7facb641022f 0x7facb646868b 0x7facb64694f7 0x7facb650b913 0x5c4677 0x56cc92 0x50b22e 0x570b82 0x569d8a 0x50b3a0 0x570b82 0x50b22e 0x570b82 0x5f5ee6 0x570b82 0x5f5ee6 0x5a1b77 0x56c83b 0x5f5ee6 0x56bbe1 0x50b22e 0x570b82 0x569d8a 0x5f60c3 0x59c39d 0x5f666f 0x570d34 0x569d8a 0x68e267
-            # tcmalloc: large alloc 4894449664 bytes == 0x7fa90c234000 @  0x7fad2ebd9680 0x7fad2ebfa824 0x7facb641014e 0x7facb646c166 0x7facb646c549 0x7facb646dfe8 0x7facb646e6f9 0x7facb651120b 0x5c4677 0x56cc92 0x50b22e 0x570b82 0x5f5ee6 0x570b82 0x5f5ee6 0x5a1b77 0x56c83b 0x5f5ee6 0x56bbe1 0x50b22e 0x570b82 0x569d8a 0x5f60c3 0x59c39d 0x5f666f 0x570d34 0x569d8a 0x68e267 0x67d9b1 0x67da2f 0x67dad1
-            # ^C
             adj_mat[:self.n_users, self.n_users:] = R
             adj_mat[self.n_users:, :self.n_users] = R.T
             adj_mat = adj_mat.todok()
