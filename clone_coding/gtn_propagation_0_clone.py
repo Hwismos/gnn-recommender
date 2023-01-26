@@ -48,14 +48,14 @@ class GeneralPropagation(MessagePassing):
     _cahced_adj_t: Optional[SparseTensor]
     
     def __init__(self, K: int, alpha: float, dropout: float = 0.,
-                 cached: bool = False,
-                 add_self_loops: bool = True,
-                 add_self_loops_l1: bool = True,
-                 normalize: bool = True,
-                 mode: str = None,
-                 node_num: int = None,
-                 num_classes: int = None,
-                 args = None,
+                    cached: bool = False,
+                    add_self_loops: bool = True,
+                    add_self_loops_l1: bool = True,
+                    normalize: bool = True,
+                    mode: str = None,
+                    node_num: int = None,
+                    num_classes: int = None,
+                    args = None,
                  **kwargs):
         # 객체를 만들 때 디폴트로 지정되는 값들이 많음
         # **은 딕셔너리 타입을 인자로 받을 때 사용
