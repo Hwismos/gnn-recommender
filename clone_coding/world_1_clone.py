@@ -30,8 +30,8 @@ args=parse_args()   # 파싱한 인자를 받아옴
 ROOT_PATH='./'  # 현재 위치 설정
 CODE_PATH=join(ROOT_PATH, 'code')
 DATA_PATH=join(ROOT_PATH, 'data')
-BOARD_PATH=join(ROOT_PATH, 'runs')
-FILE_PATH=join(ROOT_PATH, 'checkpoints')
+BOARD_PATH=join(CODE_PATH, 'runs')
+FILE_PATH=join(CODE_PATH, 'checkpoints')
 
 import sys
 
