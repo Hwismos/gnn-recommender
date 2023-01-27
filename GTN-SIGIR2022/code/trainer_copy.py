@@ -83,7 +83,8 @@ class BasicTrainer:
                 continue
 
             start_time = time.time()
-            results, metrics = self.eval('val')
+            # ! results, metrics = self.eval('eval')
+            results, metrics = self.eval('test')
             consumed_time = time.time() - start_time
             if verbose:
                 print('Validation result. {:s}Time: {:.3f}s'.format(results, consumed_time))

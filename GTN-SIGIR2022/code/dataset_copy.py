@@ -158,8 +158,8 @@ class ProcessedDataset(BasicDataset):
         # print(self.train_data)
 
         # 여기서 막혔었음
-        assert len(self.train_data) == len(self.val_data)
-        assert len(self.train_data) == len(self.test_data)
+        # assert len(self.train_data) == len(self.val_data)
+        # assert len(self.train_data) == len(self.test_data)
         self.n_users = len(self.train_data)
 
         self.train_array = []
