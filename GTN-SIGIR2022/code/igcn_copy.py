@@ -16,21 +16,20 @@ def fitness(lr, l2_reg, dropout, aux_reg):
     set_seed(2021)
 
     device = torch.device('cuda')
-    # 데이터셋, 모델, 트레이너 환경 설정
     
     # path 수정
     # dataset_config = {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time',
     #                   'device': device}
 
     dataset_config = {'name': 'ProcessedDataset', 'path': '../data/gowalla',
-                      'device': device}
+                        'device': device}
 
     model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device,
                     'dropout': dropout, 'feature_ratio': 1.}
-                    # epochs 1000 → 5
+
     trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': lr, 'l2_reg': l2_reg, 'aux_reg': aux_reg,
-                      'device': device, 'n_epochs': 100, 'batch_size': 2048, 'dataloader_num_workers': 6,
-                      'test_batch_size': 512, 'topks': [20]}
+                        'device': device, 'n_epochs': 100, 'batch_size': 512, 'dataloader_num_workers': 6,
+                        'test_batch_size': 100, 'topks': [20]}
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)
     trainer = get_trainer(trainer_config, dataset, model)
@@ -42,8 +41,8 @@ def main():
     # .py 지움
     log_path = __file__[:-3]
 
-    print(f'MODEL: {log_path}')
-    exit()
+    # print(f'MODEL: {log_path}')
+    # exit()
 
     # utils 모듈의 메소드
     # log 경로와 시드 값을 인자로 전달
@@ -56,13 +55,16 @@ def main():
     #               'aux_reg': [1.e-3, 1.e-2, 1.e-1]}
     
     # 한 번만 돌도록 수정
-    param_grid = {'lr': [1.e-3], 'l2_reg': [0., 1.e-5], 'dropout': [0., 0.1, 0.3],
-                  'aux_reg': [1.e-3]}
+    param_grid = {'lr': [1.e-3], 
+                'l2_reg': [0.], 
+                'dropout': [0.],
+                'aux_reg': [1.e-3]}
 
     # sklearn 패키지의 하위 모듈(model_selection)의 클래스
     grid = ParameterGrid(param_grid)
     max_ndcg = -np.inf
     best_params = None
+
     for params in grid:
         # ndcg(평가 메트릭) 값이 가장 큰 파라미터를 찾음
         ndcg = fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])

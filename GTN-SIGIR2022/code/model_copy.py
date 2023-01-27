@@ -17,10 +17,12 @@ import time
 def get_model(config, dataset):
     config = config.copy()
     # 모델의 데이터셋 설정
+
     config['dataset'] = dataset
+    
     # getattr(object, str)
     model = getattr(sys.modules['model_copy'], config['name'])
-    model = model(config)
+    model = model(config)   # IGCN(config)
     return model
 
 
@@ -375,7 +377,7 @@ class IGCN(BasicModel):
         self.delta = model_config.get('delta', 0.99)
         self.feat_mat, self.user_map, self.item_map, self.row_sum = \
             self.generate_feat(model_config['dataset'],
-                               ranking_metric=model_config.get('ranking_metric', 'sort'))
+                                ranking_metric=model_config.get('ranking_metric', 'sort'))
         self.update_feat_mat()
 
         self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)
@@ -427,14 +429,14 @@ class IGCN(BasicModel):
         for item in range(self.n_items):
             indices.append([self.n_users + item, user_dim + item_dim + 1])
         feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
-                             shape=(self.n_users + self.n_items, user_dim + item_dim + 2), dtype=np.float32).tocsr()
+                            shape=(self.n_users + self.n_items, user_dim + item_dim + 2), dtype=np.float32).tocsr()
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
         feat = get_sparse_tensor(feat, self.device)
         return feat, user_map, item_map, row_sum
 
     def inductive_rep_layer(self, feat_mat):
         padding_tensor = torch.empty([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size],
-                                     dtype=torch.float32, device=self.device)
+                                    dtype=torch.float32, device=self.device)
         padding_features = torch.cat([self.embedding.weight, padding_tensor], dim=0)
 
         row, column = feat_mat.indices()
@@ -470,7 +472,7 @@ class IGCN(BasicModel):
 
     def save(self, path):
         params = {'sate_dict': self.state_dict(), 'user_map': self.user_map,
-                  'item_map': self.item_map, 'alpha': self.alpha}
+                'item_map': self.item_map, 'alpha': self.alpha}
         torch.save(params, path)
 
     def load(self, path):

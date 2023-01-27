@@ -14,8 +14,9 @@ def get_dataset(config):
     # exit()
 
     # key 변경: dataset → dataset_copy
+    # getattr 메소드 → value 추출
     dataset = getattr(sys.modules['dataset_copy'], config['name'])
-    dataset = dataset(config)
+    dataset = dataset(config)   # ProcessedDataset(config)
     return dataset
 
 
@@ -150,8 +151,13 @@ class ProcessedDataset(BasicDataset):
     def __init__(self, dataset_config):
         super(ProcessedDataset, self).__init__(dataset_config)
         self.train_data = self.read_data(os.path.join(dataset_config['path'], 'train.txt'))
-        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'val.txt'))
+        # self.val_data = self.read_data(os.path.join(dataset_config['path'], 'val.txt'))
+        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         self.test_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
+        
+        # print(self.train_data)
+
+        # 여기서 막혔었음
         assert len(self.train_data) == len(self.val_data)
         assert len(self.train_data) == len(self.test_data)
         self.n_users = len(self.train_data)
@@ -166,6 +172,11 @@ class ProcessedDataset(BasicDataset):
             lines = f.read().strip().split('\n')
         for line in lines:
             items = line.split(' ')[1:]
+
+            # if len(items) == 1:
+            #     items=[0]
+            #     # continue
+            
             items = [int(item) for item in items]
             if items:
                 self.n_items = max(self.n_items, max(items) + 1)

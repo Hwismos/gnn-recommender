@@ -17,7 +17,7 @@ def get_trainer(config, dataset, model):
     config['model'] = model
     trainer = getattr(sys.modules['trainer_copy'], config['name'])
     trainer = trainer(config)
-    print(f'trainer config: {config}')
+    # print(f'trainer config: {config}')
     return trainer
 
 
@@ -52,8 +52,8 @@ class BasicTrainer:
         for metric in metrics:
             for k in self.topks:
                 writer.add_scalar('{:s}_{:s}/{:s}_{:s}@{:d}'
-                                  .format(self.model.name, self.name, stage, metric, k)
-                                  , metrics[metric][k], self.epoch)
+                                .format(self.model.name, self.name, stage, metric, k)
+                                , metrics[metric][k], self.epoch)
 
     def train(self, verbose=True, writer=None):
         if not self.model.trainable:
@@ -74,7 +74,7 @@ class BasicTrainer:
             consumed_time = time.time() - start_time
             if verbose:
                 print('Epoch {:d}/{:d}, Loss: {:.6f}, Time: {:.3f}s'
-                      .format(self.epoch, self.n_epochs, loss, consumed_time))
+                    .format(self.epoch, self.n_epochs, loss, consumed_time))
             if writer:
                 writer.add_scalar('{:s}_{:s}/train_loss'.format(self.model.name, self.name), loss, self.epoch)
                 self.record(writer, 'train', metrics)
@@ -166,6 +166,11 @@ class BasicTrainer:
                 rec_items.append(items.cpu().numpy())
 
         rec_items = np.concatenate(rec_items, axis=0)
+        
+        # print(eval_data)
+        # print('####################################################################')
+        # print(rec_items)
+        
         metrics = self.calculate_metrics(eval_data, rec_items)
 
         precison = ''
@@ -228,7 +233,7 @@ class BPRTrainer(BasicTrainer):
         super(BPRTrainer, self).__init__(trainer_config)
 
         self.dataloader = DataLoader(self.dataset, batch_size=trainer_config['batch_size'],
-                                     num_workers=trainer_config['dataloader_num_workers'])
+                                    num_workers=trainer_config['dataloader_num_workers'])
         self.initialize_optimizer()
         self.l2_reg = trainer_config['l2_reg']
 
@@ -257,7 +262,7 @@ class IDCFTrainer(BasicTrainer):
         super(IDCFTrainer, self).__init__(trainer_config)
 
         self.dataloader = DataLoader(self.dataset, batch_size=trainer_config['batch_size'],
-                                     num_workers=trainer_config['dataloader_num_workers'])
+                                    num_workers=trainer_config['dataloader_num_workers'])
         self.initialize_optimizer()
         self.l2_reg = trainer_config['l2_reg']
         self.contrastive_reg = trainer_config['contrastive_reg']
@@ -287,10 +292,10 @@ class IGCNTrainer(BasicTrainer):
         super(IGCNTrainer, self).__init__(trainer_config)
 
         self.dataloader = DataLoader(self.dataset, batch_size=trainer_config['batch_size'],
-                                     num_workers=trainer_config['dataloader_num_workers'])
+                                    num_workers=trainer_config['dataloader_num_workers'])
         self.aux_dataloader = DataLoader(AuxiliaryDataset(self.dataset, self.model.user_map, self.model.item_map),
-                                         batch_size=trainer_config['batch_size'],
-                                         num_workers=trainer_config['dataloader_num_workers'])
+                                        batch_size=trainer_config['batch_size'],
+                                        num_workers=trainer_config['dataloader_num_workers'])
         self.initialize_optimizer()
         self.l2_reg = trainer_config['l2_reg']
         self.aux_reg = trainer_config['aux_reg']
