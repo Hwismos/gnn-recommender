@@ -1,7 +1,7 @@
 import csv
 
-# PATH = '/home/hwiric/Internship/LightGCN_MovieLens/u1.base'
-PATH = 'C:\\Users\\최석휘\\Desktop\\3학년 겨울방학 공학연구인턴십\\Internship\\LightGCN_MovieLens\\u1.base'
+PATH = '/home/hwiric/Internship/LightGCN_MovieLens/u1.test'
+# PATH = 'C:\\Users\\최석휘\\Desktop\\3학년 겨울방학 공학연구인턴십\\Internship\\LightGCN_MovieLens\\u1.base'
 
 f = open(PATH, 'r')
 rdr = csv.reader(f)
@@ -12,8 +12,8 @@ for l in rdr:
     s = ''.join(l).split('\t')
 
     # 레이팅이 3 이상인 아이템들로만 구성
-    if int(s[2]) < 3:
-        continue
+    # if int(s[2]) < 3:
+    #     continue
 
     s = s[:2]
     if s[0] in d:
