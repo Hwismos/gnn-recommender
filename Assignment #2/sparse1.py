@@ -1,193 +1,110 @@
-import argparse
-import os
-
-
-# 파일 입출력을 위한 인터페이스 정의
-# 출력이 콘솔인지 모르고 FileHandler를 만들었음
-    # 입력만이면 메소드로도 가능했음
-class FileReader():
-    def __init__(self, path) -> None:
-        self.values=[]      # 행렬 정보가 담길 리스트
-        self.read(path)     # 파일 읽기
-
-    def read(self, path):
-        # '\sparse1.py' 제거하고 입력 파일을 붙여서 읽을 파일의 경로를 설정
-        path=os.path.join(__file__[:-11], path)     
-        
-        with open(path, 'r') as f:
-            for line, value in enumerate(f):
-                value=value.rstrip('\n')        # 개행 제거
-                
-                # format 체크
-                if line == 0:
-                    if value in ('dense', 'lil', 'csr', 'csc'):
-                        self.format=value
-                    else:
-                        print('존재하지 않는 포맷 입니다.')
-                        exit()
-
-                # format을 지정하는 라인이 아닌 경우 int 타입의 리스트로 저장
-                if line != 0:
-                    value=list(map(int, value.split(' ')))
-                    self.values.append(value)
-
-
-class Node():
-    def __init__(self) -> None:
-        self.value=None
-        self.row=None
-        self.column=None
-    
-    def set_value(self, value):
-        self.value=value
-
-    def set_row(self, row):
-        self.row=row
-
-    def set_column(self, column):
-        self.column=column
+import utils
+from utils import FileReader
+from Sparse_CSR import Sparse_CSR
+from Sparse_CSC import Sparse_CSC
 
 class LIL():
-    pass
-
-
-class CSR():
     def __init__(self, values) -> None:
-        self.shape=values[0]
-        self.data=values[1]
-        self.indices=values[2]
-        self.indptr=values[3]
-        self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
-        self.mat=None       # dense 매트릭스
-        self.make_matrix_info()      # dense 행렬을 만들기 위한 헤더 생성
+        self.values=values
+        self.nrow=self.values[0][0]
+        self.ncol=self.values[0][1]
+        self.nnz=self.values[0][2]
+
+        self.hoh=ElementsNode()     # hoh 노드 생성
+        self.set_hoh()              # hoh 노드 세팅
         
-    def make_matrix_info(self):
-        # 논제로(value)를 이용해 노드 객체를 생성
-        # 노드 객체들을 리스트에 저장
-        for d in self.data:
-            node=Node()
-            node.set_value(d)
-            self.nodes.append(node)
+    def set_hoh(self):
+        self.hoh.set_row(self.nrow)         # row 수
+        self.hoh.set_column(self.ncol)      # column 수
+        self.hoh.set_value(self.nnz)        # nnz
+        self.hoh.down=None
+        self.hoh.right=HeadNode()           # first rights head
+        self.hoh.right
+
+        # right heads 초기화
+        self.init_column_heads(self.hoh.right)  
         
-        # column 정보를 노드 객체에 저장
-        for idx, col in enumerate(self.indices):
-            self.nodes[idx].set_column(col)
-
-        cur=0       # nodes 리스트에 접근할 인덱스
-        for row, num in enumerate(self.indptr[1:]):
-            # 각 행에 존재하는 성분 수만큼을 nodes에서 가져옴
-            # 가져온 노드들의 row를 설정
-            for node in self.nodes[cur:num]:     
-                node.set_row(row)
-            cur=num     # 누적하면 인덱스 범위를 넘어감
-        
-        self.mat=self.make_matrix()
-
-    def make_matrix(self):
-        row, col=self.shape[0], self.shape[1]     # 행렬의 행과 열
-
-        mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
-        for node in self.nodes:
-            mat[node.row][node.column]=node.value
-        
-        return mat
-
-
-
-class CSC():
-    def __init__(self, values) -> None:
-        self.shape=values[0]
-        self.data=values[1]
-        self.indices=values[2]
-        self.indptr=values[3]
-        self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
-        self.mat=None       # dense 매트릭스
-        self.make_matrix_info()      # dense 행렬을 만들기 위한 헤더 생성
-        
-    def make_matrix_info(self):
-        # 논제로(value)를 이용해 노드 객체를 생성
-        # 노드 객체들을 리스트에 저장
-        for d in self.data:
-            node=Node()
-            node.set_value(d)
-            self.nodes.append(node)
-        
-        # column 정보를 노드 객체에 저장
-        for idx, row in enumerate(self.indices):
-            self.nodes[idx].set_row(row)
-
-        cur=0       # nodes 리스트에 접근할 인덱스
-        for col, num in enumerate(self.indptr[1:]):
-            # 각 행에 존재하는 성분 수만큼을 nodes에서 가져옴
-            # 가져온 노드들의 row를 설정
-            for node in self.nodes[cur:num]:     
-                node.set_column(col)
-            cur=num     # 누적하면 인덱스 범위를 넘어감
-        
-        self.mat=self.make_matrix()
-
-    def make_matrix(self):
-        row, col=self.shape[0], self.shape[1]     # 행렬의 행과 열
-
-        mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
-        for node in self.nodes:
-            mat[node.row][node.column]=node.value
-        
-        return mat
-
-
-# 콘솔에 결과값 출력
-# 아직 dense 행렬은 안 만들었음
-def print_console(format, values, dense_info, dense_matrix=None):
-    print(format)
+        # 성분 노드와의 연결 시작  
+        self.make_node_connection(self.hoh.right) 
     
-    for value in values:
-        for v in value:
-            print(v, end=' ')
-        print()
-    print()
+    def init_column_heads(self, first_column_head):
+        nmax=max(self.nrow, self.ncol)      # 더 큰 값으로 해드 개수 설정
 
-    print('dense')
-    row, col=dense_info[0], dense_info[1]
-    print(f'{row} {col}')
-    for row in dense_matrix:
-        for elem in row:
-            print(elem, end=' ')
-        print()
+        cur_node=first_column_head
+        for c in range(nmax-1):
+            cur_node.set_down(cur_node)
+            cur_node.set_next(HeadNode())
+            cur_node=cur_node.next
+        
+        # 마지막 헤드 노드 처리
+        cur_node.set_down(cur_node)
+        cur_node.set_next(self.hoh)
+    
+    def make_node_connection(self, first_column_head):
+        # 모든 성분들에 대하여 (row, col) 기준으로 정렬된 리스트 저장
+        elem_nodes=self.make_element_node()
 
+        # 테스트 → 잘 나옴
+        # for e in elem_nodes:
+        #     print(f'[row({e.row}), col({e.column}), val({e.value})]\n[down({e.down}), right({e.right}))]\n\n')
 
-# 입력 파일 처리
-# txt 파일이 아니면 에러 메시지 출력 후 프로그램 종료
-def parse_arg():
-    parser=argparse.ArgumentParser()
-    parser.add_argument('file')
-    args=parser.parse_args()
+        # 성분 노드들과 col_head(cur_head) 연결
+        for elem in elem_nodes:
+            # 모든 성분 노드들에 대해, 성분 노드의 컬럼 값까지 헤드 노드 이동
+            cur_node=first_column_head  # 포커싱 중인 노드
+            cur_head=cur_node   # 포커싱 중인 노드에 대한 헤드 노드
+            for _ in range(elem.column):
+                cur_node=cur_node.next
 
-    if args.file[-3:] != 'txt' :
-        print('txt 파일을 입력해주세요.')
-        exit()
+            # 첫 연결일 때
+            if cur_node.down == None:
+                cur_node.down=elem
+            else:
+                while cur_node.down != None:
+                    cur_node=cur_node.down
+                cur_node.down=elem
+                cur_node=cur_node.down
+                cur_node.down=cur_head      # 마지막 노드에서 다시 헤드 노드로 circular 하게 연결
 
-    return args.file
+        
+    
+    def make_element_node(self):
+        data=self.values[1:]
+        elem_nodes=[]
+        for d in data:
+            node=ElementsNode()
+            node.set_row(d[0])
+            node.set_column(d[1])
+            node.set_value(d[2])
+            elem_nodes.append(node)
+        
+        # 성분 노드들 정렬
+        elem_nodes.sort(key=lambda x: (x.column, x.row))
+
+        return elem_nodes
+
+    # def getDense(self):
+    #     mat=[[0]*self.ncol for _ in range(self.nrow)]   # 0 행렬 생성
+
+    #     cur_head=self.hoh.right
+    #     while cur_head.next != None:
+    #         pass
 
 
 def main():
-    # 파일 경로 저장
-    PATH=parse_arg()
-
-    # 파일 읽기
+    PATH=utils.parse_arg()
     f=FileReader(PATH)
 
-    # dense 포맷이면 바로 출력하고 종료
-    if f.format == 'dense':
-        pass
+    formats={'csr': Sparse_CSR, 'csc': Sparse_CSC}
     
-    # 포맷 딕셔너리를 이용해서 객체 생성 
-    formats={'lil': LIL, 'csr': CSR, 'csc': CSC}
-    dense_info=formats[f.format](f.values).shape      # 행과 열 값 반환 → 콘솔 출력용  
-    dense_result=formats[f.format](f.values).mat      # dense 매트릭스로 전환
-
-    # 콘솔에 출력 결과 확인
-    print_console(f.format, f.values, dense_info, dense_result)
+    # 객체 생성
+    obj=formats[f.format](f.values)
+    print(obj)
+    print('dense')
+    for row in obj.getDense():
+        row=list(map(str, row))
+        row=' '.join(row)
+        print(row)
 
 
 if __name__=='__main__':
