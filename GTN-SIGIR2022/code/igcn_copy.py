@@ -10,7 +10,7 @@ from model_copy import get_model
 from trainer_copy import get_trainer
 
 
-# 이 모듈이 INMO-LGCN인 것 같음
+# 이 모듈이 INMO-IGCN인 것 같음
 def fitness(lr, l2_reg, dropout, aux_reg):
     # 시드 설정을 왜 여기서도 하는지 모르겠음
     set_seed(2021)
@@ -33,7 +33,7 @@ def fitness(lr, l2_reg, dropout, aux_reg):
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)
     trainer = get_trainer(trainer_config, dataset, model)
-    return trainer.train(verbose=True)
+    return trainer.train(verbose=True)  # IGCNTrainer.train() -> ndcg
 
 
 def main():

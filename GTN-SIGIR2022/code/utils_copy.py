@@ -35,6 +35,8 @@ def init_run(log_path, seed):
     # os.path.join 메소드: 인수에 전달된 두 문자열을 결합해 한 개의 경로로 변환
     f = open(os.path.join(log_path, 'log.txt'), 'w')
     f = Unbuffered(f)
+    
+    # 인터프리터가 표준 출력 및 에러에 사용할 파일 객체를 f로 설정
     sys.stderr = f
     sys.stdout = f
 
@@ -113,6 +115,7 @@ def graph_rank_nodes(dataset, ranking_metric):
     if ranking_metric == 'degree':
         user_metrics = np.array(np.sum(adj_mat[:dataset.n_users, :], axis=1)).squeeze()
         item_metrics = np.array(np.sum(adj_mat[dataset.n_users:, :], axis=1)).squeeze()
+    
     elif ranking_metric == 'greedy' or ranking_metric == 'sort':
         '''
         # This is for theoretical analysis.
@@ -127,12 +130,14 @@ def graph_rank_nodes(dataset, ranking_metric):
         normalized_adj_mat = normalize(adj_mat, axis=1, norm='l1')
         user_metrics = np.array(np.sum(normalized_adj_mat[:, :dataset.n_users], axis=0)).squeeze()
         item_metrics = np.array(np.sum(normalized_adj_mat[:, dataset.n_users:], axis=0)).squeeze()
+    
     elif ranking_metric == 'page_rank':
         g = nx.Graph()
         g.add_edges_from(np.array(np.nonzero(adj_mat)).T)
         pr = nx.pagerank(g)
         pr = np.array([pr[i] for i in range(dataset.n_users + dataset.n_items)])
         user_metrics, item_metrics = pr[:dataset.n_users], pr[dataset.n_users:]
+    
     else:
         return None
     ranked_users = np.argsort(user_metrics)[::-1].copy()
@@ -152,6 +157,7 @@ class AverageMeter:
         self.avg = self.sum / self.count
 
 
+# steam은 파일 객체(f)
 class Unbuffered(object):
     def __init__(self, stream):
         self.stream = stream
