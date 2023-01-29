@@ -33,7 +33,8 @@ class BasicDataset(Dataset):
 
     # 유저 관계 집합과 아이템 관계 집합을 가지고 맵을 반환?
     # 스파스 유저-아이템을 제거한다는 의미는?
-    def remove_sparse_ui(self, user_inter_sets, item_inter_sets) -> user_map, item_map:
+    def remove_sparse_ui(self, user_inter_sets, item_inter_sets):
+        #  -> user_map, item_map
         pass
 
     # train, val, test 데이터 생성 → 틀만 만드는 것 같음
@@ -41,11 +42,13 @@ class BasicDataset(Dataset):
     def generate_data(self) -> None:
         pass
 
-    def __len__(self) -> train_array_length:
+    def __len__(self):
+        #  -> train_array_length
         pass
 
     # negative 아이템을 왜 얻지?
-    def __getitem__(self, index) -> data_with_negs:
+    def __getitem__(self, index):
+        #  -> data_with_negs
         pass
 
     # output_data 메소들 이용해서 파일에 write
@@ -58,7 +61,8 @@ class ProcessedDataset(BasicDataset):
         super().__init__()
     
     # 데이터를 읽어서 실질적인 train, test, val 데이터를 만드는 것 같음
-    def read_data(self, file_path) -> data:
+    def read_data(self, file_path):
+        #  -> data
         pass
 
 
@@ -75,6 +79,7 @@ class AuxilliaryDataset(BasicDataset):
     def __init__(self) -> None:
         super().__init__()
 
-    def __len__(self) -> train_array_length:
+    def __len__(self):
+        #  -> train_array_length
         return super().__len__()
     

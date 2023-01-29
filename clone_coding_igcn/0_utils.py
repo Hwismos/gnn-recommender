@@ -18,20 +18,23 @@ def init_run(log_path, seed) -> None:
 
 # mat이 어떤 타입으로 오는지 알아야 함
 # mat을 tocoo() 메소드르 이용해 coo format으로 변경
-def get_sparse_tensor(mat, device) -> sparse_tensor:
+def get_sparse_tensor(mat, device):
+    #  -> sparse_tensor
     pass
 
 # 데이터셋을 이용해 인접 매트릭스를 반환
 # 왜 utils에 있지?
 # dataset에 없고...?
-def generate_daj_mat(dataset) -> adj_mat:
+def generate_daj_mat(dataset):
+    #  -> adj_mat
     pass
 
 # 랭킹 메트릭에 따라 연산된 ranked 유저와 아이템을 반환
 # degree, greedy, page_rank
 # 논문에서는 뭐 썼지?
 # 아무것도 없으면 그냥 정렬?
-def graph_rank_nodes(dataset, ranking_metric): # -> ranked_users, ranked_items
+def graph_rank_nodes(dataset, ranking_metric): 
+    # -> ranked_users, ranked_items
     pass
 
 
@@ -56,5 +59,5 @@ class Unbuffered(object):
     def write_lines(self, datas) -> None:
         pass
 
-    def __getattr__(self, attr: str) -> Any:
+    def __getattr__(self, attr: str):   # -> Any
         pass
