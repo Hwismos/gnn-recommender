@@ -36,8 +36,8 @@ def get_gowalla_config(device):
     #                   'test_batch_size': 512, 'topks': [20]}
     
     trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 1.e-3, 'l2_reg': 0., 'aux_reg': 0.01,
-                    'device': device, 'n_epochs': 100, 'batch_size': 2048, 'dataloader_num_workers': 6,
-                    'test_batch_size': 512, 'topks': [20]}
+                    'device': device, 'n_epochs': 100, 'batch_size': 512, 'dataloader_num_workers': 6,
+                    'test_batch_size': 100, 'topks': [20]}
     
     gowalla_config.append((dataset_config, model_config, trainer_config))
 

@@ -307,9 +307,20 @@ class NGCF(BasicModel):
     def bpr_forward(self, users, pos_items, neg_items):
         rep = self.get_rep()
         users_r = rep[users, :]
+
         pos_items_r, neg_items_r = rep[self.n_users + pos_items, :], rep[self.n_users + neg_items, :]
         l2_norm_sq = torch.norm(users_r, p=2, dim=1) ** 2 + torch.norm(pos_items_r, p=2, dim=1) ** 2 \
                      + torch.norm(neg_items_r, p=2, dim=1) ** 2
+        
+        # print('\n#########################################INMO EMBEDDING#########################################\n')
+        # # print(type(users))          # torch.Tensor
+        # # print(rep.shape)        # torch.Size([2063, 64])
+        # # print(users_r.shape)    # torch.Size([512, 64])
+        # print(pos_items_r.shape)      # torch.Size([512, 64])
+        # print(neg_items_r.shape)      # torch.Size([512, 64])
+        # print('\n################################################################################################\n')
+        # exit()
+        
         return users_r, pos_items_r, neg_items_r, l2_norm_sq
 
     def predict(self, users):
@@ -447,19 +458,40 @@ class IGCN(BasicModel):
 
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
-        representations = self.inductive_rep_layer(feat_mat)
+        representations = self.inductive_rep_layer(feat_mat)        # ! 이거를 잘라가면 됨
+
+        # print('IMNO_REP')
+        # print(representations.tolist())
+        # exit()
+
+        print('START')
+        # print(type(representations))        # <class 'torch.Tensor'>
+        # print(representations.shape)        # torch.Size([2063, 64])
+
+        rep_list=representations.tolist()
+        # print(type(rep_list[0][0]))       # float
+        # exit()
+        for line in rep_list:
+            print(line)
+        print('END')
+        exit()
 
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
         g = dgl.graph((column, row), num_nodes=self.norm_adj.shape[0], device=self.device)
+
+        # 밑에는 LightGCN 로직
         for _ in range(self.n_layers):
             representations = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=representations, rhs_data=self.norm_adj.values())
             all_layer_rep.append(representations)
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
         final_rep = all_layer_rep.mean(dim=0)
         
-        # print(f'FINAL REPRESENTATIONS: {final_rep}')
-        # print(f'IGCN ALL_EMB SHAPE: {final_rep.shape}')
+        # print('\n#########################################INMO EMBEDDING#########################################\n')
+        # # print(type(final_rep))  # <class 'torch.Tensor'>
+        # print(final_rep.shape)      # torch.Size([2063, 64])
+        # # print(final_rep.tolist())
+        # print('\n################################################################################################\n')
         # exit()
         
         return final_rep

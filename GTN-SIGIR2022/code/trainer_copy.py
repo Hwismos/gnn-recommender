@@ -83,8 +83,7 @@ class BasicTrainer:
                 continue
 
             start_time = time.time()
-            # ! results, metrics = self.eval('eval')
-            results, metrics = self.eval('test')
+            results, metrics = self.eval('val')
             consumed_time = time.time() - start_time
             if verbose:
                 print('Validation result. {:s}Time: {:.3f}s'.format(results, consumed_time))
@@ -305,6 +304,12 @@ class IGCNTrainer(BasicTrainer):
         losses = AverageMeter()
         for batch_data, a_batch_data in zip(self.dataloader, self.aux_dataloader):
             inputs = batch_data[:, 0, :].to(device=self.device, dtype=torch.int64)
+
+            # print('\n##########################################################################################\n')
+            # print(type(inputs))     # <class 'torch.Tensor'>
+            # print(inputs.shape)     # torch.Size([512, 3])
+            # print('\n##########################################################################################\n')
+
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
             users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
@@ -316,9 +321,18 @@ class IGCNTrainer(BasicTrainer):
             users_r = self.model.embedding(users)
             pos_items_r = self.model.embedding(pos_items + len(self.model.user_map))
             neg_items_r = self.model.embedding(neg_items + len(self.model.user_map))
+
             pos_scores = torch.sum(users_r * pos_items_r * self.model.w[None, :], dim=1)
             neg_scores = torch.sum(users_r * neg_items_r * self.model.w[None, :], dim=1)
             aux_loss = F.softplus(neg_scores - pos_scores).mean()
+
+            # print('\n##########################################################################################\n')
+            # print(type(users_r))     # <class 'torch.Tensor'>
+            # print(users_r.shape)        # torch.Size([512, 64])
+            # print(pos_items_r.shape)        # torch.Size([512, 64])
+            # print(pos_items_r.shape)        # torch.Size([512, 64])
+            # print('\n##########################################################################################\n')    
+            # exit()
 
             reg_loss = self.l2_reg * l2_norm_sq.mean() + self.aux_reg * aux_loss
             loss = bpr_loss + reg_loss

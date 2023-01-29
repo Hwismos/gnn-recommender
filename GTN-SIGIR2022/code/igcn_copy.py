@@ -41,15 +41,9 @@ def main():
     # .py 지움
     log_path = __file__[:-3]
 
-    # print(f'MODEL: {log_path}')
-    # exit()
-
     # utils 모듈의 메소드
     # log 경로와 시드 값을 인자로 전달
     init_run(log_path, 2021)
-    # 파라미터를 딕셔너리를 이용해 저장
-    # learning rate, L2 regularization coefficient, dropout
-    # aux_reg는 뭔지 모르겠음
 
     # param_grid = {'lr': [1.e-3], 'l2_reg': [0., 1.e-5], 'dropout': [0., 0.1, 0.3],
     #               'aux_reg': [1.e-3, 1.e-2, 1.e-1]}

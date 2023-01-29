@@ -26,7 +26,8 @@ torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
-CORES = multiprocessing.cpu_count() // 4
+# CORES = multiprocessing.cpu_count() // 4
+CORES = multiprocessing.cpu_count()
 
 # observed interaction에 대한 prediction score가 unobserved interaction보다 높은 값을 가지는 것을 가정해 파라미터들을 최적화
 def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=None):

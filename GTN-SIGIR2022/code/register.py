@@ -52,5 +52,4 @@ print('===========end===================')
 # key는 gtn, value는 model 모듈의 GTN 클래스
 MODELS = {
     'gtn': model.GTN,
-    'lgn': model.LightGCN,
 }

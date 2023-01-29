@@ -69,187 +69,6 @@ class PairWiseModel(BasicModel):
         """
         raise NotImplementedError
 
-# LightGCN 모델 추가
-
-
-class LightGCN(BasicModel):
-    def __init__(self,
-                config: dict,
-                dataset: BasicDataset):
-        super(LightGCN, self).__init__()
-        self.config = config
-        self.dataset: dataloader.BasicDataset = dataset
-        self.__init_weight()
-
-    def __init_weight(self):
-        self.num_users = self.dataset.n_users
-        self.num_items = self.dataset.m_items
-
-        # igcn 논문의 gowall/time 디렉토리의 데이터셋으로 맞춤
-        # print(f'N_USERS: {self.dataset.n_users}')
-        # print(f'N_ITEMS: {self.dataset.m_items}')
-        # exit()
-
-        self.latent_dim = self.config['latent_dim_rec']
-        self.n_layers = 3   # self.config['lightGCN_n_layers']
-        self.keep_prob = self.config['keep_prob']
-        self.A_split = self.config['A_split']
-        self.embedding_user = torch.nn.Embedding(num_embeddings=self.num_users,
-                                                embedding_dim=self.latent_dim)
-        self.embedding_item = torch.nn.Embedding(num_embeddings=self.num_items,
-                                                embedding_dim=self.latent_dim)
-        if self.config['pretrain'] == 0:
-            # nn.init.xavier_uniform_(self.embedding_user.weight, gain=1)
-            # nn.init.xavier_uniform_(self.embedding_item.weight, gain=1)
-            # print('use xavier initilizer')
-            # random normal init seems to be a better choice when lightGCN actually don't use any non-linear activation function
-            nn.init.normal_(self.embedding_user.weight, std=0.1)
-            nn.init.normal_(self.embedding_item.weight, std=0.1)
-            world.cprint('use NORMAL distribution initilizer')
-        else:
-            self.embedding_user.weight.data.copy_(
-                torch.from_numpy(self.config['user_emb']))
-            self.embedding_item.weight.data.copy_(
-                torch.from_numpy(self.config['item_emb']))
-            print('use pretarined data')
-
-        users_emb = self.embedding_user.weight
-        items_emb = self.embedding_item.weight
-        all_emb = torch.cat([users_emb, items_emb])
-
-        # print(f'ALL_EMB: {all_emb}')
-        print(f'LightGCN ALL_EMB SHAPE: {all_emb.shape}')
-        # igcn_copy.main()
-
-        # inmo 모듈 적용
-        # model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': 'cuda', 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': self.dataset}
-        # final_rep = model_of_igcn_cf.IGCN(model_config).get_rep
-        # print(f'FINAL EMBEDDING: {final_rep.shape}')
-        # exit()
-
-        self.f = nn.Sigmoid()
-        self.Graph = self.dataset.getSparseGraph()
-
-        # print(f'유저 임베딩: {self.embedding_user}')
-        # print(f'아이템 임베딩: {self.embedding_item}')
-        # print(f'유저 임베딩 타입: {type(self.embedding_user)}')
-        # exit()
-
-        print(f"lgn is already to go(dropout:{self.config['dropout']})")
-
-        # print("save_txt")
-    def __dropout_x(self, x, keep_prob):
-        size = x.size()
-        index = x.indices().t()
-        values = x.values()
-        random_index = torch.rand(len(values)) + keep_prob
-        random_index = random_index.int().bool()
-        index = index[random_index]
-        values = values[random_index]/keep_prob
-        g = torch.sparse.FloatTensor(index.t(), values, size)
-        return g
-
-    def __dropout(self, keep_prob):
-        if self.A_split:
-            graph = []
-            for g in self.Graph:
-                graph.append(self.__dropout_x(g, keep_prob))
-        else:
-            graph = self.__dropout_x(self.Graph, keep_prob)
-        return graph
-
-    def computer(self):
-        """
-        propagate methods for lightGCN
-        """
-        users_emb = self.embedding_user.weight
-        items_emb = self.embedding_item.weight
-        all_emb = torch.cat([users_emb, items_emb])
-
-        # print(f'ALL_EMB: {all_emb}')
-        # print(f'ALL_EMB SHAPE: {all_emb.shape}')
-        # exit()
-
-        #   torch.split(all_emb , [self.num_users, self.num_items])
-        embs = [all_emb]
-
-
-        if self.config['dropout']:
-            if self.training:
-                print("droping")
-                g_droped = self.__dropout(self.keep_prob)
-            else:
-                g_droped = self.Graph
-        else:
-            g_droped = self.Graph
-
-        for layer in range(self.n_layers):
-            if self.A_split:
-                temp_emb = []
-                for f in range(len(g_droped)):
-                    temp_emb.append(torch.sparse.mm(g_droped[f], all_emb))
-                side_emb = torch.cat(temp_emb, dim=0)
-                all_emb = side_emb
-            else:
-                all_emb = torch.sparse.mm(g_droped, all_emb)
-            embs.append(all_emb)
-        embs = torch.stack(embs, dim=1)
-        # print(embs.size())
-        light_out = torch.mean(embs, dim=1)
-        users, items = torch.split(light_out, [self.num_users, self.num_items])
-        return users, items
-
-    def getUsersRating(self, users):
-        all_users, all_items = self.computer()
-        users_emb = all_users[users.long()]
-        items_emb = all_items
-
-        # print(f'유저 임베딩: {users_emb}')
-        # print(f'유저 임베딩 shape: {users_emb.shape}')
-        # print(f'아이템 임베딩: {items_emb}')
-        # print(f'아이템 임베딩 shape: {items_emb.shape}')
-        # exit()
-
-        rating = self.f(torch.matmul(users_emb, items_emb.t()))
-        return rating
-
-    def getEmbedding(self, users, pos_items, neg_items):
-        all_users, all_items = self.computer()
-        users_emb = all_users[users]
-        pos_emb = all_items[pos_items]
-        neg_emb = all_items[neg_items]
-        users_emb_ego = self.embedding_user(users)
-        pos_emb_ego = self.embedding_item(pos_items)
-        neg_emb_ego = self.embedding_item(neg_items)
-        return users_emb, pos_emb, neg_emb, users_emb_ego, pos_emb_ego, neg_emb_ego
-
-    def bpr_loss(self, users, pos, neg):
-        (users_emb, pos_emb, neg_emb, 
-        userEmb0,  posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
-        reg_loss = (1/2)*(userEmb0.norm(2).pow(2) + 
-                            posEmb0.norm(2).pow(2)  +
-                            negEmb0.norm(2).pow(2))/float(len(users))
-        pos_scores = torch.mul(users_emb, pos_emb)
-        pos_scores = torch.sum(pos_scores, dim=1)
-        neg_scores = torch.mul(users_emb, neg_emb)
-        neg_scores = torch.sum(neg_scores, dim=1)
-
-        loss = torch.mean(torch.nn.functional.softplus(
-            neg_scores - pos_scores))
-
-        return loss, reg_loss
-
-    def forward(self, users, items):
-        # compute embedding
-        all_users, all_items = self.computer()
-        # print('forward')
-        #all_users, all_items = self.computer()
-        users_emb = all_users[users]
-        items_emb = all_items[items]
-        inner_pro = torch.mul(users_emb, items_emb)
-        gamma = torch.sum(inner_pro, dim=1)
-        return gamma
-
 
 class GTN(BasicModel):
     def __init__(self, config: dict, dataset: BasicDataset, args):
@@ -317,9 +136,57 @@ class GTN(BasicModel):
         """
         propagate methods for lightGCN
         """
+
+        # print('\n##########################################################################################\n')
+        # # # print(type(self.embedding_user))    # <class 'torch.nn.modules.sparse.Embedding'>
+        # # # # print(self.embedding_user.shape)
+        # # # print('\n\n\n')
+        # # # print(type(self.embedding_user.weight))     # <class 'torch.nn.parameter.Parameter'>
+        # # print(self.embedding_user.weight.shape)   # torch.Size([458, 64])
+        # # print(self.embedding_item.weight.shape)     # torch.Size([1605, 64])            # 총합 2063
+        # print('\n##########################################################################################\n')
+        # exit()
+
+
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
-        all_emb = torch.cat([users_emb, items_emb])
+        all_emb = torch.cat([users_emb, items_emb])     # ! 여기에 붙이면 됨
+        # <class 'torch.Tensor'>
+        # torch.Size([2063, 64])
+
+
+        # # =======================================붙여보겠음==================================================
+        # with open('/content/drive/MyDrive/3학년_겨울방학공학연구인턴십/Internship/GTN-SIGIR2022/code/igcn_copy/log.txt', 'r') as f:
+        #     flag=False
+        #     all_emb=[]
+        #     for line in f:
+        #         line=''.join(line.rstrip('\n'))
+        #         if flag==False:
+        #             if line!='START':
+        #                 continue
+        #             else:
+        #                 flag=True
+        #         else:
+        #             # line=line[1:-1].split(', ')
+        #             if line=='END':
+        #                 continue
+        #             line=list(map(float, line[1:-1].split(', ')))
+        #             all_emb.append(line)
+        # # print(len(all_emb))
+        # # print(len(all_emb[0]))
+        # all_emb=torch.FloatTensor(all_emb).to(world.device)
+        # # print(type(all_emb))    # <class 'torch.Tensor'>
+        # # print(all_emb.shape)    # torch.Size([2063, 64])
+        # # exit()
+        # # ===================================================================================================
+
+
+        # print('\n##########################################################################################\n')
+        # print(type(all_emb))    # <class 'torch.Tensor'>
+        # print(all_emb.shape)        # torch.Size([2063, 64])
+        # print('\n##########################################################################################\n')
+        # exit()
+
         if self.config['dropout']:
             if self.training:
                 g_droped = self.__dropout(self.keep_prob)

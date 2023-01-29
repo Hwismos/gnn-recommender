@@ -154,12 +154,12 @@ class ProcessedDataset(BasicDataset):
         # self.val_data = self.read_data(os.path.join(dataset_config['path'], 'val.txt'))
         self.val_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         self.test_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
-        
-        # print(self.train_data)
 
         # 여기서 막혔었음
-        # assert len(self.train_data) == len(self.val_data)
-        # assert len(self.train_data) == len(self.test_data)
+        # 유저 수가 같아야 함
+        # 다르면 문제가 되는 거였음
+        assert len(self.train_data) == len(self.val_data)
+        assert len(self.train_data) == len(self.test_data)
         self.n_users = len(self.train_data)
 
         self.train_array = []
