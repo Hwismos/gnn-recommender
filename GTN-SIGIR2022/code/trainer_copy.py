@@ -23,7 +23,10 @@ def get_trainer(config, dataset, model):
 
 class BasicTrainer:
     def __init__(self, trainer_config):
-        print(trainer_config)
+        print('=============================IGCN-CONFIG===========================================')
+        for key, value in trainer_config.items():
+            print(f'{key}: {value}')
+        print('===================================================================================')
         self.config = trainer_config
         self.name = trainer_config['name']
         self.dataset = trainer_config['dataset']
@@ -69,7 +72,13 @@ class BasicTrainer:
         for self.epoch in range(self.n_epochs):
             start_time = time.time()
             self.model.train()
-            loss = self.train_one_epoch()
+            # * loss = self.train_one_epoch()
+
+            # ! ===================================================================================================
+            final_rep=self.train_one_epoch()
+            return final_rep
+            # ! ===================================================================================================
+
             _, metrics = self.eval('train')
             consumed_time = time.time() - start_time
             if verbose:
@@ -311,7 +320,13 @@ class IGCNTrainer(BasicTrainer):
             # print('\n##########################################################################################\n')
 
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
-            users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
+            # * users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
+
+            # ! ===================================================================================================
+            final_rep=self.model.bpr_forward(users, pos_items, neg_items)
+            return final_rep
+            # ! =================================================================================================== 
+
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
             neg_scores = torch.sum(users_r * neg_items_r, dim=1)
             bpr_loss = F.softplus(neg_scores - pos_scores).mean()

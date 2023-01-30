@@ -90,10 +90,55 @@ class GTN(BasicModel):
         self.n_layers = self.args.K
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
+        
+        
+        # # * 여기 임베딩을 바꿔줘야 학습이 진행될 수 있을 것 같음
+        # # ! ===================================================================================================
+        # with open('/home/hwiric/Internship/GTN-SIGIR2022/code/igcn_copy/log.txt', 'r') as f:
+        #     flag=False
+        #     all_emb=[]
+        #     for line in f:
+        #         line=''.join(line.rstrip('\n'))
+        #         if flag==False:
+        #             if line!='START':
+        #                 continue
+        #             else:
+        #                 flag=True
+        #         else:
+        #             # line=line[1:-1].split(', ')
+        #             if line=='END':
+        #                 continue
+        #             line=list(map(float, line[1:-1].split(', ')))
+        #             all_emb.append(line)
+        # all_emb=torch.FloatTensor(all_emb).to(world.device)
+        # # ! ===================================================================================================
+
+        # ? ===================================================================================================
         self.embedding_user = torch.nn.Embedding(
-            num_embeddings=self.num_users, embedding_dim=self.latent_dim)
+            num_embeddings=self.num_users, 
+            embedding_dim=self.latent_dim)
         self.embedding_item = torch.nn.Embedding(
-            num_embeddings=self.num_items, embedding_dim=self.latent_dim)
+            num_embeddings=self.num_items, 
+            embedding_dim=self.latent_dim)
+        # ? ===================================================================================================
+        
+        # ! ===================================================================================================
+        import igcn_copy
+
+        final_rep=igcn_copy.main()
+        print(final_rep.shape)
+        # all_emb_tuple=torch.split(all_emb, [self.num_users, self.num_items])
+        # # Tensor
+        # # self.embedding_user=all_emb_tuple[0]       
+        # # self.embedding_item=all_emb_tuple[1]
+        # self.embedding_user.weight=all_emb_tuple[0]       
+        # self.embedding_item.weight=all_emb_tuple[1]
+
+        # print(self.embedding_user.weight.shape)
+        # print(self.embedding_item.weight.shape)
+        exit()
+        # ! ===================================================================================================
+        
         if self.config['pretrain'] == 0:
             nn.init.normal_(self.embedding_user.weight, std=0.1)
             nn.init.normal_(self.embedding_item.weight, std=0.1)

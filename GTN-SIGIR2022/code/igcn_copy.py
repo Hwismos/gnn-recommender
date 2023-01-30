@@ -43,7 +43,7 @@ def main():
 
     # utils 모듈의 메소드
     # log 경로와 시드 값을 인자로 전달
-    init_run(log_path, 2021)
+    # ! init_run(log_path, 2021)
 
     # param_grid = {'lr': [1.e-3], 'l2_reg': [0., 1.e-5], 'dropout': [0., 0.1, 0.3],
     #               'aux_reg': [1.e-3, 1.e-2, 1.e-1]}
@@ -61,7 +61,15 @@ def main():
 
     for params in grid:
         # ndcg(평가 메트릭) 값이 가장 큰 파라미터를 찾음
-        ndcg = fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])
+        # * ndcg = fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])
+
+        # ! ===================================================================================
+        final_rep=fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])
+        # print(final_rep.shape)
+        print('===========================IGCN-END=================================================')
+        return final_rep
+        # ! ===================================================================================
+        
         print('NDCG: {:.3f}, Parameters: {:s}'.format(ndcg, str(params)))
         if ndcg > max_ndcg:
             max_ndcg = ndcg

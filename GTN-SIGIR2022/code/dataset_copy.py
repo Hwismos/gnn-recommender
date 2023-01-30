@@ -71,7 +71,9 @@ class BasicDataset(Dataset):
         self.val_data = None
         self.test_data = None
         self.train_array = None
+        print('============================================IGCN===================================================')
         print('init dataset ' + dataset_config['name'])
+        print('===================================================================================================')
 
     def remove_sparse_ui(self, user_inter_sets, item_inter_sets):
         not_stop = True

@@ -306,6 +306,11 @@ class NGCF(BasicModel):
 
     def bpr_forward(self, users, pos_items, neg_items):
         rep = self.get_rep()
+
+        # ! ===================================================================================================
+        return rep
+        # ! ===================================================================================================
+        
         users_r = rep[users, :]
 
         pos_items_r, neg_items_r = rep[self.n_users + pos_items, :], rep[self.n_users + neg_items, :]
@@ -336,7 +341,7 @@ class ItemKNN(BasicModel):
 
     def calculate_similarity(self, dataset):
         data_mat = sp.coo_matrix((np.ones((len(dataset.train_array),)), np.array(dataset.train_array).T),
-                                 shape=(self.n_users, self.n_items), dtype=np.float32).tocsr()
+                                shape=(self.n_users, self.n_items), dtype=np.float32).tocsr()
         item_degree = np.array(np.sum(data_mat, axis=0)).squeeze()
         row = []
         col = []
@@ -440,9 +445,24 @@ class IGCN(BasicModel):
         for item in range(self.n_items):
             indices.append([self.n_users + item, user_dim + item_dim + 1])
         feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
-                            shape=(self.n_users + self.n_items, user_dim + item_dim + 2), dtype=np.float32).tocsr()
+                            shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
+                            dtype=np.float32).tocsr()
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
         feat = get_sparse_tensor(feat, self.device)
+        
+        '''
+        torch.Size([2063, 2065])
+        tensor([[   0,    0,    0,  ..., 2061, 2062, 2062],
+                [ 460,  461,  462,  ..., 2064,  455, 2064]], device='cuda:0')
+        2063
+        2065
+        '''
+        # print(feat.shape)
+        # print(feat.indices())
+        # print(feat.shape[0])
+        # print(feat.shape[1])
+        # exit()
+        
         return feat, user_map, item_map, row_sum
 
     def inductive_rep_layer(self, feat_mat):
@@ -463,18 +483,20 @@ class IGCN(BasicModel):
         # print('IMNO_REP')
         # print(representations.tolist())
         # exit()
+        
+        # # ! ===================================================================================================
+        # print('START')
+        # # print(type(representations))        # <class 'torch.Tensor'>
+        # # print(representations.shape)        # torch.Size([2063, 64])
 
-        print('START')
-        # print(type(representations))        # <class 'torch.Tensor'>
-        # print(representations.shape)        # torch.Size([2063, 64])
-
-        rep_list=representations.tolist()
-        # print(type(rep_list[0][0]))       # float
+        # rep_list=representations.tolist()
+        # # print(type(rep_list[0][0]))       # float
+        # # exit()
+        # for line in rep_list:
+        #     print(line)
+        # print('END')
         # exit()
-        for line in rep_list:
-            print(line)
-        print('END')
-        exit()
+        # # ! ===================================================================================================
 
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
@@ -496,6 +518,7 @@ class IGCN(BasicModel):
         
         return final_rep
 
+    # 배치 사이즈 수 → 유저 수
     def bpr_forward(self, users, pos_items, neg_items):
         return NGCF.bpr_forward(self, users, pos_items, neg_items)
 

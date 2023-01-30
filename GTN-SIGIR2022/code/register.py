@@ -37,7 +37,7 @@ elif world.dataset == 'lastfm':
     # lastfm 로딩 객체 추가
     dataset = dataloader.LastFM()
 
-print('===========config================')
+print('========================================CONFIG=====================================================')
 pprint(world.config)
 print("cores for test:", world.CORES)
 print("comment:", world.comment)
@@ -46,7 +46,7 @@ print("LOAD:", world.LOAD)
 print("Weight path:", world.PATH)
 print("Test Topks:", world.topks)
 print("using bpr loss")
-print('===========end===================')
+print('==========================================END======================================================')
 
 # Model 사전 자료형
 # key는 gtn, value는 model 모듈의 GTN 클래스
