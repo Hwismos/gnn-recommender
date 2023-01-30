@@ -109,7 +109,7 @@ try:
         # Procedure 모듈의 BPR_train_original 객체 생성
         # 에포크마다 객체를 다시 생성?
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w)
-
+    
         if epoch % 10 == 0:
             cprint("[TEST]")
             # 에포크가 5의 배수일 때마다 Procedure 모듈의 Test 객체 생성

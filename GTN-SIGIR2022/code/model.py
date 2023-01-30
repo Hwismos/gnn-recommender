@@ -113,28 +113,57 @@ class GTN(BasicModel):
         # all_emb=torch.FloatTensor(all_emb).to(world.device)
         # # ! ===================================================================================================
 
-        # ? ===================================================================================================
-        self.embedding_user = torch.nn.Embedding(
-            num_embeddings=self.num_users, 
-            embedding_dim=self.latent_dim)
-        self.embedding_item = torch.nn.Embedding(
-            num_embeddings=self.num_items, 
-            embedding_dim=self.latent_dim)
+        # ? ======================================ORIGINAL======================================================
+        # self.embedding_user = torch.nn.Embedding(
+        #     num_embeddings=self.num_users, 
+        #     embedding_dim=self.latent_dim)
+        # self.embedding_item = torch.nn.Embedding(
+        #     num_embeddings=self.num_items, 
+        #     embedding_dim=self.latent_dim)
         # ? ===================================================================================================
         
-        # ! ===================================================================================================
+        # ? ===========================================연결======================================================
         import igcn_copy
 
         final_rep=igcn_copy.main()
+
+        all_emb=torch.split(final_rep, [self.num_users, self.num_items])
+        e_user, e_item=all_emb[0], all_emb[1]
+        
+        emb_user=nn.Embedding.from_pretrained(e_user, freeze=False)
+        emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
+        
+        '''
+        <class 'torch.nn.modules.sparse.Embedding'>
+        <class 'torch.nn.parameter.Parameter'>
+        torch.Size([458, 64])
+
+        <class 'torch.nn.modules.sparse.Embedding'>
+        <class 'torch.nn.parameter.Parameter'>
+        torch.Size([1605, 64])
+        '''
+        # print(type(emb_user))
+        # print(type(emb_user.weight))
+        # print(emb_user.weight.shape)
+        # print()
+        # print(type(emb_item))
+        # print(type(emb_item.weight))
+        # print(emb_item.weight.shape)
+
+        self.embedding_user = emb_user
+        self.embedding_item = emb_item
+        # ? ===================================================================================================
+        
+        # * =====================================연결실험==========================================================
         # all_emb=torch.split(final_rep, [self.num_users, self.num_items])
         # # print(type(all_emb))  # tuple
         # e_user, e_item=all_emb[0], all_emb[1]
         # print(type(e_user)) # torch.Tensor
         # print(type(e_item)) # torch.Tensor
 
-        li=final_rep.unbind()
+        # li=final_rep.unbind()
+        # print(len(li))
 
-        print(len(li))
 
         # print(type(final_rep))      # <class 'torch.Tensor'>
         # print(final_rep.shape)  # torch.Size([2063, 64])
@@ -147,8 +176,8 @@ class GTN(BasicModel):
 
         # print(self.embedding_user.weight.shape)
         # print(self.embedding_item.weight.shape)
-        exit()
-        # ! ===================================================================================================
+        # exit()
+        # * ===================================================================================================
         
         if self.config['pretrain'] == 0:
             nn.init.normal_(self.embedding_user.weight, std=0.1)
