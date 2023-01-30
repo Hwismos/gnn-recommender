@@ -396,7 +396,7 @@ class IGCN(BasicModel):
                                 ranking_metric=model_config.get('ranking_metric', 'sort'))
         self.update_feat_mat()
 
-        self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)
+        self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)  # (2065, 64)
         self.w = nn.Parameter(torch.ones([self.embedding_size], dtype=torch.float32, device=self.device))
         normal_(self.embedding.weight, std=0.1)
         self.to(device=self.device)
@@ -467,18 +467,27 @@ class IGCN(BasicModel):
 
     def inductive_rep_layer(self, feat_mat):
         padding_tensor = torch.empty([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size],
-                                    dtype=torch.float32, device=self.device)
+                                    dtype=torch.float32, 
+                                    device=self.device)
         padding_features = torch.cat([self.embedding.weight, padding_tensor], dim=0)
+
+        # print(padding_tensor.shape)
+        # print(padding_features.shape)
 
         row, column = feat_mat.indices()
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
-        x = x[:self.feat_mat.shape[0], :]
+        x = x[:self.feat_mat.shape[0], :]   #[ : 2063, : ]
         return x
 
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = self.inductive_rep_layer(feat_mat)        # ! 이거를 잘라가면 됨
+
+        # ! ===================================================================================================
+        # LightGCN으로 학습되기 전에 반환
+        return representations
+        # ! ===================================================================================================
 
         # print('IMNO_REP')
         # print(representations.tolist())

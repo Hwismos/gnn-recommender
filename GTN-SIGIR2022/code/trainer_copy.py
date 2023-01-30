@@ -320,6 +320,9 @@ class IGCNTrainer(BasicTrainer):
             # print('\n##########################################################################################\n')
 
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
+            # print(users)      # torch.Size([512, 1])
+            # print(pos_items)  # torch.Size([512, 1])
+            # print(neg_items)  # torch.Size([512, 1])
             # * users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
 
             # ! ===================================================================================================

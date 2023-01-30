@@ -126,7 +126,18 @@ class GTN(BasicModel):
         import igcn_copy
 
         final_rep=igcn_copy.main()
-        print(final_rep.shape)
+        # all_emb=torch.split(final_rep, [self.num_users, self.num_items])
+        # # print(type(all_emb))  # tuple
+        # e_user, e_item=all_emb[0], all_emb[1]
+        # print(type(e_user)) # torch.Tensor
+        # print(type(e_item)) # torch.Tensor
+
+        li=final_rep.unbind()
+
+        print(len(li))
+
+        # print(type(final_rep))      # <class 'torch.Tensor'>
+        # print(final_rep.shape)  # torch.Size([2063, 64])
         # all_emb_tuple=torch.split(all_emb, [self.num_users, self.num_items])
         # # Tensor
         # # self.embedding_user=all_emb_tuple[0]       
@@ -195,7 +206,7 @@ class GTN(BasicModel):
 
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
-        all_emb = torch.cat([users_emb, items_emb])     # ! 여기에 붙이면 됨
+        all_emb = torch.cat([users_emb, items_emb])     # ! 여기에 붙이면 됨 → 아님
         # <class 'torch.Tensor'>
         # torch.Size([2063, 64])
 
