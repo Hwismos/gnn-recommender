@@ -114,72 +114,30 @@ class GTN(BasicModel):
         # # ! ===================================================================================================
 
         # ? ======================================ORIGINAL======================================================
-        # self.embedding_user = torch.nn.Embedding(
-        #     num_embeddings=self.num_users, 
-        #     embedding_dim=self.latent_dim)
-        # self.embedding_item = torch.nn.Embedding(
-        #     num_embeddings=self.num_items, 
-        #     embedding_dim=self.latent_dim)
+        self.embedding_user = torch.nn.Embedding(
+            num_embeddings=self.num_users, 
+            embedding_dim=self.latent_dim)
+        self.embedding_item = torch.nn.Embedding(
+            num_embeddings=self.num_items, 
+            embedding_dim=self.latent_dim)
 
         # ? ===================================================================================================
         
         # ? ===========================================연결======================================================
-        import igcn_copy
+        # import igcn_copy
 
-        final_rep=igcn_copy.main()
-
-        all_emb=torch.split(final_rep, [self.num_users, self.num_items])
-        e_user, e_item=all_emb[0], all_emb[1]
-        
-        emb_user=nn.Embedding.from_pretrained(e_user, freeze=False)
-        emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
-        
-
-        self.embedding_user = emb_user
-        self.embedding_item = emb_item
-        # ? ===================================================================================================
-        
-        # * =====================================연결실험==========================================================
-        '''
-        <class 'torch.nn.modules.sparse.Embedding'>
-        <class 'torch.nn.parameter.Parameter'>
-        torch.Size([458, 64])
-
-        <class 'torch.nn.modules.sparse.Embedding'>
-        <class 'torch.nn.parameter.Parameter'>
-        torch.Size([1605, 64])
-        '''
-        # print(type(emb_user))
-        # print(type(emb_user.weight))
-        # print(emb_user.weight.shape)
-        # print()
-        # print(type(emb_item))
-        # print(type(emb_item.weight))
-        # print(emb_item.weight.shape)
+        # final_rep=igcn_copy.main()
 
         # all_emb=torch.split(final_rep, [self.num_users, self.num_items])
-        # # print(type(all_emb))  # tuple
         # e_user, e_item=all_emb[0], all_emb[1]
-        # print(type(e_user)) # torch.Tensor
-        # print(type(e_item)) # torch.Tensor
+        
+        # emb_user=nn.Embedding.from_pretrained(e_user, freeze=False)
+        # emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
+        
 
-        # li=final_rep.unbind()
-        # print(len(li))
-
-
-        # print(type(final_rep))      # <class 'torch.Tensor'>
-        # print(final_rep.shape)  # torch.Size([2063, 64])
-        # all_emb_tuple=torch.split(all_emb, [self.num_users, self.num_items])
-        # # Tensor
-        # # self.embedding_user=all_emb_tuple[0]       
-        # # self.embedding_item=all_emb_tuple[1]
-        # self.embedding_user.weight=all_emb_tuple[0]       
-        # self.embedding_item.weight=all_emb_tuple[1]
-
-        # print(self.embedding_user.weight.shape)
-        # print(self.embedding_item.weight.shape)
-        # exit()
-        # * ===================================================================================================
+        # self.embedding_user = emb_user
+        # self.embedding_item = emb_item
+        # ? ===================================================================================================
         
         if self.config['pretrain'] == 0:
             nn.init.normal_(self.embedding_user.weight, std=0.1)
@@ -238,41 +196,9 @@ class GTN(BasicModel):
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])     # ! 여기에 붙이면 됨 → 아님
+
         # <class 'torch.Tensor'>
         # torch.Size([2063, 64])
-
-
-        # # =======================================붙여보겠음==================================================
-        # with open('/content/drive/MyDrive/3학년_겨울방학공학연구인턴십/Internship/GTN-SIGIR2022/code/igcn_copy/log.txt', 'r') as f:
-        #     flag=False
-        #     all_emb=[]
-        #     for line in f:
-        #         line=''.join(line.rstrip('\n'))
-        #         if flag==False:
-        #             if line!='START':
-        #                 continue
-        #             else:
-        #                 flag=True
-        #         else:
-        #             # line=line[1:-1].split(', ')
-        #             if line=='END':
-        #                 continue
-        #             line=list(map(float, line[1:-1].split(', ')))
-        #             all_emb.append(line)
-        # # print(len(all_emb))
-        # # print(len(all_emb[0]))
-        # all_emb=torch.FloatTensor(all_emb).to(world.device)
-        # # print(type(all_emb))    # <class 'torch.Tensor'>
-        # # print(all_emb.shape)    # torch.Size([2063, 64])
-        # # exit()
-        # # ===================================================================================================
-
-
-        # print('\n##########################################################################################\n')
-        # print(type(all_emb))    # <class 'torch.Tensor'>
-        # print(all_emb.shape)        # torch.Size([2063, 64])
-        # print('\n##########################################################################################\n')
-        # exit()
 
         if self.config['dropout']:
             if self.training:
@@ -298,8 +224,22 @@ class GTN(BasicModel):
                                     col=c,
                                     value=g_droped.values(),
                                     sparse_sizes=(num_nodes, num_nodes))
+        
         emb, embs = self.gp.forward(x, edge_index, mode=self.args.gcn_model)
         light_out = emb
+
+        '''
+        # ! seed값이 동일해서 임베딩 룩업 테이블은 LightGCN(lgcn_lib)과 정확히 같음
+        tensor([[ 27.2716,  -0.9661,  15.4678,  ..., -11.3022,  24.2125,   0.0000],
+        [ -0.2903,  -0.1734,  -0.0956,  ...,   0.0739,   0.0000,  -0.1329],
+        [ 38.0587,  28.5872, -34.5981,  ..., -29.6428, -27.6292,  -8.7488],
+        ...,
+        [  1.1554,  -0.3685,  -0.7906,  ...,   0.0000,   0.7672,  -0.4871],
+        [  0.4570,  -1.2098,   0.3067,  ...,  -0.5867,   1.4079,  -1.2274],
+        [  1.1645,  -0.2060,   0.0000,  ...,   0.0000,  -0.9328,  -0.7533]],
+        '''
+        # print(f'===========================\n{light_out}\n===========================')
+        # exit()
 
         # 합친 뒤 학습시키고 분리하는 것 같음
         users, items = torch.split(light_out, [self.num_users, self.num_items])
@@ -321,6 +261,10 @@ class GTN(BasicModel):
 
     def getEmbedding(self, users, pos_items, neg_items):
         all_users, all_items = self.computer()
+
+        # print(f'===========================\n{all_users}\n===========================')
+        # exit()
+
         users_emb = all_users[users]
         pos_emb = all_items[pos_items]
         neg_emb = all_items[neg_items]
@@ -335,6 +279,7 @@ class GTN(BasicModel):
         reg_loss = (1 / 2) * (userEmb0.norm(2).pow(2) +
                                 posEmb0.norm(2).pow(2) +
                                 negEmb0.norm(2).pow(2)) / float(len(users))
+        
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
 

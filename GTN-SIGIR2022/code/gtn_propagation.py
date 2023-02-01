@@ -47,15 +47,15 @@ class GeneralPropagation(MessagePassing):
     # *args: 복수 개의 인자를 받을 때 사용
     # **kargs: 딕셔너리 타입으로 인자를 받을 때 사용
     def __init__(self, K: int, alpha: float, dropout: float = 0.,
-                 cached: bool = False,
-                 add_self_loops: bool = True,
-                 add_self_loops_l1: bool = True,
-                 normalize: bool = True,
-                 mode: str = None,
-                 node_num: int = None,
-                 num_classes: int = None,
-                 args=None,
-                 **kwargs):
+                cached: bool = False,
+                add_self_loops: bool = True,
+                add_self_loops_l1: bool = True,
+                normalize: bool = True,
+                mode: str = None,
+                node_num: int = None,
+                num_classes: int = None,
+                args=None,
+                **kwargs):
 
         super(GeneralPropagation, self).__init__(aggr='add', **kwargs)
         self.K = K
@@ -188,8 +188,12 @@ class GeneralPropagation(MessagePassing):
                     edge_index = cache
 
         K_ = self.K if niter is None else niter
-        if mode == None: mode = self.mode
+        
+        if mode == None: 
+            mode = self.mode
+        
         assert edge_weight is None
+        
         if K_ <= 0:
             return x
 

@@ -52,7 +52,7 @@ if not os.path.exists(FILE_PATH):
 
 
 # 모든 데이터셋과 모델들을 리스트로 정의
-all_dataset = ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']
+all_dataset = ['gowalla', 'yelp2018', 'amazon-book', 'lastfm']
 all_models = ['mf', 'gtn', 'lgn']
 
 # config(환경설정) 딕셔너리를 정의

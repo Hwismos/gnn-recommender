@@ -41,12 +41,10 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     total_batch = len(users) // world.config['bpr_batch_size'] + 1
     aver_loss = 0.
     for (batch_i,
-         (batch_users,
-          batch_pos,
-          batch_neg)) in enumerate(utils.minibatch(users,
-                                                   posItems,
-                                                   negItems,
-                                                   batch_size=world.config['bpr_batch_size'])):
+        (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
+                                                                        posItems,
+                                                                        negItems,
+                                                                        batch_size=world.config['bpr_batch_size'])):
         cri = bpr.stageOne(batch_users, batch_pos, batch_neg)
         aver_loss += cri
         if world.tensorboard:

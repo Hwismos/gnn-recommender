@@ -13,7 +13,6 @@ from dataloader import BasicDataset
 from torch import nn
 import numpy as np
 
-from gtn_propagation import GeneralPropagation
 import warnings
 from torch_sparse import SparseTensor
 import torch_geometric.transforms as T
@@ -88,8 +87,8 @@ class PureMF(BasicModel):
         neg_scores= torch.sum(users_emb*neg_emb, dim=1)
         loss = torch.mean(nn.functional.softplus(neg_scores - pos_scores))
         reg_loss = (1/2)*(users_emb.norm(2).pow(2) + 
-                          pos_emb.norm(2).pow(2) + 
-                          neg_emb.norm(2).pow(2))/float(len(users))
+                        pos_emb.norm(2).pow(2) + 
+                        neg_emb.norm(2).pow(2))/float(len(users))
         return loss, reg_loss
         
     def forward(self, users, items):
@@ -102,8 +101,8 @@ class PureMF(BasicModel):
 
 class LightGCN(BasicModel):
     def __init__(self, 
-                 config:dict, 
-                 dataset:BasicDataset):
+                config:dict, 
+                dataset:BasicDataset):
         super(LightGCN, self).__init__()
         self.config = config
         self.dataset : dataloader.BasicDataset = dataset
@@ -164,6 +163,7 @@ class LightGCN(BasicModel):
         users_emb = self.embedding_user.weight
         items_emb = self.embedding_item.weight
         all_emb = torch.cat([users_emb, items_emb])
+
         #   torch.split(all_emb , [self.num_users, self.num_items])
         embs = [all_emb]
         if self.config['dropout']:
@@ -187,9 +187,23 @@ class LightGCN(BasicModel):
             else:
                 all_emb = torch.sparse.mm(g_droped, all_emb)
             embs.append(all_emb)
+        
         embs = torch.stack(embs, dim=1)
         #print(embs.size())
         light_out = torch.mean(embs, dim=1)
+
+        '''
+        tensor([[-0.0238,  0.0356, -0.0534,  ...,  0.0160, -0.0127,  0.0202],
+        [ 0.0137,  0.0310, -0.0025,  ..., -0.0023, -0.0143,  0.0744],
+        [-0.0280, -0.0281,  0.0123,  ..., -0.0215,  0.0263,  0.0219],
+        ...,
+        [ 0.0102, -0.0145,  0.0211,  ...,  0.0178,  0.0038, -0.0510],
+        [-0.0097, -0.0520, -0.0216,  ...,  0.0090, -0.0209,  0.0100],
+        [ 0.0287,  0.0105, -0.0151,  ...,  0.0376,  0.0230,  0.0104]],
+        '''
+        # print(f'===========================\n{light_out}\n===========================')
+        # exit()
+
         users, items = torch.split(light_out, [self.num_users, self.num_items])
         return users, items
     
@@ -202,6 +216,10 @@ class LightGCN(BasicModel):
     
     def getEmbedding(self, users, pos_items, neg_items):
         all_users, all_items = self.computer()
+
+        # print(f'===========================\n{all_users}\n===========================')
+        # exit()
+
         users_emb = all_users[users]
         pos_emb = all_items[pos_items]
         neg_emb = all_items[neg_items]
@@ -214,17 +232,19 @@ class LightGCN(BasicModel):
         (users_emb, pos_emb, neg_emb, 
         userEmb0,  posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1/2)*(userEmb0.norm(2).pow(2) + 
-                         posEmb0.norm(2).pow(2)  +
-                         negEmb0.norm(2).pow(2))/float(len(users))
+                        posEmb0.norm(2).pow(2)  +
+                        negEmb0.norm(2).pow(2))/float(len(users))
+
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
+
         neg_scores = torch.mul(users_emb, neg_emb)
         neg_scores = torch.sum(neg_scores, dim=1)
         
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
         
         return loss, reg_loss
-       
+
     def forward(self, users, items):
         # compute embedding
         all_users, all_items = self.computer()

@@ -31,8 +31,8 @@ except:
 
 class BPRLoss:
     def __init__(self,
-                 recmodel : PairWiseModel,
-                 config : dict):
+                recmodel : PairWiseModel,
+                config : dict):
         self.model = recmodel
         self.weight_decay = config['decay']
         self.lr = config['lr']
@@ -56,7 +56,7 @@ def UniformSample_original(dataset, neg_ratio = 1):
     start = time()
     if sample_ext:
         S = sampling.sample_negative(dataset.n_users, dataset.m_items,
-                                     dataset.trainDataSize, allPos, neg_ratio)
+                                    dataset.trainDataSize, allPos, neg_ratio)
     else:
         S = UniformSample_original_python(dataset)
     return S
