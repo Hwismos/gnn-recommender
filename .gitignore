@@ -1,4 +1,10 @@
 /.idea/
+
 /GTN-SIGIR2022/.idea/
 /GTN-SIGIR2022/code/__pycache__/
+/GTN-SIGIR2022/code/run_GTN/
+
 /igcn_cf/.idea/
+/igcn_cf/__pycache__/
+/igcn_cf/hyperparameter/__pycache__/
+/igcn_cf/hyperparameter/checkpoints/
