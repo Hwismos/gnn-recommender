@@ -17,7 +17,7 @@ def fitness(lr, l2_reg, dropout, aux_reg):
     set_seed(2021)
     device = torch.device('cuda')
     # 데이터셋, 모델, 트레이너 환경 설정
-    dataset_config = {'name': 'ProcessedDataset', 'path': '../data/Gowalla/time',
+    dataset_config = {'name': 'ProcessedDataset', 'path': '../data/Amazon/time',
                     'device': device}
     model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device,
                     'dropout': dropout, 'feature_ratio': 1.}

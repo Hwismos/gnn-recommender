@@ -17,7 +17,6 @@ def get_trainer(config, dataset, model):
     config['model'] = model
     trainer = getattr(sys.modules['trainer'], config['name'])
     trainer = trainer(config)
-    print(f'trainer config: {config}')
     return trainer
 
 
