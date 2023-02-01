@@ -114,12 +114,13 @@ class GTN(BasicModel):
         # # ! ===================================================================================================
 
         # ? ======================================ORIGINAL======================================================
-        # self.embedding_user = torch.nn.Embedding(
-        #     num_embeddings=self.num_users, 
-        #     embedding_dim=self.latent_dim)
-        # self.embedding_item = torch.nn.Embedding(
-        #     num_embeddings=self.num_items, 
-        #     embedding_dim=self.latent_dim)
+        self.embedding_user = torch.nn.Embedding(
+            num_embeddings=self.num_users, 
+            embedding_dim=self.latent_dim)
+        self.embedding_item = torch.nn.Embedding(
+            num_embeddings=self.num_items, 
+            embedding_dim=self.latent_dim)
+
         # ? ===================================================================================================
         
         # ? ===========================================연결======================================================
@@ -133,6 +134,12 @@ class GTN(BasicModel):
         emb_user=nn.Embedding.from_pretrained(e_user, freeze=False)
         emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
         
+
+        # self.embedding_user = emb_user
+        # self.embedding_item = emb_item
+        # ? ===================================================================================================
+        
+        # * =====================================연결실험==========================================================
         '''
         <class 'torch.nn.modules.sparse.Embedding'>
         <class 'torch.nn.parameter.Parameter'>
@@ -150,11 +157,6 @@ class GTN(BasicModel):
         # print(type(emb_item.weight))
         # print(emb_item.weight.shape)
 
-        self.embedding_user = emb_user
-        self.embedding_item = emb_item
-        # ? ===================================================================================================
-        
-        # * =====================================연결실험==========================================================
         # all_emb=torch.split(final_rep, [self.num_users, self.num_items])
         # # print(type(all_emb))  # tuple
         # e_user, e_item=all_emb[0], all_emb[1]
