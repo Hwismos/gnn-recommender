@@ -318,7 +318,7 @@ class ItemKNN(BasicModel):
 
     def calculate_similarity(self, dataset):
         data_mat = sp.coo_matrix((np.ones((len(dataset.train_array),)), np.array(dataset.train_array).T),
-                                 shape=(self.n_users, self.n_items), dtype=np.float32).tocsr()
+                                shape=(self.n_users, self.n_items), dtype=np.float32).tocsr()
         item_degree = np.array(np.sum(data_mat, axis=0)).squeeze()
         row = []
         col = []
@@ -564,8 +564,6 @@ class IMF(IGCN):
     def get_rep(self):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = IGCN.inductive_rep_layer(self, feat_mat)
-        print(f'representations: {representations[0]}')
-        exit()
         return representations
 
 

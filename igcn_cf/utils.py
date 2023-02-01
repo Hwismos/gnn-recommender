@@ -47,9 +47,6 @@ def get_sparse_tensor(mat, device):
 
 
 def generate_daj_mat(dataset):
-    print(f'DATASET 객체정보: {dir(dataset)}')
-    exit()
-
     train_array = np.array(dataset.train_array)
     users, items = train_array[:, 0], train_array[:, 1]
     row = np.concatenate([users, items + dataset.n_users], axis=0)

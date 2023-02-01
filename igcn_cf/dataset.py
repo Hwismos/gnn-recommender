@@ -9,15 +9,7 @@ import json
 
 def get_dataset(config):
     config = config.copy()
-
-    # print(f'CONFIG: {config}')
-    # exit()
-
     dataset = getattr(sys.modules['dataset'], config['name'])
-
-    print(f'SYS MODULES: {dataset}')
-    exit()
-
     dataset = dataset(config)
     return dataset
 
@@ -149,7 +141,8 @@ class ProcessedDataset(BasicDataset):
     def __init__(self, dataset_config):
         super(ProcessedDataset, self).__init__(dataset_config)
         self.train_data = self.read_data(os.path.join(dataset_config['path'], 'train.txt'))
-        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'val.txt'))
+        # val.txt → test.txt
+        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         self.test_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         assert len(self.train_data) == len(self.val_data)
         assert len(self.train_data) == len(self.test_data)
