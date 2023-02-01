@@ -8,3 +8,6 @@
 /igcn_cf/__pycache__/
 /igcn_cf/hyperparameter/__pycache__/
 /igcn_cf/hyperparameter/checkpoints/
+
+
+/LightGCN-PyTorch/data/*/*.npz
