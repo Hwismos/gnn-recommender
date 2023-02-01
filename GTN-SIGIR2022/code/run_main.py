@@ -130,8 +130,10 @@ try:
         # 학습에 걸린 시간 계산
         diff = datetime.datetime.fromtimestamp((end - start))
         diff_mins = diff.strftime("%M:%S")
+        # print(
+        #     f'EPOCH[{epoch + 1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins | Results val Top-k (recall, ndcg):  {recall}, {ndcg}')
         print(
-            f'EPOCH[{epoch + 1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins | Results val Top-k (recall, ndcg):  {recall}, {ndcg}')
+            f'EPOCH[{epoch + 1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins')
 
 # try 이후에 에러가 발생하더라도 무조건 실행
 finally:

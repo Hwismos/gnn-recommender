@@ -82,6 +82,7 @@ GPU = torch.cuda.is_available()
 torch.cuda.set_device(args.gpu_id)
 device = torch.device('cuda' if GPU else "cpu")
 CORES = multiprocessing.cpu_count() // 2
+# CORES = multiprocessing.cpu_count()
 seed = args.seed
 
 dataset = args.dataset

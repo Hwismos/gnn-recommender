@@ -52,6 +52,7 @@ config['bigdata'] = False
 GPU = torch.cuda.is_available()
 device = torch.device('cuda' if GPU else "cpu")
 CORES = multiprocessing.cpu_count() // 2
+# CORES = multiprocessing.cpu_count()
 seed = args.seed
 
 dataset = args.dataset

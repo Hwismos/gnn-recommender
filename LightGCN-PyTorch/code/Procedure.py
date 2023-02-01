@@ -103,6 +103,7 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0):
             batch_users_gpu = torch.Tensor(batch_users).long()
             batch_users_gpu = batch_users_gpu.to(world.device)
 
+            # print(batch_users_gpu) # → 100 epochs
             rating = Recmodel.getUsersRating(batch_users_gpu)
             #rating = rating.cpu()
             exclude_index = []

@@ -10,7 +10,9 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Go lightGCN")
-    parser.add_argument('--bpr_batch', type=int,default=2048,
+
+    parser.add_argument('--bpr_batch', type=int, 
+                        default=512,
                         help="the batch size for bpr loss training procedure")
     parser.add_argument('--recdim', type=int,default=64,
                         help="the embedding size of lightGCN")
@@ -38,8 +40,8 @@ def parse_args():
                         help="enable tensorboard")
     parser.add_argument('--comment', type=str,default="lgn")
     parser.add_argument('--load', type=int,default=0)
-    parser.add_argument('--epochs', type=int,default=1000)
-    parser.add_argument('--multicore', type=int, default=0, help='whether we use multiprocessing or not in test')
+    parser.add_argument('--epochs', type=int,default=101)
+    parser.add_argument('--multicore', type=int, default=1, help='whether we use multiprocessing or not in test')
     parser.add_argument('--pretrain', type=int, default=0, help='whether we use pretrained weight or not')
     parser.add_argument('--seed', type=int, default=2020, help='random seed')
     parser.add_argument('--model', type=str, default='lgn', help='rec-model, support [mf, lgn]')

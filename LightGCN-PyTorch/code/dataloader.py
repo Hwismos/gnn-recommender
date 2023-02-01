@@ -332,6 +332,8 @@ class Loader(BasicDataset):
     def getSparseGraph(self):
         print("loading adjacency matrix")
         if self.Graph is None:
+            # 여기서 에러가 걸렸었음
+            # 미리 만들어둔 것 같음
             try:
                 pre_adj_mat = sp.load_npz(self.path + '/s_pre_adj_mat.npz')
                 print("successfully loaded...")

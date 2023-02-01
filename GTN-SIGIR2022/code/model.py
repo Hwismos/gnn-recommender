@@ -114,12 +114,12 @@ class GTN(BasicModel):
         # # ! ===================================================================================================
 
         # ? ======================================ORIGINAL======================================================
-        self.embedding_user = torch.nn.Embedding(
-            num_embeddings=self.num_users, 
-            embedding_dim=self.latent_dim)
-        self.embedding_item = torch.nn.Embedding(
-            num_embeddings=self.num_items, 
-            embedding_dim=self.latent_dim)
+        # self.embedding_user = torch.nn.Embedding(
+        #     num_embeddings=self.num_users, 
+        #     embedding_dim=self.latent_dim)
+        # self.embedding_item = torch.nn.Embedding(
+        #     num_embeddings=self.num_items, 
+        #     embedding_dim=self.latent_dim)
 
         # ? ===================================================================================================
         
@@ -135,8 +135,8 @@ class GTN(BasicModel):
         emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
         
 
-        # self.embedding_user = emb_user
-        # self.embedding_item = emb_item
+        self.embedding_user = emb_user
+        self.embedding_item = emb_item
         # ? ===================================================================================================
         
         # * =====================================연결실험==========================================================
