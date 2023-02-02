@@ -1,13 +1,11 @@
-/.idea/
+/experiment/main/igcn_cf/.idea/
+/experiment/main/igcn_cf/__pycache__/
+/experiment/main/igcn_cf/hyperparameter/__pycache__/
+/experiment/main/igcn_cf/hyperparameter/checkpoints/
 
-/GTN-SIGIR2022/.idea/
-/GTN-SIGIR2022/code/__pycache__/
-/GTN-SIGIR2022/code/run_GTN/
+/experiment/main/LightGCN-PyTorch/data/*/*.npz
 
-/igcn_cf/.idea/
-/igcn_cf/__pycache__/
-/igcn_cf/hyperparameter/__pycache__/
-/igcn_cf/hyperparameter/checkpoints/
+/experiment/main/GTN-SIGIR2022/.idea/
+/experiment/main/GTN-SIGIR2022/__pycache__/
+/experiment/main/GTN-SIGIR2022/run_GTN/
 
-
-/LightGCN-PyTorch/data/*/*.npz
