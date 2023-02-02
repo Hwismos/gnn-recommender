@@ -89,6 +89,7 @@ class LastFM(BasicDataset):
         trustNet -= 1
         trainData-= 1
         testData -= 1
+
         self.trustNet  = trustNet
         self.trainData = trainData
         self.testData  = testData
@@ -101,6 +102,10 @@ class LastFM(BasicDataset):
         self.testItem  = np.array(testData[:][1])
         self.Graph = None
         print(f"LastFm Sparsity : {(len(self.trainUser) + len(self.testUser))/self.n_users/self.m_items}")
+
+        # print(type(self.trainUser)) # numpy.ndarray
+        # sorted_result=np.sort(self.trainUniqueUsers)
+        # print(sorted_result)  # [   0    1    2 ... 1889 1890 1891]
         
         # (users,users)
         self.socialNet    = csr_matrix((np.ones(len(trustNet)), (trustNet[:,0], trustNet[:,1]) ), shape=(self.n_users,self.n_users))
@@ -279,7 +284,7 @@ class Loader(BasicDataset):
 
         # (users,items), bipartite graph
         self.UserItemNet = csr_matrix((np.ones(len(self.trainUser)), (self.trainUser, self.trainItem)),
-                                      shape=(self.n_user, self.m_item))
+                                    shape=(self.n_user, self.m_item))
         self.users_D = np.array(self.UserItemNet.sum(axis=1)).squeeze()
         self.users_D[self.users_D == 0.] = 1
         self.items_D = np.array(self.UserItemNet.sum(axis=0)).squeeze()
