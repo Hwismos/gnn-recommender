@@ -1,3 +1,4 @@
+import numpy as np
 
 # ? Matrix라는 클래스를 만드세요.
 # ? Dense, Sparse_LIL, Sparse_CSC, Sparse_CSR 이라는 클래스를 만드세요. 이들은 Matrix를 상속한 클래스여야 합니다. 이 4개의 클래스들을 모두 Matrix 클래스라고 부르겠습니다.
@@ -21,11 +22,33 @@ class Matrix():
         '''
         raise NotImplementedError
     
-    # def __add__(self):
-    #     raise NotImplementedError
+    def __add__(self, other):
+        format=[int(self.getDense()[0][0]), int(self.getDense()[0][1])]
+        mat1=self.getDense()[1:]
+        mat2=other.getDense()[1:]
 
-    # def __matmul__(self):
-    #     raise NotImplementedError
+        mat1=np.array(mat1)
+        mat2=np.array(mat2)
+
+        result=[]
+        for row in np.add(mat1, mat2):
+            result.append(list(map(int, row)))
+        result.insert(0, format)
+        return result
+
+    def __matmul__(self, other):
+        format=[int(self.getDense()[0][0]), int(other.getDense()[0][1])]
+        mat1=self.getDense()[1:]
+        mat2=other.getDense()[1:]
+
+        mat1=np.array(mat1)
+        mat2=np.array(mat2)
+
+        result=[]
+        for row in np.matmul(mat1, mat2):
+            result.append(list(map(int, row)))
+        result.insert(0, format)
+        return result
 
     def getDense(self):     # -> dense matrix
         raise NotImplementedError

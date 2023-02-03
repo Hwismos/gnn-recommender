@@ -16,4 +16,9 @@ class Dense(Matrix):
         return f'{self.format}\n{self.shape[0]} {self.shape[1]}\n{nnz_info}'
     
     def getDense(self):
-        return self.nnz
+        row, col=int(self.shape[0]), int(self.shape[1])     # 행렬의 행과 열
+        mat=[]
+        for node in self.nnz:
+            mat.append(list(map(int, node)))
+        mat.insert(0, [str(row), str(col)])     # shape 추가
+        return mat

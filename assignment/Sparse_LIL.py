@@ -23,5 +23,6 @@ class Sparse_LIL(Matrix):
         mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
         for node in self.nnz:
             mat[int(node[0])][int(node[1])]=int(node[2])
+        mat.insert(0, [str(row), str(col)])     # shape 추가
         return mat
         

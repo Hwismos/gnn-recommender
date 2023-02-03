@@ -30,6 +30,7 @@ class Sparse_CSR(Matrix):
         mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
         for node in self.nodes:
             mat[node.row][node.column]=node.value
+        mat.insert(0, [str(row), str(col)])     # shape 추가
         return mat
 
     def _make_entry_nodes(self):

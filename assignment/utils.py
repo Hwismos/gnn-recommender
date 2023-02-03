@@ -1,5 +1,4 @@
 # ===============================NODE====================================
-
 class Node():
     def __init__(self) -> None:
         self.value=None
@@ -45,7 +44,6 @@ class HeadNode(ElementsNode):
 
 # =======================================================================
 # ===============================FILE====================================
-
 import os
 
 # 파일 입출력을 위한 인터페이스 정의
@@ -80,20 +78,49 @@ class FileReader():
 
 # =======================================================================
 # ===============================PARSE===================================
-
 import argparse
 
 # 입력 파일 처리
 # txt 파일이 아니면 에러 메시지 출력 후 프로그램 종료
 def parse_arg():
     parser=argparse.ArgumentParser()
-    parser.add_argument('file')
+    parser.add_argument('arg1')
+    '''
+    # ! nargs
+    # Number of times the argument can be used
+    '''
+    parser.add_argument('arg2', nargs='?', default=None)    
+    parser.add_argument('opt', nargs='?',default=None)
     args=parser.parse_args()
 
-    if args.file[-3:] != 'txt' :
-        print('txt 파일을 입력해주세요.')
-        exit()
-
-    return args.file
-
+    if args.arg2 != None:
+        return args
+    else:
+        return args.arg1
 # =======================================================================
+# ============================CHECKER====================================
+class Checker():
+    def __init__(self, mat1, mat2, opt):
+        self.mat1=mat1
+        self.mat2=mat2
+        self.opt=opt
+        self.msg=self.__check_shape()
+
+    def __check_shape(self):
+        error_msg='Error - ({0}, {1})와/과 ({2}. {3})은/는 \'{4}\'을 할 수 없습니다.'.format(
+                self.mat1.shape[0], self.mat1.shape[1], self.mat2.shape[0], self.mat2.shape[1], self.opt
+                )
+        if self.opt == 'add':
+            if self.mat1.shape[0] == self.mat2.shape[0] and self.mat1.shape[1] == self.mat2.shape[1]:
+                return True;
+        if self.opt == 'mul':
+            if self.mat1.shape[1] == self.mat2.shape[0]:
+                return True;
+        return error_msg
+    
+    def is_possible(self):
+        if self.msg == True:
+            return True
+        print(self.msg)
+        return False
+
