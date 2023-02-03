@@ -30,7 +30,7 @@ class ElementsNode(Node):
     
     # 성분 노드 구조 확인
     def __str__(self):
-        return '[{0}, {1}, {2}]\n[{3}, {4}]\n'.format(self.row, self.column, self.value, self.down, self.right)
+        return '[{0}, {1}, {2}]\n[{3}, {4}]\n'.format(self.row, self.column, self.value, hex(id(self.down)), hex(id(self.right)))
 
 class HeadNode(ElementsNode):
     def __init__(self) -> None:

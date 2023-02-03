@@ -78,6 +78,8 @@ class Sparse_LIL():
 
         # 성분 노드들과 col_head(cur_head) 연결
         for elem in elem_nodes:
+            cur_node=None       # 출력용
+            
             # 모든 성분 노드들에 대해, 성분 노드의 컬럼 값까지 헤드 노드 이동
             cur_head=first_column_head  # 포커싱 중인 헤드 노드
             
@@ -91,26 +93,32 @@ class Sparse_LIL():
             if cur_head.down == cur_head:
                 cur_head.down=elem
                 elem.down=cur_head
-            else:
-                cur_node=cur_head
-                while cur_node.down != cur_head:   # 자기 자신이 되기 전까지
-                    cur_node=cur_node.down
-                cur_node.down=elem
-                cur_node=cur_node.down
-                cur_node.down=cur_head      # 마지막 노드에서 다시 헤드 노드로 circular 하게 연결
+                
+                cur_node=elem
+            # ! 밑으로 연결이 안됨
+            # else:
+            #     cur_node=cur_head.down
+            #     while cur_node.down == cur_head:   # 자기 자신이 되기 전까지
+            #         print('밑으로!!!!!!')
+            #         cur_node=cur_node.down
+            #     cur_node.down=elem
+            #     cur_node=cur_node.down
+            #     cur_node.down=cur_head      # 마지막 노드에서 다시 헤드 노드로 circular 하게 연결
+            
+            print(f'헤드 객체 위치: {hex(id(cur_head))}\n헤드 노드: {cur_head}\n포커싱 객체 위치: {hex(id(cur_node))}\n포커싱 노드\n{cur_node}============================================')
         
-        # ! 연결 테스트
-        cur_node=first_column_head
-        cur_head=cur_node
-        while cur_head.next != self.hoh:
-            while cur_node.down != cur_head:
-                cur_node=cur_node.down
-                print(cur_node)
-            cur_head=cur_head.next
-        # while cur_node.down != cur_head:
-        #     cur_node=cur_node.down
-        #     print(cur_node)
-        exit()
+        # # ! 연결 테스트
+        # cur_head=first_column_head
+        # cur_node=cur_head.down      # 성분 노드
+        # while cur_head.next != self.hoh:
+        #     while cur_node.down != cur_head:
+        #         cur_node=cur_node.down
+        #         print(cur_node)
+        #     cur_head=cur_head.next
+        # # while cur_node.down != cur_head:
+        # #     cur_node=cur_node.down
+        # #     print(cur_node)
+        exit()          # !
         
     
     # 성분 노드 세팅
