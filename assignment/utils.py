@@ -121,6 +121,6 @@ class Checker():
     def is_possible(self):
         if self.msg == True:
             return True
-        print(self.msg)
-        return False
+        print(self.msg)     # 에러 메시지 출력 후 종료
+        exit()
 
