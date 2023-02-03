@@ -9,4 +9,7 @@
 /experiment/main/GTN-SIGIR2022/__pycache__/
 /experiment/main/GTN-SIGIR2022/run_GTN/
 
+# Byte-compiled / optimized / DLL files
 /assignment/__pycache__/
+*.py[cod]
+*$py.class
