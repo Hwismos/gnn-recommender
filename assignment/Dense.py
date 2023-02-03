@@ -8,13 +8,12 @@ class Dense(Matrix):
         self.nnz=values[2:]
     
     def __str__(self) -> str:
-        mat=''  # matrix 출력용
+        nnz_info=''  # matrix 출력용
         for x in self.nnz:
             x=list(map(str, x))
             x=' '.join(x) + '\n'
-            mat+=x
-        
-        return f'{self.format}\n{self.shape[0]} {self.shape[1]}\n{mat}'
+            nnz_info+=x
+        return f'{self.format}\n{self.shape[0]} {self.shape[1]}\n{nnz_info}'
     
     def getDense(self):
         return self.nnz

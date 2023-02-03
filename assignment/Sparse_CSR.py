@@ -5,16 +5,34 @@ class Sparse_CSR(Matrix):
     def __init__(self, values) -> None:
         super().__init__()
         self.values=values
+
         self.format=''.join(values[0])  # 문자열로 변환
         self.shape=values[1]
         self.nnz=values[2]
+        
         self.indices=values[3]
         self.indptr=values[4]
         self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
         self.mat=None       # dense 매트릭스
-        self.make_matrix_info()      # dense 행렬을 만들기 위한 헤더 생성
-    
-    def make_matrix_info(self):
+        self._make_entry_nodes()      # dense 행렬을 만들기 위한 헤더 생성
+        
+    def __str__(self) -> str:
+        info=self.values[2:]
+        nnz_info=''
+        for x in info:
+            x=list(map(str, x))
+            x=' '.join(x) + '\n'
+            nnz_info+=x
+        return f'{self.format}\n{self.shape[0]} {self.shape[1]}\n{nnz_info}'
+
+    def getDense(self):
+        row, col=self.shape[0], self.shape[1]     # 행렬의 행과 열
+        mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
+        for node in self.nodes:
+            mat[node.row][node.column]=node.value
+        return mat
+
+    def _make_entry_nodes(self):
         # 논제로(value)를 이용해 노드 객체를 생성
         # 노드 객체들을 리스트에 저장
         for d in self.nnz:
@@ -33,23 +51,3 @@ class Sparse_CSR(Matrix):
             for node in self.nodes[cur:num]:     
                 node.set_row(row)
             cur=num     # 누적하면 인덱스 범위를 넘어감
-        
-    def __str__(self) -> str:
-        info=self.values[2:]
-        result=''
-        for x in info:
-            x=list(map(str, x))
-            x=' '.join(x) + '\n'
-            result+=x
-
-        return f'{self.format}\n{self.shape[0]} {self.shape[1]}\n{result}'
-
-    def getDense(self):
-        row, col=self.shape[0], self.shape[1]     # 행렬의 행과 열
-
-        mat=[[0]*col for _ in range(row)]      # 0 행렬 생성
-        for node in self.nodes:
-            mat[node.row][node.column]=node.value
-        
-        return mat
-
