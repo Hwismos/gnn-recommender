@@ -20,21 +20,28 @@ class ElementsNode(Node):
     def __init__(self) -> None:
         super().__init__()
         self.down=None
-        self.right=None
+        self.right=None     # None도 객체(singleton)
     
     def set_down(self, down):
         self.down=down
 
     def set_right(self, right):
         self.right=right
+    
+    # 성분 노드 구조 확인
+    def __str__(self):
+        return '[{0}, {1}, {2}]\n[{3}, {4}]\n'.format(self.row, self.column, self.value, self.down, self.right)
 
 class HeadNode(ElementsNode):
     def __init__(self) -> None:
         super().__init__()
-        self.next=None
+        self.next=None      
     
     def set_next(self, next):
         self.next=next
+    
+    def __str__(self):
+        return '[{0}]\n[{1}, {2}]\n'.format(hex(id(self.next)), hex(id(self.down)), hex(id(self.right)))
 
 # =======================================================================
 # ===============================FILE====================================

@@ -9,6 +9,12 @@ class Matrix():
         nnz를 표현할 수 있는 부분
         '''
         raise NotImplementedError
+    
+    # def __add__(self):
+    #     raise NotImplementedError
+
+    # def __matmul__(self):
+    #     raise NotImplementedError
 
     # Dense 포맷으로 만들어서 리턴
     def getDense(self):
