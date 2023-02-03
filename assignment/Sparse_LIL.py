@@ -38,9 +38,10 @@ class Sparse_LIL(Matrix):
         
         hoh=self.__make_connection(hoh, nodes)    # input nodes를 heads와 연결
 
-        cur_node=hoh.down.next.right.right
-        print(cur_node)
-        exit()  
+        # ! 테스트 
+        # cur_node=hoh.down.next.right.right
+        # print(cur_node)
+        # exit()  
 
         return hoh
 
@@ -85,7 +86,6 @@ class Sparse_LIL(Matrix):
                     cur_node.down=entry
                     entry.down=col_head
         return hoh
-
 
     def __init_heads(self, nodes):
         hoh=ElementsNode()      # head of heads
@@ -148,7 +148,3 @@ class Sparse_LIL(Matrix):
         shape.set_value(num)
         nodes.insert(0, shape)
         return nodes
-
-dense_mat=[[4,6], [0,0,3,0,4,0], [0,5,0,7,0,0], [0,0,0,0,0,1], [2,6,0,0,0,0]]
-obj=Sparse_LIL(dense_mat)
-obj.read_mat(dense_mat)

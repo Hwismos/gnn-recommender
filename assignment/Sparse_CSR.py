@@ -4,17 +4,17 @@ from utils import Node
 class Sparse_CSR(Matrix):
     def __init__(self, values) -> None:
         super().__init__()
-        self.values=values
+        # self.values=values
 
-        self.format=''.join(values[0])  # 문자열로 변환
-        self.shape=values[1]
-        self.nnz=values[2]
+        # self.format=''.join(values[0])  # 문자열로 변환
+        # self.shape=values[1]
+        # self.nnz=values[2]
         
-        self.indices=values[3]
-        self.indptr=values[4]
-        self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
-        self.mat=None       # dense 매트릭스
-        self._make_entry_nodes()      # dense 행렬을 만들기 위한 헤더 생성
+        # self.indices=values[3]
+        # self.indptr=values[4]
+        # self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
+        # self.mat=None       # dense 매트릭스
+        # self._make_entry_nodes()      # dense 행렬을 만들기 위한 헤더 생성
         
     def __str__(self) -> str:
         info=self.values[2:]
@@ -52,3 +52,26 @@ class Sparse_CSR(Matrix):
             for node in self.nodes[cur:num]:     
                 node.set_row(row)
             cur=num     # 누적하면 인덱스 범위를 넘어감
+    
+    def read_mat(self, dense_mat):
+        nnz=[]
+        indices=[]
+        indptr_cnt=0
+        indptr=[indptr_cnt]
+        for line in dense_mat[1:]:
+            for col, element in enumerate(line):
+                if element != 0:
+                    nnz.append(element)
+                    indices.append(col)
+                    indptr_cnt+=1
+            indptr.append(indptr_cnt)
+        
+        print(nnz)
+        print(indices)
+        print(indptr)
+        exit()
+
+dense_mat=[[4, 6],[0, 0, 3, 0, 4, 0],[0, 5, 0, 7, 0, 0],[0, 0, 0, 0, 0, 1],[2, 6, 0, 0, 0, 0,]]
+obj=Sparse_CSR(dense_mat)
+obj.read_mat(dense_mat)
+

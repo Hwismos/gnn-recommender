@@ -4,17 +4,17 @@ from utils import Node
 class Sparse_CSC(Matrix):
     def __init__(self, values) -> None:
         super().__init__()
-        self.values=values
+        # self.values=values
 
-        self.format=''.join(values[0])  # 문자열로 변환
-        self.shape=values[1]
-        self.nnz=values[2]
+        # self.format=''.join(values[0])  # 문자열로 변환
+        # self.shape=values[1]
+        # self.nnz=values[2]
         
-        self.indices=values[3]
-        self.indptr=values[4]
-        self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
-        self.mat=None       # dense 매트릭스
-        self._make_entry_nodes()      # dense 행렬을 만들기 위한 헤더 생성
+        # self.indices=values[3]
+        # self.indptr=values[4]
+        # self.nodes=[]       # 각 노드(성분)이 존재하는 위치를 저장
+        # self.mat=None       # dense 매트릭스
+        # self._make_entry_nodes()      # dense 행렬을 만들기 위한 헤더 생성
     
     def __str__(self) -> str:
         info=self.values[2:]
@@ -53,3 +53,40 @@ class Sparse_CSC(Matrix):
                 node.set_column(col)
             cur=num     # 누적하면 인덱스 범위를 넘어감
         
+    def read_mat(self, dense_mat):
+        nrow, ncol=dense_mat[0][0], dense_mat[0][1]
+        nodes=[]
+        nnz=[]
+        indices=[]
+        indptr=[0]*(ncol+1)     # 0번째 컬럼 이전 값에 대한 정보도 갖고 있기 때문
+        for row, line in enumerate(dense_mat[1:]):
+            for col, element in enumerate(line):
+                if element != 0:
+                    node=Node()    
+                    node.set_row(row)
+                    node.set_column(col)
+                    node.set_value(element)
+                    nodes.append(node)
+        nodes.sort(key=lambda x: (x.column, x.row))     # row 순서대로 정렬
+        for node in nodes:
+            indices.append(node.row)
+            nnz.append(node.value)
+            indptr[node.column+1]+=1
+        
+        # indptr 리스트 정제
+        temp=[]
+        x=indptr[0]
+        for y in indptr[1:]:
+            temp.append(x+y)
+            x+=y
+        indptr=temp
+        indptr.insert(0, 0)
+
+        print(nnz)
+        print(indices)
+        print(indptr)
+        exit()
+    
+dense_mat=[[4, 6],[0, 0, 3, 0, 4, 0],[0, 5, 0, 7, 0, 0],[0, 0, 0, 0, 0, 1],[2, 6, 0, 0, 0, 0,]]
+obj=Sparse_CSC(dense_mat)
+obj.read_mat(dense_mat)

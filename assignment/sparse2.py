@@ -4,7 +4,7 @@ from Sparse_CSC import Sparse_CSC
 from Sparse_LIL import Sparse_LIL
 from Dense import Dense
 
-def print_console(dense):
+def print_console(dense, obj):
     print('dense')
     for row in dense:
         row=list(map(str, row))
@@ -29,7 +29,7 @@ def main():
             result=obj1+obj2
         if args.opt == 'mul':
             result=obj1@obj2
-    print_console(result)
+    print_console(result, obj1)
 
 if __name__=='__main__':
     main()
