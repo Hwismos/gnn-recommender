@@ -50,5 +50,5 @@ class Matrix():
         result.insert(0, format)
         return result
 
-    def getDense(self):     # -> dense matrix
+    def get_dense(self):     # -> dense matrix
         raise NotImplementedError
