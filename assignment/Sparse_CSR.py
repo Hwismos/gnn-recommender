@@ -32,7 +32,7 @@ class Sparse_CSR(Matrix):
         mat=[[0]*col for _ in range(row)]           # 0 행렬 생성
         for node in self.nodes:
             mat[node.row][node.column]=node.value
-        mat.insert(0, [str(row), str(col)])         # shape 추가
+        mat.insert(0, [row, col])                   # shape 추가
         return mat
 
     def _make_entry_nodes(self):
@@ -56,6 +56,7 @@ class Sparse_CSR(Matrix):
             cur=num                                 # 누적하면 인덱스 범위를 넘어감
     
     def read_mat(self, dense_mat):
+        nrow, ncol=dense_mat[0][0], dense_mat[0][1]
         nnz=[]
         indices=[]
         indptr_cnt=0
@@ -68,12 +69,5 @@ class Sparse_CSR(Matrix):
                     indptr_cnt+=1
             indptr.append(indptr_cnt)
         
-#         print(nnz)
-#         print(indices)
-#         print(indptr)
-#         exit()
-
-# dense_mat=[[4, 6],[0, 0, 3, 0, 4, 0],[0, 5, 0, 7, 0, 0],[0, 0, 0, 0, 0, 1],[2, 6, 0, 0, 0, 0,]]
-# obj=Sparse_CSR(dense_mat)
-# obj.read_mat(dense_mat)
-
+        result=[[nrow, ncol], nnz, indices, indptr]
+        return result

@@ -22,5 +22,5 @@ class Dense(Matrix):
         mat=[]
         for node in self.nnz:
             mat.append(list(map(int, node)))
-        mat.insert(0, [str(row), str(col)])                 # shape 추가
+        mat.insert(0, [row, col])                           # shape 추가
         return mat

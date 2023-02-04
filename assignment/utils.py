@@ -47,6 +47,7 @@ class HeadNode(ElementsNode):
 # ===============================FILE====================================
 
 import os
+from itertools import chain                     # flattening 2d list 
 
 # 파일 입출력을 위한 인터페이스 정의
 # 출력이 콘솔인지 모르고 FileHandler를 만들었음
@@ -70,6 +71,69 @@ class FileReader():
                 if line != 0:                   # format을 지정하는 라인이 아닌 경우 int 타입의 리스트로 저장
                     value=list(map(int, value.split(' ')))
                     self.values.append(value)
+
+class FileWriter():
+    def __init__(self, path, mat_d=None, mat_s=None, op=None, msg=None):
+        self.op=op
+        self.__set_path(path)
+
+        if isinstance(msg, str):
+            self.msg=msg
+            self.__error_handling()
+
+        self.mat_d=mat_d
+        self.mat_s=mat_s
+        self.__write()
+
+    def __set_path(self, path):
+            if self.op == 'add':
+                self.op='a'
+            if self.op == 'mul':
+                self.op='m'
+
+            output_file_path='output'+path[-7:-5]+self.op+'.txt'
+            dir_path=__file__[:-9]+'\sparse2_outputs'
+            os.makedirs(dir_path, exist_ok=True)
+            self.path=os.path.join(dir_path, output_file_path)
+    
+    def __error_handling(self):
+            with open(self.path, 'w') as f:
+                f.write(self.msg+'\n')
+            exit()
+
+    def __write(self):
+        with open(self.path, 'w') as f:
+            f.write(self.mat_s[0]+'\n')                     # 파일 포맷 출력
+
+            if self.mat_s[0] == 'lil':                      # lil이면서 0 행렬인 경우
+                if self.mat_s[1][0][2] != 0:     
+                    for line in chain.from_iterable(self.mat_s[1:]):
+                        line=list(map(str, line))
+                        line=' '.join(line)+'\n'
+                        f.write(line)
+                else:
+                    line=' '.join(list(map(str, self.mat_s[1][0])))+'\n'
+                    f.write(line)
+            elif self.mat_s[0] == 'dense':                  # dense이면서 0 행렬인 경우
+                for line in chain.from_iterable(self.mat_d[1:]):
+                    line=list(map(str, line))
+                    line=' '.join(line)+'\n'
+                    f.write(line)
+            else:
+                if len(self.mat_s[1][1]) != 0:              # csc, csr이면서 0 행렬인 경우
+                    for line in chain.from_iterable(self.mat_s[1:]):
+                        line=list(map(str, line))
+                        line=' '.join(line)+'\n'
+                        f.write(line)
+                else:
+                    line=' '.join(list(map(str, self.mat_s[1][0])))+'\n'
+                    f.write(line)
+            
+            f.write('\n'+self.mat_d[0]+'\n')
+            for line in chain.from_iterable(self.mat_d[1:]):
+                line=list(map(str, line))
+                line=' '.join(line)+'\n'
+                f.write(line)
 
 # =======================================================================
 # ===============================PARSE===================================
@@ -95,30 +159,3 @@ def parse_arg():
         return args.arg1
 
 # =======================================================================
-# ============================CHECKER====================================
-
-class Checker():
-    def __init__(self, mat1, mat2, opt):
-        self.mat1=mat1
-        self.mat2=mat2
-        self.opt=opt
-        self.msg=self.__check_shape()
-
-    def __check_shape(self):
-        error_msg='Error - ({0}, {1})와/과 ({2}. {3})은/는 \'{4}\'을 할 수 없습니다.'.format(
-                self.mat1.shape[0], self.mat1.shape[1], self.mat2.shape[0], self.mat2.shape[1], self.opt
-                )
-        if self.opt == 'add':
-            if self.mat1.shape[0] == self.mat2.shape[0] and self.mat1.shape[1] == self.mat2.shape[1]:
-                return True;
-        if self.opt == 'mul':
-            if self.mat1.shape[1] == self.mat2.shape[0]:
-                return True;
-        return error_msg
-    
-    def is_possible(self):
-        if self.msg == True:
-            return True
-        print(self.msg)     # 에러 메시지 출력 후 종료
-        exit()
-

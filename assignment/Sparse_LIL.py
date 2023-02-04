@@ -33,12 +33,32 @@ class Sparse_LIL(Matrix):
         hoh=self.__init_heads(nodes)                # heads list 생성
         hoh=self.__make_connection(hoh, nodes)      # input nodes를 heads와 연결
 
-        # ! 테스트 
-        # cur_node=hoh.down.next.right.right
+        # ! 테스트: 연결 확인 1 
+        # cur_node=hoh.down.right.right
         # print(cur_node)
-        # exit()  
+        # exit()
 
-        return hoh
+        # ! 테스트: 연결 확인 2        
+        # head_node=hoh.down
+        # while head_node != hoh:
+        #     cur_node=head_node.right
+        #     while cur_node != head_node:
+        #         print(cur_node)
+        #         cur_node=cur_node.right
+        #     head_node=head_node.next
+        # exit()
+
+        # desne를 input 포맷으로 변형해서 반환
+        result=[[hoh.row, hoh.column, hoh.value]]
+        head_node=hoh.down
+        while head_node != hoh:
+            cur_node=head_node.right
+            while cur_node != head_node:
+                result.append([cur_node.row, cur_node.column, cur_node.value])
+                cur_node=cur_node.right
+            head_node=head_node.next
+
+        return result
 
     def __make_connection(self, hoh, nodes):
         for entry in nodes[1:]:
@@ -66,7 +86,7 @@ class Sparse_LIL(Matrix):
 
             # row도 이미 연결이 있을 때
             else:       
-                cur_node=row_head                       # 마지막에 헤드로 가야해서 필요함
+                cur_node=row_head.right                  # 마지막에 헤드로 가야해서 필요함
                 while cur_node.right != row_head:
                     cur_node=cur_node.right
                 cur_node.right=entry
@@ -110,19 +130,6 @@ class Sparse_LIL(Matrix):
         cur_node.set_next(hoh)
         cur_node.set_right(cur_node)        # right는 자기 자신으로 초기화
 
-        # ! 출력 확인
-        # cur_node=hoh.right
-        # while cur_node.next != hoh:
-        #     print(cur_node)
-        #     cur_node=cur_node.next
-        # print(cur_node)
-        # print('========================================================')
-        # cur_node=hoh.down
-        # while cur_node.next != hoh:
-        #     print(cur_node)
-        #     cur_node=cur_node.next
-        # print(cur_node)
-        # exit()
         return hoh
 
     # dense matrix를 lil format으로 만들기 위한 input 생성

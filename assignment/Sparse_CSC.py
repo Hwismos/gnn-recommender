@@ -32,7 +32,7 @@ class Sparse_CSC(Matrix):
         mat=[[0]*col for _ in range(row)]           # 0 행렬 생성
         for node in self.nodes:
             mat[node.row][node.column]=node.value
-        mat.insert(0, [str(row), str(col)])         # shape 추가
+        mat.insert(0, [row, col])                   # shape 추가
         return mat
     
     # self.nodes 초기화
@@ -85,11 +85,5 @@ class Sparse_CSC(Matrix):
         indptr=temp
         indptr.insert(0, 0)
 
-        # print(nnz)
-        # print(indices)
-        # print(indptr)
-        # exit()
-    
-# dense_mat=[[4, 6],[0, 0, 3, 0, 4, 0],[0, 5, 0, 7, 0, 0],[0, 0, 0, 0, 0, 1],[2, 6, 0, 0, 0, 0,]]
-# obj=Sparse_CSC(dense_mat)
-# obj.read_mat(dense_mat)
+        result=[[nrow, ncol], nnz, indice, indptr]
+        return result
