@@ -131,7 +131,7 @@ def parse_args():
     
     # 256으로는 메모리 부족으로 안 돌아감
     parser.add_argument('--recdim', type=int, 
-                        default=32,
+                        default=256,
                         help="the embedding size of GTN: 128, 256")
     
     # gpu_id는 여러 개의 gpu 중 선택하기 위한 변수로 사용됨
