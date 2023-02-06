@@ -17,7 +17,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 args = parse_args()
 
 # GTN의 world.py 모듈에 있던 대로 변경
-ROOT_PATH = "./"
+ROOT_PATH = "/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/LightGCN-PyTorch"
 # ROOT_PATH = "/Users/gus/Desktop/light-gcn"
 CODE_PATH = join(ROOT_PATH, 'code')
 DATA_PATH = join(ROOT_PATH, 'data')

@@ -48,7 +48,6 @@ else:
 
 Recmodel = Recmodel.to(world.device)
 
-
 # utils 모듈을 이용해 BPRLoss 설정
 # 인자로 전달하는 추천 모델이 PairWiseModel
 # world 모듈의 config 값도 인자로 전달
@@ -86,7 +85,6 @@ if world.tensorboard:
 else:
     w = None
     world.cprint("not enable tensorflowboard")
-
 
 final_topk_txt = ""
 # 새로운 모델을 학습

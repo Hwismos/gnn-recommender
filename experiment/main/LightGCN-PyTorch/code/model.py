@@ -219,10 +219,6 @@ class LightGCN(BasicModel):
     
     def getEmbedding(self, users, pos_items, neg_items):
         all_users, all_items = self.computer()
-
-        # print(f'===========================\n{all_users}\n===========================')
-        # exit()
-
         users_emb = all_users[users]
         pos_emb = all_items[pos_items]
         neg_emb = all_items[neg_items]
