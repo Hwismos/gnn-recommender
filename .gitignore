@@ -9,6 +9,7 @@
 /experiment/main/GTN-SIGIR2022/__pycache__/
 /experiment/main/GTN-SIGIR2022/run_GTN/
 /experiment/main/GTN-SIGIR2022/code/run_GTN/
+experiment/main/GTN-SIGIR2022/SLURM*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

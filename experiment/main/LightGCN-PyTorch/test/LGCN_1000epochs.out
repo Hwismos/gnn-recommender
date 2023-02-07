@@ -1,0 +1,52 @@
+==============
+Cpp extension not loaded
+==============
+>>SEED: 2020
+==============
+loading [./data/gowalla]
+==============
+810128 interactions for training
+217242 interactions for testing
+gowalla Sparsity : 0.0008396216228570436
+gowalla is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'bigdata': False,
+ 'bpr_batch_size': 4096,
+ 'decay': 0.0001,
+ 'dropout': 0,
+ 'keep_prob': 0.6,
+ 'latent_dim_rec': 256,
+ 'lightGCN_n_layers': 3,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 100}
+cores for test: 24
+comment: lgn
+tensorboard: 1
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+Model: lgn
+==============
+use NORMAL distribution initilizer
+==============
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+load and save to ./code/checkpoints/lgn-gowalla-3-256.pth.tar
+==============
+[TEST]
+==============
+{'precision': array([0.00026793]), 'recall': array([0.00086765]), 'ndcg': array([0.00061483])}
+EPOCH[1/1001] loss0.574-|Sample:9.30|  |  01:15mins
+EPOCH[2/1001] loss0.235-|Sample:8.91|  |  00:55mins
+EPOCH[3/1001] loss0.140-|Sample:9.02|  |  00:58mins
+EPOCH[4/1001] loss0.106-|Sample:8.62|  |  00:58mins
+EPOCH[5/1001] loss0.089-|Sample:9.41|  |  00:54mins
+EPOCH[6/1001] loss0.079-|Sample:8.98|  |  00:58mins
