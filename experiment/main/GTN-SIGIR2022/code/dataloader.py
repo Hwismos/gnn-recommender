@@ -402,27 +402,38 @@ class Loader(BasicDataset):
         return torch.sparse.FloatTensor(index, data, torch.Size(coo.shape))
 
     def getSparseGraph(self):
+        print("loading adjacency matrix")
         if self.Graph is None:
-            print("generating adjacency matrix")
-            s = time()
-            # dictionary of key based sparse matrix로 만드는 것 같음
-            adj_mat = sp.dok_matrix((self.n_users + self.m_items, self.n_users + self.m_items), dtype=np.float32)
-            # dok 매트릭스를 list of list sparse matrix로 변경
-            adj_mat = adj_mat.tolil()
-            # if self.flag_test == 0:
-            R = self.UserItemNet.tolil()
-            # print(type(R)) → # <class 'scipy.sparse.lil.lil_matrix'>
-            # UserItemNet과 adj_mat의 차이를 모르겠음
-            # 비슷한 거 아닌가?
-            
-            # 사용하는 메모리가 너무 큰 경우 발생한다고 함 → LIL 쓰면 좀 덜한거 아님?
-            adj_mat[:self.n_users, self.n_users:] = R
-            adj_mat[self.n_users:, :self.n_users] = R.T
-            adj_mat = adj_mat.todok()
+            try:
+                pre_adj_mat = sp.load_npz(self.path + '/s_pre_adj_mat.npz')
+                print("successfully loaded...")
+                norm_adj = pre_adj_mat
+            except :
+                print("generating adjacency matrix")
+                s = time()
+                adj_mat = sp.dok_matrix((self.n_users + self.m_items, self.n_users + self.m_items), dtype=np.float32)
+                adj_mat = adj_mat.tolil()
+                R = self.UserItemNet.tolil()
+                adj_mat[:self.n_users, self.n_users:] = R
+                adj_mat[self.n_users:, :self.n_users] = R.T
+                adj_mat = adj_mat.todok()
 
-            norm_adj = adj_mat.tocsr()
-            end = time()
-            print(f"costing {end - s}s, saved mat...")
+                # ! =========================================
+                # rowsum = np.array(adj_mat.sum(axis=1))
+                # d_inv = np.power(rowsum, -0.5).flatten()
+                # d_inv[np.isinf(d_inv)] = 0.
+                # d_mat = sp.diags(d_inv)
+                
+                # norm_adj = d_mat.dot(adj_mat)
+                # norm_adj = norm_adj.dot(d_mat)
+                # ! =========================================
+
+                norm_adj = adj_mat.tocsr() # ← 원래 이거였는데
+                # norm_adj = norm_adj.tocsr()
+                end = time()
+                print(f"costing {end - s}s, saved mat...")
+
+                sp.save_npz(self.path + '/s_pre_adj_mat.npz', norm_adj)
 
             self.Graph = self._convert_sp_mat_to_sp_tensor(norm_adj)
             self.Graph = self.Graph.coalesce().to(world.device)

@@ -32,7 +32,7 @@ torch.cuda.manual_seed(seed)
     # dataset = dataloader.Loader(path="../data/" + world.dataset)
 
 if world.dataset in ['gowalla', 'yelp2018', 'amazon-book']:
-    dataset = dataloader.Loader(path="/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/GTN-SIGIR2022/data/"+world.dataset)
+    dataset = dataloader.Loader(path="./data/"+world.dataset)
 elif world.dataset == 'lastfm':
     # lastfm 로딩 객체 추가
     dataset = dataloader.LastFM()

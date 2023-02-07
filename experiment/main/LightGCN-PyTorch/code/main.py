@@ -38,6 +38,8 @@ else:
     w = None
     world.cprint("not enable tensorflowboard")
 
+import datetime
+
 try:
     for epoch in range(world.TRAIN_epochs):
         start = time.time()
@@ -45,8 +47,13 @@ try:
             cprint("[TEST]")
             Procedure.Test(dataset, Recmodel, epoch, w, world.config['multicore'])
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k,w=w)
-        print(f'EPOCH[{epoch+1}/{world.TRAIN_epochs}] {output_information}')
-        torch.save(Recmodel.state_dict(), weight_file)
+
+        end = time.time()
+        diff = datetime.datetime.fromtimestamp((end - start))
+        diff_mins = diff.strftime("%M:%S")
+
+        print(f'EPOCH[{epoch+1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins')
+        # torch.save(Recmodel.state_dict(), weight_file)
 finally:
     if world.tensorboard:
         w.close()

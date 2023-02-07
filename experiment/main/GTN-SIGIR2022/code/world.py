@@ -35,7 +35,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 # parse 모듈 import 끝
 args = parse_args()
 
-ROOT_PATH = "/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/GTN-SIGIR2022"
+ROOT_PATH = "./"
 CODE_PATH = join(ROOT_PATH, 'code')
 DATA_PATH = join(ROOT_PATH, 'data')
 BOARD_PATH = join(CODE_PATH, 'run_GTN')
@@ -103,5 +103,5 @@ from warnings import simplefilter
 simplefilter(action="ignore", category=FutureWarning)
 
 def cprint(words: str):
-    print("##########################")
-    print(f"\033[0;30;43m{words}\033[0m")
+    print(f"==============\n{words}\n==============")
+    # print(f"\033[0;30;43m{words}\033[0m")
