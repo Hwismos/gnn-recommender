@@ -1,0 +1,187 @@
+==============
+Cpp extension not loaded
+==============
+>>SEED: 2020
+==============
+loading [./data/gowalla]
+==============
+1108708 interactions for training
+217242 interactions for testing
+gowalla Sparsity : 0.0010836371422440767
+gowalla is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'bigdata': False,
+ 'bpr_batch_size': 4096,
+ 'decay': 0.0001,
+ 'dropout': 0,
+ 'keep_prob': 0.6,
+ 'latent_dim_rec': 32,
+ 'lightGCN_n_layers': 3,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 100}
+cores for test: 24
+comment: lgn
+tensorboard: 1
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+Model: lgn
+==============
+use NORMAL distribution initilizer
+==============
+loading adjacency matrix
+successfully loaded...
+don't split the matrix
+lgn is already to go(dropout:0)
+load and save to ./code/checkpoints/lgn-gowalla-3-32.pth.tar
+==============
+[TEST]
+==============
+{'precision': array([0.00022272]), 'recall': array([0.00063678]), 'ndcg': array([0.00042744])}
+EPOCH[1/101] loss0.675-|Sample:12.57|
+EPOCH[2/101] loss0.539-|Sample:12.21|
+EPOCH[3/101] loss0.475-|Sample:12.45|
+EPOCH[4/101] loss0.444-|Sample:12.35|
+EPOCH[5/101] loss0.423-|Sample:12.24|
+EPOCH[6/101] loss0.407-|Sample:12.35|
+EPOCH[7/101] loss0.395-|Sample:12.29|
+EPOCH[8/101] loss0.383-|Sample:12.59|
+EPOCH[9/101] loss0.374-|Sample:12.55|
+EPOCH[10/101] loss0.365-|Sample:12.33|
+==============
+[TEST]
+==============
+{'precision': array([0.03554659]), 'recall': array([0.11231272]), 'ndcg': array([0.0979838])}
+EPOCH[11/101] loss0.357-|Sample:12.26|
+EPOCH[12/101] loss0.350-|Sample:12.28|
+EPOCH[13/101] loss0.344-|Sample:12.05|
+EPOCH[14/101] loss0.337-|Sample:12.43|
+EPOCH[15/101] loss0.331-|Sample:12.49|
+EPOCH[16/101] loss0.326-|Sample:12.19|
+EPOCH[17/101] loss0.321-|Sample:12.20|
+EPOCH[18/101] loss0.315-|Sample:12.51|
+EPOCH[19/101] loss0.312-|Sample:12.14|
+EPOCH[20/101] loss0.306-|Sample:12.10|
+==============
+[TEST]
+==============
+{'precision': array([0.03714917]), 'recall': array([0.11811763]), 'ndcg': array([0.10266418])}
+EPOCH[21/101] loss0.302-|Sample:17.76|
+EPOCH[22/101] loss0.299-|Sample:14.52|
+EPOCH[23/101] loss0.294-|Sample:12.74|
+EPOCH[24/101] loss0.290-|Sample:12.45|
+EPOCH[25/101] loss0.287-|Sample:12.48|
+EPOCH[26/101] loss0.283-|Sample:17.68|
+EPOCH[27/101] loss0.280-|Sample:12.36|
+EPOCH[28/101] loss0.276-|Sample:12.33|
+EPOCH[29/101] loss0.273-|Sample:12.34|
+EPOCH[30/101] loss0.269-|Sample:12.22|
+==============
+[TEST]
+==============
+{'precision': array([0.03827115]), 'recall': array([0.12185353]), 'ndcg': array([0.10569121])}
+EPOCH[31/101] loss0.266-|Sample:11.87|
+EPOCH[32/101] loss0.262-|Sample:12.24|
+EPOCH[33/101] loss0.259-|Sample:12.41|
+EPOCH[34/101] loss0.255-|Sample:12.09|
+EPOCH[35/101] loss0.252-|Sample:12.73|
+EPOCH[36/101] loss0.248-|Sample:20.15|
+EPOCH[37/101] loss0.246-|Sample:12.43|
+EPOCH[38/101] loss0.243-|Sample:12.00|
+EPOCH[39/101] loss0.240-|Sample:13.41|
+EPOCH[40/101] loss0.237-|Sample:12.47|
+==============
+[TEST]
+==============
+{'precision': array([0.03910845]), 'recall': array([0.12483001]), 'ndcg': array([0.10754923])}
+EPOCH[41/101] loss0.235-|Sample:12.10|
+EPOCH[42/101] loss0.232-|Sample:13.29|
+EPOCH[43/101] loss0.229-|Sample:13.30|
+EPOCH[44/101] loss0.226-|Sample:12.70|
+EPOCH[45/101] loss0.224-|Sample:12.89|
+EPOCH[46/101] loss0.221-|Sample:12.96|
+EPOCH[47/101] loss0.218-|Sample:12.58|
+EPOCH[48/101] loss0.216-|Sample:17.16|
+EPOCH[49/101] loss0.213-|Sample:13.14|
+EPOCH[50/101] loss0.211-|Sample:12.15|
+==============
+[TEST]
+==============
+{'precision': array([0.03982015]), 'recall': array([0.12752883]), 'ndcg': array([0.10900117])}
+EPOCH[51/101] loss0.208-|Sample:12.22|
+EPOCH[52/101] loss0.207-|Sample:12.98|
+EPOCH[53/101] loss0.203-|Sample:12.23|
+EPOCH[54/101] loss0.202-|Sample:12.57|
+EPOCH[55/101] loss0.199-|Sample:12.39|
+EPOCH[56/101] loss0.198-|Sample:21.13|
+EPOCH[57/101] loss0.195-|Sample:12.17|
+EPOCH[58/101] loss0.193-|Sample:12.25|
+EPOCH[59/101] loss0.190-|Sample:12.21|
+EPOCH[60/101] loss0.189-|Sample:12.21|
+==============
+[TEST]
+==============
+{'precision': array([0.0403175]), 'recall': array([0.12901708]), 'ndcg': array([0.11009055])}
+EPOCH[61/101] loss0.187-|Sample:12.30|
+EPOCH[62/101] loss0.184-|Sample:11.94|
+EPOCH[63/101] loss0.182-|Sample:12.70|
+EPOCH[64/101] loss0.180-|Sample:12.25|
+EPOCH[65/101] loss0.179-|Sample:12.24|
+EPOCH[66/101] loss0.177-|Sample:12.18|
+EPOCH[67/101] loss0.175-|Sample:12.19|
+EPOCH[68/101] loss0.173-|Sample:12.26|
+EPOCH[69/101] loss0.171-|Sample:12.25|
+EPOCH[70/101] loss0.170-|Sample:16.41|
+==============
+[TEST]
+==============
+{'precision': array([0.04088184]), 'recall': array([0.13046118]), 'ndcg': array([0.11116556])}
+EPOCH[71/101] loss0.168-|Sample:12.06|
+EPOCH[72/101] loss0.167-|Sample:12.34|
+EPOCH[73/101] loss0.165-|Sample:12.48|
+EPOCH[74/101] loss0.162-|Sample:12.10|
+EPOCH[75/101] loss0.161-|Sample:12.10|
+EPOCH[76/101] loss0.159-|Sample:12.16|
+EPOCH[77/101] loss0.158-|Sample:12.44|
+EPOCH[78/101] loss0.156-|Sample:12.09|
+EPOCH[79/101] loss0.156-|Sample:12.04|
+EPOCH[80/101] loss0.154-|Sample:16.36|
+==============
+[TEST]
+==============
+{'precision': array([0.04125193]), 'recall': array([0.13133975]), 'ndcg': array([0.11230704])}
+EPOCH[81/101] loss0.152-|Sample:12.04|
+EPOCH[82/101] loss0.150-|Sample:12.28|
+EPOCH[83/101] loss0.149-|Sample:12.29|
+EPOCH[84/101] loss0.149-|Sample:12.58|
+EPOCH[85/101] loss0.147-|Sample:12.31|
+EPOCH[86/101] loss0.145-|Sample:11.97|
+EPOCH[87/101] loss0.144-|Sample:12.40|
+EPOCH[88/101] loss0.142-|Sample:12.20|
+EPOCH[89/101] loss0.141-|Sample:12.18|
+EPOCH[90/101] loss0.140-|Sample:16.11|
+==============
+[TEST]
+==============
+{'precision': array([0.04152823]), 'recall': array([0.13209059]), 'ndcg': array([0.11283262])}
+EPOCH[91/101] loss0.138-|Sample:12.22|
+EPOCH[92/101] loss0.137-|Sample:12.23|
+EPOCH[93/101] loss0.136-|Sample:12.28|
+EPOCH[94/101] loss0.135-|Sample:12.10|
+EPOCH[95/101] loss0.135-|Sample:12.39|
+EPOCH[96/101] loss0.133-|Sample:12.26|
+EPOCH[97/101] loss0.132-|Sample:12.19|
+EPOCH[98/101] loss0.131-|Sample:12.68|
+EPOCH[99/101] loss0.130-|Sample:13.65|
+EPOCH[100/101] loss0.129-|Sample:12.38|
+==============
+[TEST]
+==============
+{'precision': array([0.04184976]), 'recall': array([0.13289086]), 'ndcg': array([0.11355452])}
+EPOCH[101/101] loss0.127-|Sample:12.27|
