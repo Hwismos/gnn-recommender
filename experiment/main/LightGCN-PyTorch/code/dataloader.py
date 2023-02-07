@@ -243,20 +243,11 @@ class Loader(BasicDataset):
         self.traindataSize = 0
         self.testDataSize = 0
 
-        # ? random ratio 실험
-        import random
-        
         with open(train_file) as f:
             for l in f.readlines():
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
                     items = [int(i) for i in l[1:]]
-
-                    random_item=[]
-                    for _ in range(10):
-                        random_item.append(random.randint(0, 40980))
-                    items.extend(random_item)
-
                     uid = int(l[0])
                     trainUniqueUsers.append(uid)
                     trainUser.extend([uid] * len(items))
@@ -273,12 +264,6 @@ class Loader(BasicDataset):
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
                     items = [int(i) for i in l[1:]]
-                    
-                    random_item=[]
-                    for _ in range(10):
-                        random_item.append(random.randint(0, 40980))
-                    items.extend(random_item)
-
                     uid = int(l[0])
                     testUniqueUsers.append(uid)
                     testUser.extend([uid] * len(items))
