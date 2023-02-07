@@ -32,7 +32,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Go GTN")
     
     parser.add_argument('--bpr_batch', type=int, 
-                        default=512,
+                        default=2048,
                         help="the batch size for bpr loss training procedure")  # 512 1024 2048 4096
     
     parser.add_argument('--layer', type=int, 
@@ -111,7 +111,7 @@ def parse_args():
                         help="the learning rate:0.001")  # 0.001
     
     parser.add_argument('--dataset', type=str, 
-                        default='gowalla',
+                        default='amazon-book',
                         help="available datasets: [gowalla,  lastfm, yelp2018, amazon-book]")
     
     # ========================================================================================
@@ -131,7 +131,7 @@ def parse_args():
     
     # 256으로는 메모리 부족으로 안 돌아감
     parser.add_argument('--recdim', type=int, 
-                        default=256,
+                        default=32,
                         help="the embedding size of GTN: 128, 256")
     
     # gpu_id는 여러 개의 gpu 중 선택하기 위한 변수로 사용됨

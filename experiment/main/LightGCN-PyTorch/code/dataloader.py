@@ -263,7 +263,8 @@ class Loader(BasicDataset):
             for l in f.readlines():
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
-                    items = [int(i) for i in l[1:]]
+                    # '' -> str 때문에 수정함
+                    items = [int(i) if i != '' else int('1') for i in l[1:]]        
                     uid = int(l[0])
                     testUniqueUsers.append(uid)
                     testUser.extend([uid] * len(items))
