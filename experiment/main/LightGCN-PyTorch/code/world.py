@@ -17,8 +17,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 args = parse_args()
 
 # GTN의 world.py 모듈에 있던 대로 변경
-ROOT_PATH = "/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/LightGCN-PyTorch"
-# ROOT_PATH = "/Users/gus/Desktop/light-gcn"
+ROOT_PATH = "./"
 CODE_PATH = join(ROOT_PATH, 'code')
 DATA_PATH = join(ROOT_PATH, 'data')
 BOARD_PATH = join(CODE_PATH, 'runs')
@@ -78,7 +77,8 @@ simplefilter(action="ignore", category=FutureWarning)
 
 
 def cprint(words : str):
-    print(f"\033[0;30;43m{words}\033[0m")
+    print(f"==============\n{words}\n==============")
+    # print(f"\033[0;30;43m{words}\033[0m")
 
 logo = r"""
 ██╗      ██████╗ ███╗   ██╗

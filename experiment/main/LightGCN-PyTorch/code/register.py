@@ -5,8 +5,7 @@ import utils
 from pprint import pprint
 
 if world.dataset in ['gowalla', 'yelp2018', 'amazon-book']:
-    dataset = dataloader.Loader(path="/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/LightGCN-PyTorch/data/"+world.dataset)
-# lastfm 데이터셋이 더 작음
+    dataset = dataloader.Loader(path="./data/"+world.dataset)
 elif world.dataset == 'lastfm':
     dataset = dataloader.LastFM()
 

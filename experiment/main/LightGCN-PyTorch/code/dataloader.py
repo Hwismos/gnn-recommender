@@ -243,11 +243,20 @@ class Loader(BasicDataset):
         self.traindataSize = 0
         self.testDataSize = 0
 
+        # ? random ratio 실험
+        import random
+        
         with open(train_file) as f:
             for l in f.readlines():
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
                     items = [int(i) for i in l[1:]]
+
+                    random_item=[]
+                    for _ in range(10):
+                        random_item.append(random.randint(0, 40980))
+                    items.extend(random_item)
+
                     uid = int(l[0])
                     trainUniqueUsers.append(uid)
                     trainUser.extend([uid] * len(items))
@@ -263,8 +272,13 @@ class Loader(BasicDataset):
             for l in f.readlines():
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
-                    # '' -> str 때문에 수정함
-                    items = [int(i) if i != '' else int('1') for i in l[1:]]        
+                    items = [int(i) for i in l[1:]]
+                    
+                    random_item=[]
+                    for _ in range(10):
+                        random_item.append(random.randint(0, 40980))
+                    items.extend(random_item)
+
                     uid = int(l[0])
                     testUniqueUsers.append(uid)
                     testUser.extend([uid] * len(items))
@@ -272,8 +286,8 @@ class Loader(BasicDataset):
                     self.m_item = max(self.m_item, max(items))
                     self.n_user = max(self.n_user, uid)
                     self.testDataSize += len(items)
-        self.m_item += 1
-        self.n_user += 1
+        self.m_item += 1    # gowalla item: 40981
+        self.n_user += 1    # gowalla user: 29859
         self.testUniqueUsers = np.array(testUniqueUsers)
         self.testUser = np.array(testUser)
         self.testItem = np.array(testItem)

@@ -12,7 +12,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Go lightGCN")
 
     parser.add_argument('--bpr_batch', type=int, 
-                        default=2048,
+                        default=4096,
                         help="the batch size for bpr loss training procedure")
     parser.add_argument('--recdim', type=int,default=32,
                         help="the embedding size of lightGCN")
@@ -32,8 +32,7 @@ def parse_args():
                         help="the fold num used to split large adj matrix, like gowalla")
     parser.add_argument('--testbatch', type=int,default=100,
                         help="the batch size of users for testing")
-    # ! 아마존으로 돌아가나?
-    parser.add_argument('--dataset', type=str,default='amazon-book',
+    parser.add_argument('--dataset', type=str,default='gowalla',
                         help="available datasets: [lastfm, gowalla, yelp2018, amazon-book]")
     parser.add_argument('--path', type=str,default="./checkpoints",
                         help="path to save weights")
