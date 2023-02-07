@@ -32,7 +32,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Go GTN")
     
     parser.add_argument('--bpr_batch', type=int, 
-                        default=2048,
+                        default=4096,
                         help="the batch size for bpr loss training procedure")  # 512 1024 2048 4096
     
     parser.add_argument('--layer', type=int, 
