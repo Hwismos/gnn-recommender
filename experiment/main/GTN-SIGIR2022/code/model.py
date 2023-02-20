@@ -13,7 +13,7 @@ The original version of this code base was from LightGCN-pytorch: https://github
 '''
 
 
-import igcn_copy
+# import igcn_copy
 import random
 import world
 from dataloader import BasicDataset
@@ -25,7 +25,6 @@ import numpy as np
 import warnings
 import torch
 from torch import nn
-
 
 from torch_sparse import SparseTensor
 from torch_sparse import SparseTensor

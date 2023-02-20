@@ -13,6 +13,10 @@ The original version of this code base was from LightGCN-pytorch: https://github
 
 '''
 
+# ! local 아래에 있는 packages 에서 torch를 찾지 않도록 세팅
+import sys
+sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')
+
 import world
 import utils
 from world import cprint
@@ -79,11 +83,11 @@ final_topk_txt = ""
 try:
     timeStamp = time.time()
 
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
     y = []
     x = list(range(world.TRAIN_epochs))
-    plt.figure()
+    # plt.figure()
     for epoch in range(world.TRAIN_epochs):
         start = time.time()
         if epoch % 10 == 0:

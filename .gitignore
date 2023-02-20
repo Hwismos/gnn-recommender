@@ -5,6 +5,10 @@
 
 /experiment/main/LightGCN-PyTorch/data/*/*.npz
 
+
+/experiment/main/GTN-SIGIR2022/data/amazon-book/s_pre_adj_mat.npz
+*.npz
+
 /experiment/main/GTN-SIGIR2022/.idea/
 /experiment/main/GTN-SIGIR2022/__pycache__/
 /experiment/main/GTN-SIGIR2022/run_GTN/
