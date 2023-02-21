@@ -19,3 +19,5 @@ experiment/main/GTN-SIGIR2022/SLURM*
 __pycache__/
 *.py[cod]
 *$py.class
+
+*checkpoints*

@@ -1,3 +1,12 @@
+import sys
+
+sys.path.append('/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/igcn_cf/')
+sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')
+
+for path in sys.path:
+    print(path)
+print(f'\n 모듈 checking...\n')
+
 from dataset import get_dataset
 from model import get_model
 from trainer import get_trainer
@@ -6,6 +15,8 @@ from utils import init_run
 from tensorboardX import SummaryWriter
 from config import get_gowalla_config, get_yelp_config, get_amazon_config
 
+print('한 번 더 확인')
+exit()
 
 def main():
     log_path = __file__[:-3]
@@ -34,4 +45,5 @@ def main():
 # python -u -m run.run
 # run 패키지 아래 있는 run.py 모듈을 실행하는 스크립트
 if __name__ == '__main__':
-    main()
+    # main()
+    exit()
