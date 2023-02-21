@@ -81,10 +81,38 @@ class GTN(BasicModel):
         self.n_layers = self.args.K
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
-        self.embedding_user = torch.nn.Embedding(
-            num_embeddings=self.num_users, embedding_dim=self.latent_dim)
-        self.embedding_item = torch.nn.Embedding(
-            num_embeddings=self.num_items, embedding_dim=self.latent_dim)
+
+        # ? inmo ============================================================
+
+        import sys
+
+        sys.path.append('/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/inmo-gtn/inmo_code/hyperparameter/')
+
+        import igcn_tuning
+
+        final_rep = igcn_tuning.main()
+
+        all_emb=torch.split(final_rep, [self.num_users, self.num_items])
+        e_user, e_item=all_emb[0], all_emb[1]
+        
+        emb_user=nn.Embedding.from_pretrained(e_user, freeze=False)
+        emb_item=nn.Embedding.from_pretrained(e_item, freeze=False)
+        
+
+        self.embedding_user = emb_user
+        self.embedding_item = emb_item
+
+        # ? =====================================================================   
+
+        # ! original ============================================================
+
+        # self.embedding_user = torch.nn.Embedding(
+        #     num_embeddings=self.num_users, embedding_dim=self.latent_dim)
+        # self.embedding_item = torch.nn.Embedding(
+        #     num_embeddings=self.num_items, embedding_dim=self.latent_dim)
+
+        # ! =====================================================================
+
         if self.config['pretrain'] == 0:
             nn.init.normal_(self.embedding_user.weight, std=0.1)
             nn.init.normal_(self.embedding_item.weight, std=0.1)

@@ -13,7 +13,9 @@ The original version of this code base was from LightGCN-pytorch: https://github
 
 '''
 
+import sys
 
+sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')
 
 import world
 import utils
@@ -48,7 +50,7 @@ bpr = utils.BPRLoss(Recmodel, world.config)
 baisc_path_log = "../data/" + str(world.args.dataset) + "/log/"
 
 weight_file = utils.getFileName()
-print(f"load and save to {weight_file}")
+# print(f"load and save to {weight_file}")
 
 if world.LOAD:
     try:
@@ -78,7 +80,7 @@ try:
 
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w)
 
-        if epoch % 5 == 0:
+        if epoch != 0 and epoch % 10 == 0:
             cprint("[TEST]")
             results = Procedure.Test(dataset, Recmodel, epoch, w, world.config['multicore'], val=False)
 
@@ -86,14 +88,13 @@ try:
             recall = round(results['recall'][0], 5)
             ndcg = round(results['ndcg'][0], 5)
 
-            topk_txt = f'Testing EPOCH[{epoch + 1}/{world.TRAIN_epochs}]  {output_information} | Results Top-k (pre, recall, ndcg): {pre}, {recall}, {ndcg}'
+            topk_txt = f'Testing EPOCH[{epoch + 1}/{world.TRAIN_epochs}] | Results Top-k (pre, recall, ndcg): {pre}, {recall}, {ndcg}'
             print(topk_txt)
 
         end = time.time()
         diff = datetime.datetime.fromtimestamp((end - start))
         diff_mins = diff.strftime("%M:%S")
-        print(
-            f'EPOCH[{epoch + 1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins | Results val Top-k (recall, ndcg):  {recall}, {ndcg}')
+        print(f'EPOCH[{epoch + 1}/{world.TRAIN_epochs}] {output_information}  |  {diff_mins}mins')
 
 
 finally:

@@ -16,12 +16,13 @@ def main():
     dataset_config, model_config, trainer_config = config[2]
     dataset_config['path'] = dataset_config['path'][:-4] + str(1)
 
-    writer = SummaryWriter(log_path)
+    # writer = SummaryWriter(log_path)
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)
     trainer = get_trainer(trainer_config, dataset, model)
-    trainer.train(verbose=True, writer=writer)
-    writer.close()
+    # trainer.train(verbose=True, writer=writer)
+    trainer.train(verbose=True)
+    # writer.close()
     results, _ = trainer.eval('test')
     print('Test result. {:s}'.format(results))
 

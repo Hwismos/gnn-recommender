@@ -34,7 +34,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 args = parse_args()
 
 ROOT_PATH = "./"
-CODE_PATH = join(ROOT_PATH, 'code')
+CODE_PATH = join(ROOT_PATH, 'gtn_code')
 DATA_PATH = join(ROOT_PATH, 'data')
 BOARD_PATH = join(CODE_PATH, 'runs')
 FILE_PATH = join(CODE_PATH, 'checkpoints')
@@ -42,8 +42,8 @@ import sys
 
 sys.path.append(join(CODE_PATH, 'sources'))
 
-if not os.path.exists(FILE_PATH):
-    os.makedirs(FILE_PATH, exist_ok=True)
+# if not os.path.exists(FILE_PATH):
+#     os.makedirs(FILE_PATH, exist_ok=True)
 
 config = {}
 all_dataset = ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']
@@ -89,4 +89,5 @@ simplefilter(action="ignore", category=FutureWarning)
 
 
 def cprint(words: str):
-    print(f"\033[0;30;43m{words}\033[0m")
+    print(f'====================================================\n{words}\n====================================================')
+    # print(f"\033[0;30;43m{words}\033[0m")

@@ -141,7 +141,7 @@ class ProcessedDataset(BasicDataset):
     def __init__(self, dataset_config):
         super(ProcessedDataset, self).__init__(dataset_config)
         self.train_data = self.read_data(os.path.join(dataset_config['path'], 'train.txt'))
-        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'val.txt'))
+        self.val_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         self.test_data = self.read_data(os.path.join(dataset_config['path'], 'test.txt'))
         assert len(self.train_data) == len(self.val_data)
         assert len(self.train_data) == len(self.test_data)

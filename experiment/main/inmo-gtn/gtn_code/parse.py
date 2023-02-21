@@ -80,9 +80,9 @@ def parse_args():
                         help="available datasets: [gowalla,  last-fm, yelp2018, amazon-book]")
     parser.add_argument('--model', type=str, default='gtn', help='rec-model, support [gnt, lgn]')
     parser.add_argument('--avg', type=int, default=0)
-    parser.add_argument('--recdim', type=int, default=256,
+    parser.add_argument('--recdim', type=int, default=128,
                         help="the embedding size of GTN: 128, 256")
-    parser.add_argument('--gpu_id', type=int, default=1)
+    parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--gcn_model', type=str,
                         default='GTN', help='GTN')
     return parser.parse_args()

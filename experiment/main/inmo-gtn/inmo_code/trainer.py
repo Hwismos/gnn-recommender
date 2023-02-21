@@ -5,7 +5,7 @@ from torch.optim import Adam, SGD
 import time
 import numpy as np
 import os
-from utils import AverageMeter, get_sparse_tensor
+from utils_inmo import AverageMeter, get_sparse_tensor
 import torch.nn.functional as F
 import scipy.sparse as sp
 from dataset import AuxiliaryDataset
@@ -55,6 +55,13 @@ class BasicTrainer:
                                   , metrics[metric][k], self.epoch)
 
     def train(self, verbose=True, writer=None):
+        # ! ================================
+        
+        final_rep = self.train_one_epoch()        
+        return final_rep
+        
+        # ! ================================
+
         if not self.model.trainable:
             results, metrics = self.eval('val')
             if verbose:
@@ -62,7 +69,7 @@ class BasicTrainer:
             ndcg = metrics['NDCG'][self.topks[0]]
             return ndcg
 
-        if not os.path.exists('checkpoints'): os.mkdir('checkpoints')
+        if not os.path.exists('checkpoints_inmo'): os.mkdir('checkpoints_inmo')
         patience = self.max_patience
         for self.epoch in range(self.n_epochs):
             start_time = time.time()
@@ -83,8 +90,10 @@ class BasicTrainer:
             start_time = time.time()
             results, metrics = self.eval('val')
             consumed_time = time.time() - start_time
-            if verbose:
-                print('Validation result. {:s}Time: {:.3f}s'.format(results, consumed_time))
+            # 10 에포크 단위로 결과 출력
+            if self.epoch != 0 and self.epoch % 10 == 0:
+                if verbose:
+                    print('Validation result. {:s}Time: {:.3f}s'.format(results, consumed_time))
             if writer:
                 self.record(writer, 'validation', metrics)
 
@@ -97,7 +106,7 @@ class BasicTrainer:
                 self.best_ndcg = ndcg
                 self.model.save(self.save_path)
                 patience = self.max_patience
-                print('Best NDCG, save model to {:s}'.format(self.save_path))
+                # print('Best NDCG, save model to {:s}'.format(self.save_path))
             else:
                 patience -= self.val_interval
                 if patience <= 0:
@@ -296,6 +305,12 @@ class IGCNTrainer(BasicTrainer):
         for batch_data, a_batch_data in zip(self.dataloader, self.aux_dataloader):
             inputs = batch_data[:, 0, :].to(device=self.device, dtype=torch.int64)
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
+
+            # ! ===========================================================
+            final_rep = self.model.bpr_forward(users, pos_items, neg_items)
+            return final_rep
+            # ! ===========================================================
+
             users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
             neg_scores = torch.sum(users_r * neg_items_r, dim=1)
