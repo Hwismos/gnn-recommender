@@ -1,5 +1,5 @@
 def get_gowalla_config(device):
-    dataset_config = {'name': 'ProcessedDataset', 'path': 'data/Gowalla/time',
+    dataset_config = {'name': 'ProcessedDataset', 'path': './data/gowalla/',
                       'device': device}
     gowalla_config = []
 
