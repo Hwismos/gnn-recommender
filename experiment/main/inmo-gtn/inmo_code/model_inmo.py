@@ -458,9 +458,9 @@ class IGCN(BasicModel):
 
         row, column = feat_mat.indices()
 
-        print('\n\n')
-        print(f'row: {row}\ncol: {column}\nlen of row: {len(row)}\nlen of col: {len(column)}\n\n')
-        exit()
+        # print('\n\n')
+        # print(f'row: {row}\ncol: {column}\nlen of row: {len(row)}\nlen of col: {len(column)}\n\n')
+        # exit()
 
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())

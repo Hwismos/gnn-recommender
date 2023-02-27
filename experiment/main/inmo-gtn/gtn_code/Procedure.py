@@ -56,6 +56,8 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
                                                                            posItems,
                                                                            negItems,
                                                                            batch_size=world.config['bpr_batch_size'])):
+        print(f'\n\nbatch_users: {batch_users}\ntype: {type(batch_users)}\n\n')
+        exit()
         cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss

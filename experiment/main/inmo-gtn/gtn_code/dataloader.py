@@ -112,12 +112,17 @@ class Loader(BasicDataset):
         self.testDataSize = 0
         self.args = config['args']
 
+        self.train_array = []       # inmo에서 사용하는 [uid, i1, i2, i3 ... im] 리스트
+
         with open(train_file) as f:
             for l in f.readlines():
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
                     items = [int(i) for i in l[1:]]
                     uid = int(l[0])
+
+                    self.train_array.extend([[uid, item] for item in items])
+
                     trainUniqueUsers.append(uid)
                     trainUser.extend([uid] * len(items))
                     trainItem.extend(items)
@@ -130,10 +135,8 @@ class Loader(BasicDataset):
         self.trainItem = np.array(trainItem)
         with open(test_file) as f:
             for l in f.readlines():
-
                 if len(l) > 0:
                     l = l.strip('\n').split(' ')
-
                     try:
                         items = [int(i) for i in l[1:]]
                     except Exception:

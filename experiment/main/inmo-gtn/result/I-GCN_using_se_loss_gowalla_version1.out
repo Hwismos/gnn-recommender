@@ -1,0 +1,393 @@
+>>SEED: 2020
+====================================================
+loading [./data/gowalla]
+====================================================
+810128 interactions for training
+217242 interactions for testing
+gowalla Sparsity : 0.0008396216228570436
+gowalla is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'K': 3,
+ 'args': Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='gowalla', debug=True, decay=0.0001, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]'),
+ 'bigdata': False,
+ 'bpr_batch_size': 2048,
+ 'dataset': 'gowalla',
+ 'decay': 0.0001,
+ 'dropout': 0,
+ 'epochs': 1000,
+ 'keep_prob': 0.6,
+ 'lambda2': 4.0,
+ 'latent_dim_rec': 128,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 100}
+cores for test: 24
+comment: gtn
+tensorboard: 0
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+loading adjacency matrix
+successfully loaded...
+lgn is already to go(dropout:0)
+====================================================
+not enable tensorflowboard
+====================================================
+Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='gowalla', debug=True, decay=0.0001, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]')
+EPOCH[1/1000] loss 0.1452  0.1449  0.0003 - |Sample:8.74|  |  00:42mins
+EPOCH[2/1000] loss 0.0714  0.0710  0.0003 - |Sample:8.69|  |  00:41mins
+EPOCH[3/1000] loss 0.0608  0.0604  0.0004 - |Sample:8.53|  |  00:41mins
+EPOCH[4/1000] loss 0.0549  0.0545  0.0004 - |Sample:8.49|  |  00:41mins
+EPOCH[5/1000] loss 0.0500  0.0495  0.0004 - |Sample:8.46|  |  00:41mins
+EPOCH[6/1000] loss 0.0468  0.0463  0.0005 - |Sample:8.20|  |  00:41mins
+EPOCH[7/1000] loss 0.0443  0.0438  0.0005 - |Sample:8.70|  |  00:41mins
+EPOCH[8/1000] loss 0.0422  0.0416  0.0006 - |Sample:8.51|  |  00:41mins
+EPOCH[9/1000] loss 0.0402  0.0396  0.0006 - |Sample:8.65|  |  00:41mins
+EPOCH[10/1000] loss 0.0377  0.0371  0.0006 - |Sample:8.28|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[11/1000] | Results Top-k (pre, recall, ndcg): 0.04375, 0.15074, 0.11474
+EPOCH[11/1000] loss 0.0361  0.0354  0.0007 - |Sample:8.65|  |  00:58mins
+EPOCH[12/1000] loss 0.0340  0.0333  0.0007 - |Sample:8.34|  |  00:41mins
+EPOCH[13/1000] loss 0.0329  0.0322  0.0007 - |Sample:8.34|  |  00:41mins
+EPOCH[14/1000] loss 0.0323  0.0316  0.0008 - |Sample:8.33|  |  00:41mins
+EPOCH[15/1000] loss 0.0309  0.0301  0.0008 - |Sample:8.32|  |  00:41mins
+EPOCH[16/1000] loss 0.0296  0.0287  0.0008 - |Sample:9.51|  |  00:42mins
+EPOCH[17/1000] loss 0.0285  0.0277  0.0009 - |Sample:8.60|  |  00:41mins
+EPOCH[18/1000] loss 0.0274  0.0264  0.0009 - |Sample:8.73|  |  00:41mins
+EPOCH[19/1000] loss 0.0266  0.0256  0.0010 - |Sample:8.09|  |  00:41mins
+EPOCH[20/1000] loss 0.0255  0.0245  0.0010 - |Sample:8.54|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[21/1000] | Results Top-k (pre, recall, ndcg): 0.04761, 0.16318, 0.12632
+EPOCH[21/1000] loss 0.0253  0.0243  0.0010 - |Sample:8.37|  |  00:57mins
+EPOCH[22/1000] loss 0.0248  0.0238  0.0011 - |Sample:8.30|  |  00:41mins
+EPOCH[23/1000] loss 0.0238  0.0228  0.0011 - |Sample:9.01|  |  00:42mins
+EPOCH[24/1000] loss 0.0232  0.0221  0.0011 - |Sample:8.67|  |  00:41mins
+EPOCH[25/1000] loss 0.0223  0.0211  0.0012 - |Sample:8.70|  |  00:41mins
+EPOCH[26/1000] loss 0.0222  0.0210  0.0012 - |Sample:8.27|  |  00:41mins
+EPOCH[27/1000] loss 0.0210  0.0198  0.0012 - |Sample:8.61|  |  00:41mins
+EPOCH[28/1000] loss 0.0210  0.0197  0.0013 - |Sample:8.40|  |  00:41mins
+EPOCH[29/1000] loss 0.0205  0.0192  0.0013 - |Sample:8.46|  |  00:41mins
+EPOCH[30/1000] loss 0.0195  0.0182  0.0013 - |Sample:8.42|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[31/1000] | Results Top-k (pre, recall, ndcg): 0.05015, 0.17003, 0.13431
+EPOCH[31/1000] loss 0.0194  0.0181  0.0014 - |Sample:8.61|  |  00:57mins
+EPOCH[32/1000] loss 0.0191  0.0177  0.0014 - |Sample:8.57|  |  00:41mins
+EPOCH[33/1000] loss 0.0187  0.0173  0.0014 - |Sample:8.45|  |  00:41mins
+EPOCH[34/1000] loss 0.0181  0.0167  0.0015 - |Sample:8.67|  |  00:41mins
+EPOCH[35/1000] loss 0.0175  0.0160  0.0015 - |Sample:8.18|  |  00:41mins
+EPOCH[36/1000] loss 0.0176  0.0161  0.0015 - |Sample:8.63|  |  00:41mins
+EPOCH[37/1000] loss 0.0171  0.0155  0.0016 - |Sample:8.41|  |  00:41mins
+EPOCH[38/1000] loss 0.0165  0.0149  0.0016 - |Sample:8.59|  |  00:41mins
+EPOCH[39/1000] loss 0.0164  0.0147  0.0016 - |Sample:8.62|  |  00:41mins
+EPOCH[40/1000] loss 0.0160  0.0143  0.0017 - |Sample:8.47|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[41/1000] | Results Top-k (pre, recall, ndcg): 0.05174, 0.1758, 0.13935
+EPOCH[41/1000] loss 0.0157  0.0140  0.0017 - |Sample:8.46|  |  00:57mins
+EPOCH[42/1000] loss 0.0151  0.0134  0.0017 - |Sample:8.47|  |  00:41mins
+EPOCH[43/1000] loss 0.0149  0.0131  0.0018 - |Sample:8.69|  |  00:41mins
+EPOCH[44/1000] loss 0.0150  0.0132  0.0018 - |Sample:8.43|  |  00:41mins
+EPOCH[45/1000] loss 0.0146  0.0128  0.0018 - |Sample:8.33|  |  00:41mins
+EPOCH[46/1000] loss 0.0144  0.0126  0.0019 - |Sample:8.81|  |  00:41mins
+EPOCH[47/1000] loss 0.0140  0.0121  0.0019 - |Sample:8.48|  |  00:41mins
+EPOCH[48/1000] loss 0.0139  0.0120  0.0019 - |Sample:8.47|  |  00:41mins
+EPOCH[49/1000] loss 0.0141  0.0122  0.0019 - |Sample:8.49|  |  00:41mins
+EPOCH[50/1000] loss 0.0137  0.0117  0.0020 - |Sample:8.42|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[51/1000] | Results Top-k (pre, recall, ndcg): 0.05315, 0.1797, 0.14354
+EPOCH[51/1000] loss 0.0132  0.0112  0.0020 - |Sample:8.16|  |  00:57mins
+EPOCH[52/1000] loss 0.0129  0.0109  0.0020 - |Sample:8.94|  |  00:41mins
+EPOCH[53/1000] loss 0.0125  0.0104  0.0021 - |Sample:8.60|  |  00:41mins
+EPOCH[54/1000] loss 0.0128  0.0107  0.0021 - |Sample:8.50|  |  00:41mins
+EPOCH[55/1000] loss 0.0129  0.0108  0.0021 - |Sample:8.48|  |  00:41mins
+EPOCH[56/1000] loss 0.0124  0.0103  0.0021 - |Sample:8.43|  |  00:41mins
+EPOCH[57/1000] loss 0.0125  0.0104  0.0022 - |Sample:8.69|  |  00:41mins
+EPOCH[58/1000] loss 0.0119  0.0097  0.0022 - |Sample:8.15|  |  00:41mins
+EPOCH[59/1000] loss 0.0124  0.0102  0.0022 - |Sample:8.67|  |  00:41mins
+EPOCH[60/1000] loss 0.0118  0.0095  0.0022 - |Sample:8.60|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[61/1000] | Results Top-k (pre, recall, ndcg): 0.05369, 0.18146, 0.14607
+EPOCH[61/1000] loss 0.0118  0.0095  0.0023 - |Sample:8.55|  |  00:57mins
+EPOCH[62/1000] loss 0.0117  0.0094  0.0023 - |Sample:8.50|  |  00:41mins
+EPOCH[63/1000] loss 0.0115  0.0092  0.0023 - |Sample:8.49|  |  00:41mins
+EPOCH[64/1000] loss 0.0113  0.0090  0.0023 - |Sample:8.41|  |  00:41mins
+EPOCH[65/1000] loss 0.0114  0.0090  0.0024 - |Sample:8.40|  |  00:41mins
+EPOCH[66/1000] loss 0.0112  0.0088  0.0024 - |Sample:8.63|  |  00:41mins
+EPOCH[67/1000] loss 0.0109  0.0085  0.0024 - |Sample:8.62|  |  00:41mins
+EPOCH[68/1000] loss 0.0109  0.0085  0.0024 - |Sample:8.64|  |  00:41mins
+EPOCH[69/1000] loss 0.0109  0.0085  0.0024 - |Sample:8.48|  |  00:41mins
+EPOCH[70/1000] loss 0.0108  0.0084  0.0025 - |Sample:8.47|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[71/1000] | Results Top-k (pre, recall, ndcg): 0.05446, 0.18278, 0.14765
+EPOCH[71/1000] loss 0.0106  0.0081  0.0025 - |Sample:8.43|  |  00:57mins
+EPOCH[72/1000] loss 0.0106  0.0081  0.0025 - |Sample:8.45|  |  00:41mins
+EPOCH[73/1000] loss 0.0102  0.0077  0.0025 - |Sample:8.68|  |  00:41mins
+EPOCH[74/1000] loss 0.0106  0.0080  0.0025 - |Sample:8.31|  |  00:41mins
+EPOCH[75/1000] loss 0.0106  0.0081  0.0026 - |Sample:8.78|  |  00:41mins
+EPOCH[76/1000] loss 0.0101  0.0076  0.0026 - |Sample:8.49|  |  00:41mins
+EPOCH[77/1000] loss 0.0105  0.0079  0.0026 - |Sample:8.47|  |  00:41mins
+EPOCH[78/1000] loss 0.0099  0.0073  0.0026 - |Sample:8.47|  |  00:41mins
+EPOCH[79/1000] loss 0.0101  0.0075  0.0026 - |Sample:8.48|  |  00:41mins
+EPOCH[80/1000] loss 0.0097  0.0070  0.0027 - |Sample:8.48|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[81/1000] | Results Top-k (pre, recall, ndcg): 0.05504, 0.18457, 0.14943
+EPOCH[81/1000] loss 0.0098  0.0071  0.0027 - |Sample:8.61|  |  00:57mins
+EPOCH[82/1000] loss 0.0100  0.0073  0.0027 - |Sample:8.87|  |  00:41mins
+EPOCH[83/1000] loss 0.0100  0.0073  0.0027 - |Sample:8.51|  |  00:41mins
+EPOCH[84/1000] loss 0.0095  0.0068  0.0027 - |Sample:8.53|  |  00:41mins
+EPOCH[85/1000] loss 0.0095  0.0067  0.0027 - |Sample:8.51|  |  00:41mins
+EPOCH[86/1000] loss 0.0096  0.0068  0.0028 - |Sample:8.45|  |  00:41mins
+EPOCH[87/1000] loss 0.0094  0.0066  0.0028 - |Sample:8.45|  |  00:41mins
+EPOCH[88/1000] loss 0.0094  0.0066  0.0028 - |Sample:8.42|  |  00:41mins
+EPOCH[89/1000] loss 0.0094  0.0066  0.0028 - |Sample:8.96|  |  00:41mins
+EPOCH[90/1000] loss 0.0094  0.0065  0.0028 - |Sample:8.37|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[91/1000] | Results Top-k (pre, recall, ndcg): 0.05533, 0.18501, 0.14995
+EPOCH[91/1000] loss 0.0094  0.0066  0.0028 - |Sample:8.73|  |  00:57mins
+EPOCH[92/1000] loss 0.0093  0.0064  0.0029 - |Sample:8.51|  |  00:41mins
+EPOCH[93/1000] loss 0.0090  0.0061  0.0029 - |Sample:8.49|  |  00:41mins
+EPOCH[94/1000] loss 0.0090  0.0061  0.0029 - |Sample:8.44|  |  00:41mins
+EPOCH[95/1000] loss 0.0091  0.0062  0.0029 - |Sample:8.43|  |  00:41mins
+EPOCH[96/1000] loss 0.0089  0.0060  0.0029 - |Sample:8.62|  |  00:41mins
+EPOCH[97/1000] loss 0.0090  0.0060  0.0029 - |Sample:8.85|  |  00:41mins
+EPOCH[98/1000] loss 0.0091  0.0062  0.0029 - |Sample:8.26|  |  00:41mins
+EPOCH[99/1000] loss 0.0087  0.0058  0.0029 - |Sample:8.68|  |  00:41mins
+EPOCH[100/1000] loss 0.0091  0.0062  0.0030 - |Sample:8.43|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[101/1000] | Results Top-k (pre, recall, ndcg): 0.05532, 0.18478, 0.15005
+EPOCH[101/1000] loss 0.0088  0.0058  0.0030 - |Sample:8.44|  |  00:57mins
+EPOCH[102/1000] loss 0.0085  0.0055  0.0030 - |Sample:8.46|  |  00:41mins
+EPOCH[103/1000] loss 0.0087  0.0057  0.0030 - |Sample:8.69|  |  00:41mins
+EPOCH[104/1000] loss 0.0086  0.0055  0.0030 - |Sample:8.44|  |  00:41mins
+EPOCH[105/1000] loss 0.0084  0.0054  0.0030 - |Sample:8.47|  |  00:41mins
+EPOCH[106/1000] loss 0.0087  0.0057  0.0030 - |Sample:8.23|  |  00:41mins
+EPOCH[107/1000] loss 0.0086  0.0055  0.0030 - |Sample:8.67|  |  00:41mins
+EPOCH[108/1000] loss 0.0086  0.0055  0.0031 - |Sample:8.40|  |  00:41mins
+EPOCH[109/1000] loss 0.0084  0.0054  0.0031 - |Sample:8.43|  |  00:41mins
+EPOCH[110/1000] loss 0.0083  0.0053  0.0031 - |Sample:8.53|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[111/1000] | Results Top-k (pre, recall, ndcg): 0.0552, 0.18542, 0.15042
+EPOCH[111/1000] loss 0.0082  0.0051  0.0031 - |Sample:8.85|  |  00:57mins
+EPOCH[112/1000] loss 0.0081  0.0050  0.0031 - |Sample:8.25|  |  00:41mins
+EPOCH[113/1000] loss 0.0083  0.0052  0.0031 - |Sample:8.72|  |  00:41mins
+EPOCH[114/1000] loss 0.0086  0.0054  0.0031 - |Sample:8.45|  |  00:41mins
+EPOCH[115/1000] loss 0.0083  0.0052  0.0031 - |Sample:8.45|  |  00:41mins
+EPOCH[116/1000] loss 0.0084  0.0052  0.0031 - |Sample:8.39|  |  00:41mins
+EPOCH[117/1000] loss 0.0081  0.0049  0.0031 - |Sample:8.91|  |  00:41mins
+EPOCH[118/1000] loss 0.0082  0.0050  0.0032 - |Sample:8.63|  |  00:41mins
+EPOCH[119/1000] loss 0.0083  0.0051  0.0032 - |Sample:8.72|  |  00:41mins
+EPOCH[120/1000] loss 0.0080  0.0048  0.0032 - |Sample:8.52|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[121/1000] | Results Top-k (pre, recall, ndcg): 0.05554, 0.18541, 0.15131
+EPOCH[121/1000] loss 0.0079  0.0047  0.0032 - |Sample:8.49|  |  00:57mins
+EPOCH[122/1000] loss 0.0080  0.0049  0.0032 - |Sample:8.44|  |  00:41mins
+EPOCH[123/1000] loss 0.0080  0.0048  0.0032 - |Sample:8.45|  |  00:41mins
+EPOCH[124/1000] loss 0.0079  0.0047  0.0032 - |Sample:8.91|  |  00:41mins
+EPOCH[125/1000] loss 0.0081  0.0048  0.0032 - |Sample:8.63|  |  00:41mins
+EPOCH[126/1000] loss 0.0079  0.0047  0.0032 - |Sample:8.19|  |  00:41mins
+EPOCH[127/1000] loss 0.0079  0.0047  0.0032 - |Sample:8.64|  |  00:41mins
+EPOCH[128/1000] loss 0.0080  0.0048  0.0032 - |Sample:8.46|  |  00:41mins
+EPOCH[129/1000] loss 0.0080  0.0048  0.0032 - |Sample:8.46|  |  00:41mins
+EPOCH[130/1000] loss 0.0081  0.0049  0.0032 - |Sample:8.17|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[131/1000] | Results Top-k (pre, recall, ndcg): 0.05566, 0.18574, 0.15153
+EPOCH[131/1000] loss 0.0078  0.0045  0.0032 - |Sample:8.60|  |  00:57mins
+EPOCH[132/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.61|  |  00:41mins
+EPOCH[133/1000] loss 0.0078  0.0045  0.0033 - |Sample:8.67|  |  00:41mins
+EPOCH[134/1000] loss 0.0078  0.0046  0.0033 - |Sample:8.57|  |  00:41mins
+EPOCH[135/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.53|  |  00:41mins
+EPOCH[136/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.25|  |  00:41mins
+EPOCH[137/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.67|  |  00:41mins
+EPOCH[138/1000] loss 0.0078  0.0045  0.0033 - |Sample:8.47|  |  00:41mins
+EPOCH[139/1000] loss 0.0076  0.0043  0.0033 - |Sample:8.61|  |  00:41mins
+EPOCH[140/1000] loss 0.0078  0.0045  0.0033 - |Sample:8.67|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[141/1000] | Results Top-k (pre, recall, ndcg): 0.05582, 0.18593, 0.15222
+EPOCH[141/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.44|  |  00:57mins
+EPOCH[142/1000] loss 0.0077  0.0044  0.0033 - |Sample:8.46|  |  00:41mins
+EPOCH[143/1000] loss 0.0076  0.0043  0.0033 - |Sample:8.42|  |  00:41mins
+EPOCH[144/1000] loss 0.0076  0.0043  0.0033 - |Sample:8.71|  |  00:41mins
+EPOCH[145/1000] loss 0.0077  0.0043  0.0033 - |Sample:8.26|  |  00:41mins
+EPOCH[146/1000] loss 0.0075  0.0041  0.0033 - |Sample:8.93|  |  00:41mins
+EPOCH[147/1000] loss 0.0074  0.0041  0.0033 - |Sample:8.58|  |  00:41mins
+EPOCH[148/1000] loss 0.0074  0.0040  0.0033 - |Sample:8.51|  |  00:41mins
+EPOCH[149/1000] loss 0.0075  0.0042  0.0033 - |Sample:8.45|  |  00:41mins
+EPOCH[150/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.50|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[151/1000] | Results Top-k (pre, recall, ndcg): 0.05568, 0.18547, 0.15142
+EPOCH[151/1000] loss 0.0073  0.0040  0.0034 - |Sample:8.43|  |  00:57mins
+EPOCH[152/1000] loss 0.0075  0.0041  0.0034 - |Sample:8.41|  |  00:41mins
+EPOCH[153/1000] loss 0.0076  0.0042  0.0034 - |Sample:8.95|  |  00:41mins
+EPOCH[154/1000] loss 0.0075  0.0042  0.0034 - |Sample:8.51|  |  00:41mins
+EPOCH[155/1000] loss 0.0075  0.0041  0.0034 - |Sample:8.21|  |  00:41mins
+EPOCH[156/1000] loss 0.0075  0.0041  0.0034 - |Sample:8.64|  |  00:41mins
+EPOCH[157/1000] loss 0.0074  0.0040  0.0034 - |Sample:8.44|  |  00:41mins
+EPOCH[158/1000] loss 0.0072  0.0038  0.0034 - |Sample:8.48|  |  00:41mins
+EPOCH[159/1000] loss 0.0074  0.0040  0.0034 - |Sample:8.50|  |  00:41mins
+EPOCH[160/1000] loss 0.0074  0.0040  0.0034 - |Sample:8.45|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[161/1000] | Results Top-k (pre, recall, ndcg): 0.05535, 0.18451, 0.15156
+EPOCH[161/1000] loss 0.0072  0.0039  0.0034 - |Sample:8.67|  |  00:57mins
+EPOCH[162/1000] loss 0.0072  0.0038  0.0034 - |Sample:8.43|  |  00:41mins
+EPOCH[163/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.77|  |  00:41mins
+EPOCH[164/1000] loss 0.0074  0.0040  0.0034 - |Sample:8.46|  |  00:41mins
+EPOCH[165/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.48|  |  00:41mins
+EPOCH[166/1000] loss 0.0072  0.0038  0.0034 - |Sample:8.51|  |  00:41mins
+EPOCH[167/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.49|  |  00:41mins
+EPOCH[168/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.76|  |  00:41mins
+EPOCH[169/1000] loss 0.0071  0.0037  0.0034 - |Sample:8.50|  |  00:41mins
+EPOCH[170/1000] loss 0.0070  0.0036  0.0034 - |Sample:8.83|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[171/1000] | Results Top-k (pre, recall, ndcg): 0.05532, 0.18409, 0.15169
+EPOCH[171/1000] loss 0.0071  0.0037  0.0034 - |Sample:8.31|  |  00:57mins
+EPOCH[172/1000] loss 0.0070  0.0036  0.0034 - |Sample:8.62|  |  00:41mins
+EPOCH[173/1000] loss 0.0073  0.0039  0.0034 - |Sample:8.40|  |  00:41mins
+EPOCH[174/1000] loss 0.0072  0.0038  0.0034 - |Sample:8.38|  |  00:41mins
+EPOCH[175/1000] loss 0.0071  0.0037  0.0034 - |Sample:8.64|  |  00:41mins
+EPOCH[176/1000] loss 0.0070  0.0036  0.0034 - |Sample:8.53|  |  00:41mins
+EPOCH[177/1000] loss 0.0071  0.0037  0.0034 - |Sample:8.44|  |  00:41mins
+EPOCH[178/1000] loss 0.0071  0.0036  0.0034 - |Sample:8.42|  |  00:41mins
+EPOCH[179/1000] loss 0.0071  0.0037  0.0034 - |Sample:8.64|  |  00:41mins
+EPOCH[180/1000] loss 0.0071  0.0036  0.0034 - |Sample:8.18|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[181/1000] | Results Top-k (pre, recall, ndcg): 0.05541, 0.18375, 0.15134
+EPOCH[181/1000] loss 0.0072  0.0037  0.0034 - |Sample:8.58|  |  00:57mins
+EPOCH[182/1000] loss 0.0070  0.0036  0.0034 - |Sample:8.74|  |  00:41mins
+EPOCH[183/1000] loss 0.0070  0.0036  0.0034 - |Sample:8.44|  |  00:41mins
+EPOCH[184/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.49|  |  00:41mins
+EPOCH[185/1000] loss 0.0072  0.0037  0.0035 - |Sample:8.44|  |  00:41mins
+EPOCH[186/1000] loss 0.0071  0.0036  0.0035 - |Sample:8.40|  |  00:41mins
+EPOCH[187/1000] loss 0.0070  0.0035  0.0035 - |Sample:8.69|  |  00:41mins
+EPOCH[188/1000] loss 0.0070  0.0036  0.0035 - |Sample:8.39|  |  00:41mins
+EPOCH[189/1000] loss 0.0071  0.0036  0.0035 - |Sample:8.40|  |  00:41mins
+EPOCH[190/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.62|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[191/1000] | Results Top-k (pre, recall, ndcg): 0.05519, 0.18377, 0.15084
+EPOCH[191/1000] loss 0.0069  0.0035  0.0035 - |Sample:8.54|  |  00:57mins
+EPOCH[192/1000] loss 0.0069  0.0035  0.0035 - |Sample:8.46|  |  00:41mins
+EPOCH[193/1000] loss 0.0070  0.0035  0.0035 - |Sample:8.14|  |  00:41mins
+EPOCH[194/1000] loss 0.0068  0.0034  0.0035 - |Sample:8.59|  |  00:41mins
+EPOCH[195/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.38|  |  00:41mins
+EPOCH[196/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.42|  |  00:41mins
+EPOCH[197/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.61|  |  00:41mins
+EPOCH[198/1000] loss 0.0068  0.0034  0.0035 - |Sample:8.59|  |  00:41mins
+EPOCH[199/1000] loss 0.0069  0.0035  0.0035 - |Sample:8.44|  |  00:41mins
+EPOCH[200/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.18|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[201/1000] | Results Top-k (pre, recall, ndcg): 0.05527, 0.18384, 0.15135
+EPOCH[201/1000] loss 0.0067  0.0033  0.0035 - |Sample:8.59|  |  00:57mins
+EPOCH[202/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.44|  |  00:41mins
+EPOCH[203/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.40|  |  00:41mins
+EPOCH[204/1000] loss 0.0071  0.0036  0.0035 - |Sample:8.66|  |  00:41mins
+EPOCH[205/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.40|  |  00:41mins
+EPOCH[206/1000] loss 0.0070  0.0036  0.0035 - |Sample:8.65|  |  00:41mins
+EPOCH[207/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.45|  |  00:41mins
+EPOCH[208/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.47|  |  00:41mins
+EPOCH[209/1000] loss 0.0067  0.0033  0.0035 - |Sample:8.47|  |  00:41mins
+EPOCH[210/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.47|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[211/1000] | Results Top-k (pre, recall, ndcg): 0.05538, 0.18356, 0.15104
+EPOCH[211/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.61|  |  00:57mins
+EPOCH[212/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.40|  |  00:41mins
+EPOCH[213/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.74|  |  00:41mins
+EPOCH[214/1000] loss 0.0066  0.0032  0.0035 - |Sample:8.47|  |  00:41mins
+EPOCH[215/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.45|  |  00:41mins
+EPOCH[216/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.45|  |  00:41mins
+EPOCH[217/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.47|  |  00:41mins
+EPOCH[218/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.94|  |  00:41mins
+EPOCH[219/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.69|  |  00:41mins
+EPOCH[220/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.77|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[221/1000] | Results Top-k (pre, recall, ndcg): 0.05554, 0.1842, 0.15186
+EPOCH[221/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.28|  |  00:57mins
+EPOCH[222/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.66|  |  00:41mins
+EPOCH[223/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.46|  |  00:41mins
+EPOCH[224/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.43|  |  00:41mins
+EPOCH[225/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.93|  |  00:41mins
+EPOCH[226/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.57|  |  00:41mins
+EPOCH[227/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.48|  |  00:41mins
+EPOCH[228/1000] loss 0.0067  0.0032  0.0035 - |Sample:8.39|  |  00:41mins
+EPOCH[229/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.67|  |  00:41mins
+EPOCH[230/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.18|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[231/1000] | Results Top-k (pre, recall, ndcg): 0.05516, 0.18308, 0.15046
+EPOCH[231/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.61|  |  00:57mins
+EPOCH[232/1000] loss 0.0069  0.0034  0.0035 - |Sample:8.45|  |  00:41mins
+EPOCH[233/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.63|  |  00:41mins
+EPOCH[234/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.58|  |  00:41mins
+EPOCH[235/1000] loss 0.0068  0.0033  0.0035 - |Sample:8.45|  |  00:41mins
+EPOCH[236/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.44|  |  00:41mins
+EPOCH[237/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.62|  |  00:41mins
+EPOCH[238/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.39|  |  00:41mins
+EPOCH[239/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.43|  |  00:41mins
+EPOCH[240/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.60|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[241/1000] | Results Top-k (pre, recall, ndcg): 0.05517, 0.18302, 0.15067
+EPOCH[241/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.64|  |  00:57mins
+EPOCH[242/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.55|  |  00:41mins
+EPOCH[243/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.24|  |  00:41mins
+EPOCH[244/1000] loss 0.0065  0.0030  0.0035 - |Sample:8.70|  |  00:41mins
+EPOCH[245/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.46|  |  00:41mins
+EPOCH[246/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.49|  |  00:41mins
+EPOCH[247/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.68|  |  00:41mins
+EPOCH[248/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.65|  |  00:41mins
+EPOCH[249/1000] loss 0.0066  0.0031  0.0035 - |Sample:8.20|  |  00:41mins
+EPOCH[250/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.66|  |  00:41mins
+====================================================
+[TEST]
+====================================================
+Testing EPOCH[251/1000] | Results Top-k (pre, recall, ndcg): 0.0553, 0.18325, 0.15095
+EPOCH[251/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.49|  |  00:57mins
+EPOCH[252/1000] loss 0.0064  0.0029  0.0035 - |Sample:8.47|  |  00:41mins

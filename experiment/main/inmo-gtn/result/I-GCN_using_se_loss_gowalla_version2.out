@@ -1,0 +1,47 @@
+>>SEED: 2020
+====================================================
+loading [./data/gowalla]
+====================================================
+810128 interactions for training
+217242 interactions for testing
+gowalla Sparsity : 0.0008396216228570436
+gowalla is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'K': 3,
+ 'args': Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='gowalla', debug=True, decay=0.0001, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]'),
+ 'bigdata': False,
+ 'bpr_batch_size': 2048,
+ 'dataset': 'gowalla',
+ 'decay': 0.0001,
+ 'dropout': 0,
+ 'epochs': 1000,
+ 'keep_prob': 0.6,
+ 'lambda2': 4.0,
+ 'latent_dim_rec': 128,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 100}
+cores for test: 24
+comment: gtn
+tensorboard: 0
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+loading adjacency matrix
+successfully loaded...
+lgn is already to go(dropout:0)
+====================================================
+not enable tensorflowboard
+====================================================
+Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='gowalla', debug=True, decay=0.0001, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]')
+
+
+batch_users: tensor([ 9187, 22958, 24374,  ..., 11197, 23202, 21103], device='cuda:0')
+type: <class 'torch.Tensor'>
+
+

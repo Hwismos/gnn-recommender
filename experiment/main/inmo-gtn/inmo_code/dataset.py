@@ -46,7 +46,7 @@ def output_data(file_path, data):
 
 class BasicDataset(Dataset):
     def __init__(self, dataset_config):
-        print(dataset_config)
+        # print(dataset_config)
         self.config = dataset_config
         self.name = dataset_config['name']
         self.min_interactions = dataset_config.get('min_inter')
