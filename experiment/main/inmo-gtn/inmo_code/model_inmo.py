@@ -293,7 +293,7 @@ class NGCF(BasicModel):
     def bpr_forward(self, users, pos_items, neg_items):
         rep = self.get_rep()
 
-        return rep  # !
+        # return rep  # !
 
         users_r = rep[users, :]
         pos_items_r, neg_items_r = rep[self.n_users + pos_items, :], rep[self.n_users + neg_items, :]
@@ -387,6 +387,8 @@ class IGCN(BasicModel):
         return LightGCN.generate_graph(self, dataset)
 
     def generate_feat(self, dataset, is_updating=False, ranking_metric=None):
+        # print('\n\nfeat_matrix 생성 시작\n\n')
+
         if not is_updating:
             if self.feature_ratio < 1.:
                 ranked_users, ranked_items = graph_rank_nodes(dataset, ranking_metric)
@@ -417,18 +419,49 @@ class IGCN(BasicModel):
             indices.append([user, user_dim + item_dim])
         for item in range(self.n_items):
             indices.append([self.n_users + item, user_dim + item_dim + 1])
+
+        # print('\n\n')
+        # print(np.array(indices))
+        # print('\n\n')
+        # print(np.array(indices).T)
+        # print('\n\n')
+        # print(len(indices))
+        # print('\n\n')
+
         feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
-                             shape=(self.n_users + self.n_items, user_dim + item_dim + 2), dtype=np.float32).tocsr()
+                             shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
+                             dtype=np.float32).tocsr()
+
+
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
         feat = get_sparse_tensor(feat, self.device)
+        
+        # print(f'row_sum: {row_sum}\n\n')
+        # print(f'feat: {feat}\n\nshape: {feat.shape}')
+        # print('\n\nfeat_matrix 생성 완료\n\n')
+        # exit()
+        
         return feat, user_map, item_map, row_sum
 
     def inductive_rep_layer(self, feat_mat):
         padding_tensor = torch.empty([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size],
                                      dtype=torch.float32, device=self.device)
+
+        # print(f'\n\ntensor의 shape\n')
+        # print([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size])
+        # print('\n\n')
+        # print(padding_tensor)
+        # print('\n\n')
+        # exit()
+
         padding_features = torch.cat([self.embedding.weight, padding_tensor], dim=0)
 
         row, column = feat_mat.indices()
+
+        print('\n\n')
+        print(f'row: {row}\ncol: {column}\nlen of row: {len(row)}\nlen of col: {len(column)}\n\n')
+        exit()
+
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
         x = x[:self.feat_mat.shape[0], :]
@@ -438,9 +471,9 @@ class IGCN(BasicModel):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = self.inductive_rep_layer(feat_mat)
 
-        # ! ===========================================================
-        return representations
-        # ! ===========================================================
+        # # ! ===========================================================
+        # return representations
+        # # ! ===========================================================
 
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
