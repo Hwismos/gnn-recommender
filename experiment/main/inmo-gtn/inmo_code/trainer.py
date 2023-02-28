@@ -290,17 +290,6 @@ class IGCNTrainer(BasicTrainer):
         self.aux_dataloader = DataLoader(AuxiliaryDataset(self.dataset, self.model.user_map, self.model.item_map),
                                          batch_size=trainer_config['batch_size'],
                                          num_workers=trainer_config['dataloader_num_workers'])
-
-        # print('\n\n')
-        # print(f' dataloader: {self.dataloader}\n dataloader type: {type(self.dataloader)}\n aux_dataloader: {self.aux_dataloader}\n aux_dataloader type: {type(self.aux_dataloader)}')
-        # print('\n\n')
-        # exit()
-
-        # dataloader: <torch.utils.data.dataloader.DataLoader object at 0x2b6e9ff91340>
-        # dataloader type: <class 'torch.utils.data.dataloader.DataLoader'>
-        # aux_dataloader: <torch.utils.data.dataloader.DataLoader object at 0x2b6e9ff916d0>
-        # aux_dataloader type: <class 'torch.utils.data.dataloader.DataLoader'>
-
         self.initialize_optimizer()
         self.l2_reg = trainer_config['l2_reg']
         self.aux_reg = trainer_config['aux_reg']

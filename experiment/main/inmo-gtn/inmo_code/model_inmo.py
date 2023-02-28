@@ -387,8 +387,6 @@ class IGCN(BasicModel):
         return LightGCN.generate_graph(self, dataset)
 
     def generate_feat(self, dataset, is_updating=False, ranking_metric=None):
-        # print('\n\nfeat_matrix 생성 시작\n\n')
-
         if not is_updating:
             if self.feature_ratio < 1.:
                 ranked_users, ranked_items = graph_rank_nodes(dataset, ranking_metric)
@@ -420,18 +418,16 @@ class IGCN(BasicModel):
         for item in range(self.n_items):
             indices.append([self.n_users + item, user_dim + item_dim + 1])
 
-        # print('\n\n')
-        # print(np.array(indices))
-        # print('\n\n')
-        # print(np.array(indices).T)
-        # print('\n\n')
-        # print(len(indices))
-        # print('\n\n')
-
         feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
                              shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
                              dtype=np.float32).tocsr()
 
+        # feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
+        #                 shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
+        #                 dtype=np.float32).toarray()
+        # print('\n\nfeat_mat array version\n')
+        # print(feat)
+        # exit()
 
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
         feat = get_sparse_tensor(feat, self.device)
