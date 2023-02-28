@@ -55,13 +55,6 @@ class BasicTrainer:
                                   , metrics[metric][k], self.epoch)
 
     def train(self, verbose=True, writer=None):
-        # # ! ================================
-        
-        # final_rep = self.train_one_epoch()        
-        # return final_rep
-        
-        # # ! ================================
-
         if not self.model.trainable:
             results, metrics = self.eval('val')
             if verbose:
@@ -317,23 +310,6 @@ class IGCNTrainer(BasicTrainer):
         for batch_data, a_batch_data in zip(self.dataloader, self.aux_dataloader):
             inputs = batch_data[:, 0, :].to(device=self.device, dtype=torch.int64)
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
-
-            # print('\n\n')
-            # # print(f'bpr user: {users}')
-            # print(f' batch_data: {batch_data}\n batch_data type: {type(batch_data)}\n dim: {batch_data.dim()}')
-            # print('\n\n')
-            # print(f' a_batch_data: {a_batch_data}\n a_batch_data type: {type(a_batch_data)}\n dim: {a_batch_data.dim()}')
-            # print('\n\n')
-
-            # print(max(users))
-            # print(max(pos_items))
-            # exit()
-
-            # # ! ===========================================================
-            # final_rep = self.model.bpr_forward(users, pos_items, neg_items)
-            # return final_rep
-            # # ! ===========================================================
-
             users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
             neg_scores = torch.sum(users_r * neg_items_r, dim=1)
@@ -347,11 +323,6 @@ class IGCNTrainer(BasicTrainer):
             pos_scores = torch.sum(users_r * pos_items_r * self.model.w[None, :], dim=1)
             neg_scores = torch.sum(users_r * neg_items_r * self.model.w[None, :], dim=1)
             aux_loss = F.softplus(neg_scores - pos_scores).mean()
-
-            # print('\n\n')
-            # print(f' users: {users}\n pos_items: {len(pos_items)}\n user_map: {len(self.model.user_map)}')
-            # print('\n\n')
-            # exit()
 
             reg_loss = self.l2_reg * l2_norm_sq.mean() + self.aux_reg * aux_loss
             loss = bpr_loss + reg_loss

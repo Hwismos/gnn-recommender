@@ -56,7 +56,8 @@ class BPRLoss:
         loss.backward()
         self.opt.step()
 
-        return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item()
+        # return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item()
+        return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item(), self.model 
 
 
 def UniformSample_original(dataset, neg_ratio=1):

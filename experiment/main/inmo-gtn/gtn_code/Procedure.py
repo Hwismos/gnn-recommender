@@ -56,9 +56,8 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
                                                                            posItems,
                                                                            negItems,
                                                                            batch_size=world.config['bpr_batch_size'])):
-        print(f'\n\nbatch_users: {batch_users}\ntype: {type(batch_users)}\n\n')
-        exit()
-        cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        # cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss
         aver_reg_loss += reg_loss
@@ -67,6 +66,11 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_loss = aver_loss / total_batch
     aver_mf_loss = aver_mf_loss / total_batch
     aver_reg_loss = aver_reg_loss / total_batch
+
+    # ===============================
+    learning_model.feat_mat_anneal()  
+    # ===============================   
+
     time_info = timer.dict()
     timer.zero()
     return f"loss {aver_loss:.4f}  {aver_mf_loss:.4f}  {aver_reg_loss:.4f} - {time_info}"
