@@ -349,25 +349,32 @@ class Loader(BasicDataset):
             posItems.append(self.UserItemNet[user].nonzero()[1])
         return posItems
 
-    # ==================================================================================
-    def aux_dataloader(self, user_map, item_map):
-        self.n_users = len(user_map)
-        self.n_items = len(item_map)
+
+# ==================================================================================
+class AuxiliaryDataset():
+    def __init__(self, model):
+        self.model = model
+        self.n_users = len(model.user_map)
+        self.n_items = len(model.item_map)
         self.device = world.device
         self.negative_sample_ratio = 1
         self.train_data = [[] for _ in range(self.n_users)]
-        for o_user in range(self.n_users):
-            if o_user in user_map:
-                for o_item in self.train_data[o_user]:
-                    if o_item in item_map:
-                        self.train_data[user_map[o_user]].append(item_map[o_item])
-    
-    def aux_sampling(dataset):
+        self.length = len(model.dataset)
+        for o_user in range(model.dataset.n_users):
+            if o_user in model.user_map:
+                for o_item in model.dataset.train_data[o_user]:
+                    if o_item in model.item_map:
+                        self.train_data[model.user_map[o_user]].append(model.item_map[o_item])
+
+    def __len__(self):
+        return self.length
+
+    def sampling(self):
         total_start = time()
         dataset: BasicDataset
-        user_num = dataset.trainDataSize
-        users = np.random.randint(0, dataset.n_users, user_num)
-        allPos = dataset.allPos
+        user_num = self.model.dataset.trainDataSize
+        users = np.random.randint(0, self.model.dataset.n_users, user_num)
+        allPos = self.model.dataset.allPos
         S = []
         sample_time1 = 0.
         sample_time2 = 0.
@@ -380,7 +387,7 @@ class Loader(BasicDataset):
             posindex = np.random.randint(0, len(posForUser))
             positem = posForUser[posindex]
             while True:
-                negitem = np.random.randint(0, dataset.m_items)
+                negitem = np.random.randint(0, self.model.dataset.m_items)
                 if negitem in posForUser:
                     continue
                 else:

@@ -302,7 +302,7 @@ class GTN(BasicModel):
         neg_emb_ego = self.embedding(self.num_users + neg_items)
         return users_emb, pos_emb, neg_emb, users_emb_ego, pos_emb_ego, neg_emb_ego
 
-    def bpr_loss(self, users, pos, neg):
+    def bpr_loss(self, users, pos, neg, a_users, a_pos, a_neg):
         (users_emb, pos_emb, neg_emb,
          userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
         reg_loss = (1 / 2) * (userEmb0.norm(2).pow(2) +
@@ -315,7 +315,16 @@ class GTN(BasicModel):
 
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
 
-        return loss, reg_loss
+        aux_reg = 1.e-3
+        a_users_r = self.embedding(a_users)
+        a_pos_items_r = self.embedding(a_pos + len(self.user_map))
+        a_neg_items_r = self.embedding(a_neg + len(self.user_map))
+        a_pos_scores = torch.sum(a_users_r * a_pos_items_r * self.w[None, :], dim=1)
+        a_neg_scores = torch.sum(a_users_r * a_neg_items_r * self.w[None, :], dim=1)
+        aux_loss = torch.mean(torch.nn.functional.softplus(a_neg_scores - a_pos_scores))
+        aux_loss = aux_loss * aux_reg
+
+        return loss, reg_loss, aux_loss
 
     def forward(self, users, items):
         # compute embedding

@@ -14,7 +14,7 @@ import torch
 import utils
 import dataloader
 from pprint import pprint
-from utils import timer
+from utils import timer 
 from time import time
 from tqdm import tqdm
 import model
@@ -31,38 +31,6 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 CORES = multiprocessing.cpu_count() // 4
 
-class AuxiliaryDataset():
-    def __init__(self, dataset, user_map, item_map):
-        self.n_users = len(user_map)
-        self.n_items = len(item_map)
-        self.device = world.device
-        self.negative_sample_ratio = 1
-        self.train_data = [[] for _ in range(self.n_users)]
-        self.length = len(dataset)
-        for o_user in range(dataset.n_users):
-            if o_user in user_map:
-                for o_item in dataset.train_data[o_user]:
-                    if o_item in item_map:
-                        self.train_data[user_map[o_user]].append(item_map[o_item])
-
-    def __len__(self):
-        return self.length
-
-    def __getitem__(self, index):
-        user = random.randint(0, self.n_users - 1)
-        while not self.train_data[user]:
-            user = random.randint(0, self.n_users - 1)
-        pos_item = np.random.choice(self.train_data[user])
-        data_with_negs = [[user, pos_item] for _ in range(self.negative_sample_ratio)]
-        for idx in range(self.negative_sample_ratio):
-            neg_item = random.randint(0, self.n_items - 1)
-            while neg_item in self.train_data[user]:
-                neg_item = random.randint(0, self.n_items - 1)
-            data_with_negs[idx].append(neg_item)
-        data_with_negs = np.array(data_with_negs, dtype=np.int64)
-        return data_with_negs
-
-
 def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=None):
     Recmodel = recommend_model
     Recmodel.train()
@@ -70,7 +38,7 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
 
     with timer(name="Sample"):
         S = utils.UniformSample_original(dataset)
-        aux_sample = dataset.aux_dataloader(Recmodel.user_map, Recmodel.item_map)
+    
     users = torch.Tensor(S[:, 0]).long()  # 41830
     posItems = torch.Tensor(S[:, 1]).long()
     negItems = torch.Tensor(S[:, 2]).long()
@@ -78,7 +46,23 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     users = users.to(world.device)
     posItems = posItems.to(world.device)
     negItems = negItems.to(world.device)
+
     users, posItems, negItems = utils.shuffle(users, posItems, negItems)
+    
+    # ========================================================================================
+    aux_S = dataloader.AuxiliaryDataset(Recmodel).sampling()
+
+    aux_users = torch.Tensor(aux_S[:, 0]).long()  # 41830
+    aux_posItems = torch.Tensor(aux_S[:, 1]).long()
+    aux_negItems = torch.Tensor(aux_S[:, 2]).long()
+
+    aux_users = aux_users.to(world.device)
+    aux_posItems = aux_posItems.to(world.device)
+    aux_negItems = aux_negItems.to(world.device)
+
+    aux_users, aux_posItems, aux_negItems = utils.shuffle(aux_users, aux_posItems, aux_negItems)
+    # ========================================================================================
+    
     total_batch = len(users) // world.config['bpr_batch_size'] + 1  # 21
     aver_loss = 0.
     aver_mf_loss = 0.0
@@ -146,13 +130,18 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     '''
 
     for (batch_i,
-         (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
-                                                                           posItems,
-                                                                           negItems,
-                                                                           batch_size=world.config['bpr_batch_size'])):
+         (batch_users, batch_pos, batch_neg, 
+          a_batch_users, a_batch_pos, a_batch_neg)) in enumerate(utils.minibatch(users,
+                                                        posItems,
+                                                        negItems,
+                                                        aux_users,
+                                                        aux_posItems,
+                                                        aux_negItems,
+                                                        batch_size=world.config['bpr_batch_size'])):
         # cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
         # users: tensor([ 9187, 22958, 24374,  ..., 11197, 23202, 21103], device='cuda:0')
-        cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg,
+                                                              a_batch_users, a_batch_pos, a_batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss
         aver_reg_loss += reg_loss
