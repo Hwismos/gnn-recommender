@@ -111,8 +111,10 @@ class Loader(BasicDataset):
         self.traindataSize = 0
         self.testDataSize = 0
         self.args = config['args']
+        self.negative_sample_ratio = 1  # inmo 객체 필드
 
         self.train_array = []       # inmo에서 사용하는 [uid, i1, i2, i3 ... im] 리스트
+        self.train_data = []
 
         with open(train_file) as f:
             for l in f.readlines():
@@ -121,10 +123,17 @@ class Loader(BasicDataset):
                     items = [int(i) for i in l[1:]]
                     uid = int(l[0])
 
+                    # =====================================================
                     self.train_array.extend([[uid, item] for item in items])
+                    # =====================================================
 
                     trainUniqueUsers.append(uid)
                     trainUser.extend([uid] * len(items))
+
+                    # =====================================================
+                    self.train_data.append(items)
+                    # =====================================================
+
                     trainItem.extend(items)
                     self.m_item = max(self.m_item, max(items))
                     self.n_user = max(self.n_user, uid)
@@ -133,6 +142,7 @@ class Loader(BasicDataset):
         self.trainUniqueUsers = np.array(trainUniqueUsers)
         self.trainUser = np.array(trainUser)
         self.trainItem = np.array(trainItem)
+
         with open(test_file) as f:
             for l in f.readlines():
                 if len(l) > 0:
@@ -184,6 +194,25 @@ class Loader(BasicDataset):
         self.__testDict = self.__build_test()
         self.__valDict = self.__build_val()
         print(f"{world.dataset} is ready to go")
+
+    # =====================================================================================
+    def __len__(self):
+        return len(self.train_array)
+
+    def __getitem__(self, index):
+        user = random.randint(0, self.n_users - 1)
+        while not self.train_data[user]:
+            user = random.randint(0, self.n_users - 1)
+        pos_item = np.random.choice(self.train_data[user])
+        data_with_negs = [[user, pos_item] for _ in range(self.negative_sample_ratio)]
+        for idx in range(self.negative_sample_ratio):
+            neg_item = random.randint(0, self.m_items - 1)
+            while neg_item in self.train_data[user]:
+                neg_item = random.randint(0, self.m_items - 1)
+            data_with_negs[idx].append(neg_item)
+        data_with_negs = np.array(data_with_negs, dtype=np.int64)
+        return data_with_negs
+    # =====================================================================================
 
     def random_sample_edges(self, adj, n, exclude):
         itr = self.sample_forever(adj, exclude=exclude)
@@ -319,3 +348,45 @@ class Loader(BasicDataset):
         for user in users:
             posItems.append(self.UserItemNet[user].nonzero()[1])
         return posItems
+
+    # ==================================================================================
+    def aux_dataloader(self, user_map, item_map):
+        self.n_users = len(user_map)
+        self.n_items = len(item_map)
+        self.device = world.device
+        self.negative_sample_ratio = 1
+        self.train_data = [[] for _ in range(self.n_users)]
+        for o_user in range(self.n_users):
+            if o_user in user_map:
+                for o_item in self.train_data[o_user]:
+                    if o_item in item_map:
+                        self.train_data[user_map[o_user]].append(item_map[o_item])
+    
+    def aux_sampling(dataset):
+        total_start = time()
+        dataset: BasicDataset
+        user_num = dataset.trainDataSize
+        users = np.random.randint(0, dataset.n_users, user_num)
+        allPos = dataset.allPos
+        S = []
+        sample_time1 = 0.
+        sample_time2 = 0.
+        for i, user in enumerate(users):
+            start = time()
+            posForUser = allPos[user]
+            if len(posForUser) == 0:
+                continue
+            sample_time2 += time() - start
+            posindex = np.random.randint(0, len(posForUser))
+            positem = posForUser[posindex]
+            while True:
+                negitem = np.random.randint(0, dataset.m_items)
+                if negitem in posForUser:
+                    continue
+                else:
+                    break
+            S.append([user, positem, negitem])
+            end = time()
+            sample_time1 += end - start
+        total = time() - total_start
+        return np.array(S)

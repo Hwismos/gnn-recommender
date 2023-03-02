@@ -31,6 +31,37 @@ random.seed(seed)
 torch.cuda.manual_seed(seed)
 CORES = multiprocessing.cpu_count() // 4
 
+class AuxiliaryDataset():
+    def __init__(self, dataset, user_map, item_map):
+        self.n_users = len(user_map)
+        self.n_items = len(item_map)
+        self.device = world.device
+        self.negative_sample_ratio = 1
+        self.train_data = [[] for _ in range(self.n_users)]
+        self.length = len(dataset)
+        for o_user in range(dataset.n_users):
+            if o_user in user_map:
+                for o_item in dataset.train_data[o_user]:
+                    if o_item in item_map:
+                        self.train_data[user_map[o_user]].append(item_map[o_item])
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, index):
+        user = random.randint(0, self.n_users - 1)
+        while not self.train_data[user]:
+            user = random.randint(0, self.n_users - 1)
+        pos_item = np.random.choice(self.train_data[user])
+        data_with_negs = [[user, pos_item] for _ in range(self.negative_sample_ratio)]
+        for idx in range(self.negative_sample_ratio):
+            neg_item = random.randint(0, self.n_items - 1)
+            while neg_item in self.train_data[user]:
+                neg_item = random.randint(0, self.n_items - 1)
+            data_with_negs[idx].append(neg_item)
+        data_with_negs = np.array(data_with_negs, dtype=np.int64)
+        return data_with_negs
+
 
 def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=None):
     Recmodel = recommend_model
@@ -39,6 +70,7 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
 
     with timer(name="Sample"):
         S = utils.UniformSample_original(dataset)
+        aux_sample = dataset.aux_dataloader(Recmodel.user_map, Recmodel.item_map)
     users = torch.Tensor(S[:, 0]).long()  # 41830
     posItems = torch.Tensor(S[:, 1]).long()
     negItems = torch.Tensor(S[:, 2]).long()
@@ -51,12 +83,75 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_loss = 0.
     aver_mf_loss = 0.0
     aver_reg_loss = 0.0
+
+    '''
+    tensor([[[20305, 32217, 40598]],
+
+        [[ 5718, 23202, 30213]],
+
+        [[14499, 22672, 31074]],
+
+        ...,
+
+        [[23634,  2750, 24274]],
+
+        [[10288, 23247, 37299]],
+
+        [[19462,   170, 28352]]])
+    tensor([[[ 5997, 11856, 17133]],
+
+        [[15768, 23682, 22133]],
+
+        [[20036, 10689, 32474]],
+
+        ...,
+
+        [[16031, 22719, 18521]],
+
+        [[24156, 19909,  2216]],
+
+        [[ 6252, 14524,  7819]]])
+    '''
+    
+    '''
+    batch_data
+    tensor([[[25448, 12367, 19837]],
+
+            [[ 1699, 16913, 34226]],
+
+            [[14856,  6121,  1717]],
+
+            ...,
+
+            [[ 8406,   821,  3345]],
+
+            [[22039, 23720, 15303]],
+
+            [[26734, 21682,  1290]]])
+
+    a_batch_data
+    tensor([[[25952, 20627,  5574]],
+
+            [[16068, 27666, 38229]],
+
+            [[16518, 19576, 13237]],
+
+            ...,
+
+            [[12104, 25097, 30376]],
+
+            [[23307,  4702, 21889]],
+
+            [[13053, 17841, 37854]]])
+    '''
+
     for (batch_i,
          (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
                                                                            posItems,
                                                                            negItems,
                                                                            batch_size=world.config['bpr_batch_size'])):
         # cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        # users: tensor([ 9187, 22958, 24374,  ..., 11197, 23202, 21103], device='cuda:0')
         cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss

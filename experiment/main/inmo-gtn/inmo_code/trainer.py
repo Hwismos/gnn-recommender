@@ -287,6 +287,36 @@ class IGCNTrainer(BasicTrainer):
         self.dataloader = DataLoader(self.dataset, 
                                      batch_size=trainer_config['batch_size'],
                                      num_workers=trainer_config['dataloader_num_workers'])
+        
+        '''
+        tensor([[[27405, 40502, 26490]],
+
+            [[28124,  3447, 35658]],
+
+            [[ 9067, 24243, 16209]],
+
+            ...,
+
+            [[21863, 16339, 19860]],
+
+            [[ 3646, 27968,  9869]],
+
+            [[ 5249, 19737, 23302]]])
+        tensor([[[17303, 37697, 32685]],
+
+            [[ 4953,  3155, 28359]],
+
+            [[18957,  5476, 13690]],
+
+            ...,
+
+            [[13276,   980, 31478]],
+
+            [[21602,  9885,  3821]],
+
+            [[ 4870,  2418, 40209]]])
+        '''
+
         self.aux_dataloader = DataLoader(AuxiliaryDataset(self.dataset, self.model.user_map, self.model.item_map),
                                          batch_size=trainer_config['batch_size'],
                                          num_workers=trainer_config['dataloader_num_workers'])
@@ -296,9 +326,11 @@ class IGCNTrainer(BasicTrainer):
 
     def train_one_epoch(self):
         losses = AverageMeter()
+        
         for batch_data, a_batch_data in zip(self.dataloader, self.aux_dataloader):
             inputs = batch_data[:, 0, :].to(device=self.device, dtype=torch.int64)
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
+            # users: tensor([29828, 29144, 11619,  ...,  9858, 23553, 26086], device='cuda:0')
             users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
             neg_scores = torch.sum(users_r * neg_items_r, dim=1)
