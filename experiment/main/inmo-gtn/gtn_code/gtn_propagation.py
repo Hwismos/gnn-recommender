@@ -46,7 +46,10 @@ class GeneralPropagation(MessagePassing):
     _cached_edge_index: Optional[Tuple[Tensor, Tensor]]
     _cached_adj_t: Optional[SparseTensor]
 
-    def __init__(self, K: int, alpha: float, dropout: float = 0.,
+    def __init__(self, 
+                 K: int, 
+                 alpha: float, 
+                 dropout: float = 0.,
                  cached: bool = False,
                  add_self_loops: bool = True,
                  add_self_loops_l1: bool = True,
@@ -56,7 +59,6 @@ class GeneralPropagation(MessagePassing):
                  num_classes: int = None,
                  args=None,
                  **kwargs):
-
         super(GeneralPropagation, self).__init__(aggr='add', **kwargs)
         self.K = K
         self.alpha = alpha
