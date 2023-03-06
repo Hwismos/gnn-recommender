@@ -27,7 +27,7 @@ torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
-if world.dataset in ['gowalla', 'yelp2018', 'amazon-book', 'last-fm']:
+if world.dataset in ['gowalla', 'yelp2018', 'amazon-book', 'last-fm', 'movie-len']:
     dataset = dataloader.Loader(path="./data/" + world.dataset)
 
 print('===========config================')

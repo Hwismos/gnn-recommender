@@ -1,0 +1,152 @@
+>>SEED: 2020
+====================================================
+loading [./data/movie-len]
+====================================================
+63639 interactions for training
+16361 interactions for testing
+movie-len Sparsity : 0.050407386194299054
+movie-len is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'K': 3,
+ 'args': Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='movie-len', debug=True, decay=0, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]'),
+ 'bigdata': False,
+ 'bpr_batch_size': 2048,
+ 'dataset': 'movie-len',
+ 'decay': 0,
+ 'dropout': 0,
+ 'epochs': 1000,
+ 'keep_prob': 0.6,
+ 'lambda2': 4.0,
+ 'latent_dim_rec': 128,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 100}
+cores for test: 24
+comment: gtn
+tensorboard: 0
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+loading adjacency matrix
+generating adjacency matrix
+costing 0.2959456443786621s, saved mat...
+lgn is already to go(dropout:0)
+====================================================
+not enable tensorflowboard
+====================================================
+Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=2048, comment='gtn', dataset='movie-len', debug=True, decay=0, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=128, seed=2020, tensorboard=0, testbatch=100, topks='[20]')
+EPOCH[1/1000] loss 0.4447  0.4440  0.0000 - |Sample:0.62|  |  00:04mins
+EPOCH[2/1000] loss 0.3338  0.3331  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[3/1000] loss 0.2981  0.2974  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[4/1000] loss 0.2748  0.2742  0.0000 - |Sample:0.61|  |  00:03mins
+EPOCH[5/1000] loss 0.2605  0.2599  0.0000 - |Sample:0.78|  |  00:03mins
+EPOCH[6/1000] loss 0.2526  0.2520  0.0000 - |Sample:0.73|  |  00:03mins
+EPOCH[7/1000] loss 0.2483  0.2477  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[8/1000] loss 0.2438  0.2433  0.0000 - |Sample:0.73|  |  00:03mins
+EPOCH[9/1000] loss 0.2347  0.2342  0.0000 - |Sample:0.78|  |  00:03mins
+EPOCH[10/1000] loss 0.2344  0.2339  0.0000 - |Sample:0.62|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[11/1000] | Results Top-k (pre, recall, ndcg): 0.03298, 0.04923, 0.05236
+EPOCH[11/1000] loss 0.2243  0.2238  0.0000 - |Sample:0.71|  |  00:07mins
+EPOCH[12/1000] loss 0.2180  0.2176  0.0000 - |Sample:0.61|  |  00:03mins
+EPOCH[13/1000] loss 0.2168  0.2164  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[14/1000] loss 0.2086  0.2082  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[15/1000] loss 0.2046  0.2042  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[16/1000] loss 0.2036  0.2032  0.0000 - |Sample:0.61|  |  00:03mins
+EPOCH[17/1000] loss 0.2041  0.2037  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[18/1000] loss 0.2003  0.1999  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[19/1000] loss 0.1951  0.1947  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[20/1000] loss 0.1986  0.1982  0.0000 - |Sample:0.69|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[21/1000] | Results Top-k (pre, recall, ndcg): 0.03531, 0.05408, 0.05644
+EPOCH[21/1000] loss 0.1955  0.1951  0.0000 - |Sample:0.72|  |  00:04mins
+EPOCH[22/1000] loss 0.1944  0.1941  0.0000 - |Sample:0.73|  |  00:03mins
+EPOCH[23/1000] loss 0.1923  0.1919  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[24/1000] loss 0.1942  0.1938  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[25/1000] loss 0.1974  0.1971  0.0000 - |Sample:0.61|  |  00:03mins
+EPOCH[26/1000] loss 0.1931  0.1928  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[27/1000] loss 0.1900  0.1897  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[28/1000] loss 0.1941  0.1937  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[29/1000] loss 0.1904  0.1900  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[30/1000] loss 0.1947  0.1943  0.0000 - |Sample:0.62|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[31/1000] | Results Top-k (pre, recall, ndcg): 0.03552, 0.05568, 0.05745
+EPOCH[31/1000] loss 0.1888  0.1885  0.0000 - |Sample:0.71|  |  00:04mins
+EPOCH[32/1000] loss 0.1925  0.1922  0.0000 - |Sample:0.72|  |  00:03mins
+EPOCH[33/1000] loss 0.1936  0.1933  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[34/1000] loss 0.1927  0.1923  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[35/1000] loss 0.1855  0.1852  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[36/1000] loss 0.1825  0.1822  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[37/1000] loss 0.1847  0.1843  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[38/1000] loss 0.1873  0.1870  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[39/1000] loss 0.1852  0.1849  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[40/1000] loss 0.1831  0.1828  0.0000 - |Sample:0.61|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[41/1000] | Results Top-k (pre, recall, ndcg): 0.03537, 0.05576, 0.05757
+EPOCH[41/1000] loss 0.1889  0.1886  0.0000 - |Sample:0.70|  |  00:04mins
+EPOCH[42/1000] loss 0.1866  0.1863  0.0000 - |Sample:0.63|  |  00:03mins
+EPOCH[43/1000] loss 0.1833  0.1830  0.0000 - |Sample:0.72|  |  00:03mins
+EPOCH[44/1000] loss 0.1857  0.1854  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[45/1000] loss 0.1830  0.1827  0.0000 - |Sample:0.64|  |  00:03mins
+EPOCH[46/1000] loss 0.1869  0.1866  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[47/1000] loss 0.1852  0.1849  0.0000 - |Sample:0.72|  |  00:03mins
+EPOCH[48/1000] loss 0.1864  0.1861  0.0000 - |Sample:0.63|  |  00:03mins
+EPOCH[49/1000] loss 0.1843  0.1839  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[50/1000] loss 0.1890  0.1887  0.0000 - |Sample:0.71|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[51/1000] | Results Top-k (pre, recall, ndcg): 0.03574, 0.05616, 0.05805
+EPOCH[51/1000] loss 0.1790  0.1787  0.0000 - |Sample:0.63|  |  00:04mins
+EPOCH[52/1000] loss 0.1839  0.1836  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[53/1000] loss 0.1857  0.1854  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[54/1000] loss 0.1845  0.1842  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[55/1000] loss 0.1807  0.1804  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[56/1000] loss 0.1808  0.1805  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[57/1000] loss 0.1817  0.1814  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[58/1000] loss 0.1839  0.1836  0.0000 - |Sample:0.69|  |  00:03mins
+EPOCH[59/1000] loss 0.1838  0.1835  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[60/1000] loss 0.1821  0.1818  0.0000 - |Sample:0.72|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[61/1000] | Results Top-k (pre, recall, ndcg): 0.03611, 0.0567, 0.05839
+EPOCH[61/1000] loss 0.1835  0.1832  0.0000 - |Sample:0.71|  |  00:04mins
+EPOCH[62/1000] loss 0.1816  0.1813  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[63/1000] loss 0.1805  0.1802  0.0000 - |Sample:0.69|  |  00:03mins
+EPOCH[64/1000] loss 0.1815  0.1812  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[65/1000] loss 0.1791  0.1788  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[66/1000] loss 0.1776  0.1773  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[67/1000] loss 0.1792  0.1789  0.0000 - |Sample:0.69|  |  00:03mins
+EPOCH[68/1000] loss 0.1775  0.1772  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[69/1000] loss 0.1853  0.1850  0.0000 - |Sample:0.70|  |  00:03mins
+EPOCH[70/1000] loss 0.1802  0.1799  0.0000 - |Sample:0.62|  |  00:03mins
+====================================================
+[TEST]
+====================================================
+test_u_batch_size is too big for this dataset, try a small one 94
+Testing EPOCH[71/1000] | Results Top-k (pre, recall, ndcg): 0.03669, 0.05744, 0.05887
+EPOCH[71/1000] loss 0.1811  0.1808  0.0000 - |Sample:0.73|  |  00:04mins
+EPOCH[72/1000] loss 0.1769  0.1765  0.0000 - |Sample:0.71|  |  00:03mins
+EPOCH[73/1000] loss 0.1806  0.1803  0.0000 - |Sample:0.62|  |  00:03mins
+EPOCH[74/1000] loss 0.1768  0.1765  0.0000 - |Sample:0.72|  |  00:03mins
+EPOCH[75/1000] loss 0.1801  0.1798  0.0000 - |Sample:0.70|  |  00:03mins

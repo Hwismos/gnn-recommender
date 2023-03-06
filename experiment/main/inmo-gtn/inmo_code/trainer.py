@@ -288,35 +288,6 @@ class IGCNTrainer(BasicTrainer):
                                      batch_size=trainer_config['batch_size'],
                                      num_workers=trainer_config['dataloader_num_workers'])
         
-        '''
-        tensor([[[27405, 40502, 26490]],
-
-            [[28124,  3447, 35658]],
-
-            [[ 9067, 24243, 16209]],
-
-            ...,
-
-            [[21863, 16339, 19860]],
-
-            [[ 3646, 27968,  9869]],
-
-            [[ 5249, 19737, 23302]]])
-        tensor([[[17303, 37697, 32685]],
-
-            [[ 4953,  3155, 28359]],
-
-            [[18957,  5476, 13690]],
-
-            ...,
-
-            [[13276,   980, 31478]],
-
-            [[21602,  9885,  3821]],
-
-            [[ 4870,  2418, 40209]]])
-        '''
-
         self.aux_dataloader = DataLoader(AuxiliaryDataset(self.dataset, self.model.user_map, self.model.item_map),
                                          batch_size=trainer_config['batch_size'],
                                          num_workers=trainer_config['dataloader_num_workers'])

@@ -87,7 +87,7 @@ class GTN(BasicModel):
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
 
-        '''
+        # ? ===============================original==================================
         self.embedding_user = torch.nn.Embedding(
             num_embeddings=self.num_users, embedding_dim=self.latent_dim)
         self.embedding_item = torch.nn.Embedding(
@@ -101,28 +101,26 @@ class GTN(BasicModel):
             self.embedding_user.weight.data.copy_(torch.from_numpy(self.config['user_emb']))
             self.embedding_item.weight.data.copy_(torch.from_numpy(self.config['item_emb']))
             print('use pretrained data')
-        '''
+        # ? ===============================original==================================
+
         self.f = nn.Sigmoid()
         self.Graph = self.dataset.getSparseGraph()
         print(f"lgn is already to go(dropout:{self.config['dropout']})")
 
         # ================================INMO_FIELD==================================
-        self.dropout = 0.
-        self.trainable = True
-        self.device = world.device
-        self.feature_ratio = 1.
-        self.alpha = 1.
-        self.delta = 0.99
-        self.feat_mat, self.user_map, self.item_map, self.row_sum = \
-            self.generate_feat(self.dataset,
-                               ranking_metric='sort')
-        self.update_feat_mat()
+        # self.dropout = 0.
+        # self.trainable = True
+        # self.device = world.device
+        # self.feature_ratio = 1.
+        # self.alpha = 1.
+        # self.delta = 0.99
+        # self.feat_mat, self.user_map, self.item_map, self.row_sum = self.generate_feat(self.dataset, ranking_metric='sort')
+        # self.update_feat_mat()
 
-        self.embedding = torch.nn.Embedding(self.feat_mat.shape[1], self.latent_dim)
-        # self.embedding = torch.nn.Embedding(self.feat_mat.shape[0], self.latent_dim)
-        self.w = torch.nn.Parameter(torch.ones([self.latent_dim], dtype=torch.float32, device=self.device))
-        normal_(self.embedding.weight, std=0.1)
-        self.to(device=self.device)
+        # self.embedding = torch.nn.Embedding(self.feat_mat.shape[1], self.latent_dim)
+        # self.w = torch.nn.Parameter(torch.ones([self.latent_dim], dtype=torch.float32, device=self.device))
+        # normal_(self.embedding.weight, std=0.1)
+        # self.to(device=self.device)
         # ============================================================================
 
     # ==============================INMO_METHOD====================================
@@ -137,7 +135,6 @@ class GTN(BasicModel):
     
     def generate_feat(self, dataset, is_updating=False, ranking_metric=None):
         if not is_updating:
-            # feature_ratio를 1로 가정
             core_users = np.arange(self.num_users, dtype=np.int64)
             core_items = np.arange(self.num_items, dtype=np.int64)
 
@@ -203,6 +200,10 @@ class GTN(BasicModel):
 
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
+
+        # print(type(x))
+        # print(x.size())   # 70841, 128
+
         x = x[:self.feat_mat.shape[0], :]
 
         return x
@@ -247,13 +248,13 @@ class GTN(BasicModel):
         """
         propagate methods for lightGCN
         """
-        # users_emb = self.embedding_user.weight
-        # items_emb = self.embedding_item.weight
-        # all_emb = torch.cat([users_emb, items_emb])
+        users_emb = self.embedding_user.weight
+        items_emb = self.embedding_item.weight
+        all_emb = torch.cat([users_emb, items_emb])
 
-        feat_mat = self.dropout_sp_mat(self.feat_mat)
-        representations = self.inductive_rep_layer(feat_mat)
-        all_emb = representations
+        # feat_mat = self.dropout_sp_mat(self.feat_mat)
+        # representations = self.inductive_rep_layer(feat_mat)
+        # all_emb = representations
         
         if self.config['dropout']:
             if self.training:
@@ -290,21 +291,28 @@ class GTN(BasicModel):
         return rating
 
     def getEmbedding(self, users, pos_items, neg_items):
+    # def getEmbedding(self, users, pos_items, neg_items, a_users, a_pos_items, a_neg_items):
         all_users, all_items = self.computer()
         users_emb = all_users[users]
         pos_emb = all_items[pos_items]
         neg_emb = all_items[neg_items]
-        # users_emb_ego = self.embedding_user(users)
-        # pos_emb_ego = self.embedding_item(pos_items)
-        # neg_emb_ego = self.embedding_item(neg_items)
-        users_emb_ego = self.embedding(users)
-        pos_emb_ego = self.embedding(self.num_users + pos_items)
-        neg_emb_ego = self.embedding(self.num_users + neg_items)
+        users_emb_ego = self.embedding_user(users)
+        pos_emb_ego = self.embedding_item(pos_items)
+        neg_emb_ego = self.embedding_item(neg_items)
+        # users_emb_ego = self.embedding(a_users)
+        # pos_emb_ego = self.embedding(a_pos_items + len(self.user_map))
+        # neg_emb_ego = self.embedding(a_neg_items + len(self.user_map))
+
+        # print(type(all_users))    # <class 'torch.Tensor'>
+        # print(type(self.embedding))   # <class 'torch.nn.modules.sparse.Embedding'>
+
         return users_emb, pos_emb, neg_emb, users_emb_ego, pos_emb_ego, neg_emb_ego
 
-    def bpr_loss(self, users, pos, neg, a_users, a_pos, a_neg):
+    def bpr_loss(self, users, pos, neg):
+    # def bpr_loss(self, users, pos, neg, a_users, a_pos, a_neg):
         (users_emb, pos_emb, neg_emb,
          userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long())
+        #  userEmb0, posEmb0, negEmb0) = self.getEmbedding(users.long(), pos.long(), neg.long(), a_users.long(), a_pos.long(), a_neg.long())
         reg_loss = (1 / 2) * (userEmb0.norm(2).pow(2) +
                               posEmb0.norm(2).pow(2) +
                               negEmb0.norm(2).pow(2)) / float(len(users))
@@ -315,16 +323,17 @@ class GTN(BasicModel):
 
         loss = torch.mean(torch.nn.functional.softplus(neg_scores - pos_scores))
 
-        aux_reg = 1.e-3
-        a_users_r = self.embedding(a_users)
-        a_pos_items_r = self.embedding(a_pos + len(self.user_map))
-        a_neg_items_r = self.embedding(a_neg + len(self.user_map))
-        a_pos_scores = torch.sum(a_users_r * a_pos_items_r * self.w[None, :], dim=1)
-        a_neg_scores = torch.sum(a_users_r * a_neg_items_r * self.w[None, :], dim=1)
-        aux_loss = torch.mean(torch.nn.functional.softplus(a_neg_scores - a_pos_scores))
-        aux_loss = aux_loss * aux_reg
+        # aux_reg = 1.e-3
+        # a_users_r = self.embedding(a_users)
+        # a_pos_items_r = self.embedding(a_pos + len(self.user_map))
+        # a_neg_items_r = self.embedding(a_neg + len(self.user_map))
+        # a_pos_scores = torch.sum(a_users_r * a_pos_items_r * self.w[None, :], dim=1)
+        # a_neg_scores = torch.sum(a_users_r * a_neg_items_r * self.w[None, :], dim=1)
+        # aux_loss = torch.mean(torch.nn.functional.softplus(a_neg_scores - a_pos_scores))
+        # aux_loss = aux_loss * aux_reg
 
-        return loss, reg_loss, aux_loss
+        return loss, reg_loss
+        # return loss, reg_loss, aux_loss
 
     def forward(self, users, items):
         # compute embedding
