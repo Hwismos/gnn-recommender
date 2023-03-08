@@ -422,41 +422,22 @@ class IGCN(BasicModel):
                              shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
                              dtype=np.float32).tocsr()
 
-        # feat = sp.coo_matrix((np.ones((len(indices),)), np.array(indices).T),
-        #                 shape=(self.n_users + self.n_items, user_dim + item_dim + 2), 
-        #                 dtype=np.float32).toarray()
-        # print('\n\nfeat_mat array version\n')
-        # print(feat)
-        # exit()
-
         row_sum = torch.tensor(np.array(np.sum(feat, axis=1)).squeeze(), dtype=torch.float32, device=self.device)
         feat = get_sparse_tensor(feat, self.device)
-        
-        # print(f'row_sum: {row_sum}\n\n')
-        # print(f'feat: {feat}\n\nshape: {feat.shape}')
-        # print('\n\nfeat_matrix 생성 완료\n\n')
-        # exit()
-        
+
         return feat, user_map, item_map, row_sum
 
     def inductive_rep_layer(self, feat_mat):
         padding_tensor = torch.empty([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size],
                                      dtype=torch.float32, device=self.device)
-
-        # print(f'\n\ntensor의 shape\n')
-        # print([max(self.feat_mat.shape) - self.feat_mat.shape[1], self.embedding_size])
-        # print('\n\n')
-        # print(padding_tensor)
-        # print('\n\n')
-        # exit()
-
         padding_features = torch.cat([self.embedding.weight, padding_tensor], dim=0)
 
         row, column = feat_mat.indices()
 
-        # print('\n\n')
-        # print(f'row: {row}\ncol: {column}\nlen of row: {len(row)}\nlen of col: {len(column)}\n\n')
-        # exit()
+        print('\n\n[feat_mat의 인덱스 확인]')
+        print(row[-100:])
+        print(column[-100:])
+        print('\n\n')
 
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
@@ -467,12 +448,16 @@ class IGCN(BasicModel):
         feat_mat = NGCF.dropout_sp_mat(self, self.feat_mat)
         representations = self.inductive_rep_layer(feat_mat)
 
-        # # ! ===========================================================
-        # return representations
-        # # ! ===========================================================
-
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
+
+        print('\n\n[norm_adj의 인덱스 확인]')
+        print(row[-100:])
+        print(column[-100:])
+        print('\n\n[간선 가중치 확인]')
+        print(self.norm_adj.values()[-100:])
+        exit()
+
         g = dgl.graph((column, row), num_nodes=self.norm_adj.shape[0], device=self.device)
         for _ in range(self.n_layers):
             representations = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=representations, rhs_data=self.norm_adj.values())

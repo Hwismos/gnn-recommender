@@ -75,11 +75,15 @@ try:
     y = []
     x = list(range(world.TRAIN_epochs))
     plt.figure()
+
+    early_stop_cnt = 0
+
     for epoch in range(world.TRAIN_epochs):
         start = time.time()
 
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w)
 
+        best_ndcg = -1
         if epoch != 0 and epoch % 10 == 0:
             cprint("[TEST]")
             results = Procedure.Test(dataset, Recmodel, epoch, w, world.config['multicore'], val=False)
@@ -90,6 +94,17 @@ try:
 
             topk_txt = f'Testing EPOCH[{epoch + 1}/{world.TRAIN_epochs}] | Results Top-k (pre, recall, ndcg): {pre}, {recall}, {ndcg}'
             print(topk_txt)
+
+            if ndcg == best_ndcg:
+                early_stop_cnt += 1
+
+                if early_stop_cnt == 10:
+                    print('Early Stopping')
+                    break
+
+            if best_ndcg < ndcg:
+                print(f'Best NDCG is {best_ndcg}')
+                best_ndcg = ndcg
 
         end = time.time()
         diff = datetime.datetime.fromtimestamp((end - start))

@@ -1,0 +1,142 @@
+init dataset ProcessedDataset
+{'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device(type='cuda'), 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': <dataset.ProcessedDataset object at 0x2b787f5302e0>}
+Epoch 0/1000, Loss: 0.327601, Time: 21.728s
+Epoch 1/1000, Loss: 0.245307, Time: 19.450s
+Epoch 2/1000, Loss: 0.209570, Time: 19.449s
+Epoch 3/1000, Loss: 0.194478, Time: 19.480s
+Epoch 4/1000, Loss: 0.187014, Time: 19.431s
+Epoch 5/1000, Loss: 0.182356, Time: 19.403s
+Epoch 6/1000, Loss: 0.178813, Time: 19.438s
+Epoch 7/1000, Loss: 0.177085, Time: 19.442s
+Epoch 8/1000, Loss: 0.170655, Time: 19.413s
+Epoch 9/1000, Loss: 0.166616, Time: 19.422s
+Epoch 10/1000, Loss: 0.163198, Time: 19.404s
+Validation result. Precision: 3.897%@20, Recall: 6.241%@20, NDCG: 6.348%@20, Time: 0.740s
+Epoch 11/1000, Loss: 0.162079, Time: 19.418s
+Epoch 12/1000, Loss: 0.160752, Time: 19.449s
+Epoch 13/1000, Loss: 0.158967, Time: 19.449s
+Epoch 14/1000, Loss: 0.155039, Time: 19.407s
+Epoch 15/1000, Loss: 0.151641, Time: 19.471s
+Epoch 16/1000, Loss: 0.151034, Time: 19.426s
+Epoch 17/1000, Loss: 0.153067, Time: 19.464s
+Epoch 18/1000, Loss: 0.151535, Time: 19.393s
+Epoch 19/1000, Loss: 0.148843, Time: 19.486s
+Epoch 20/1000, Loss: 0.150181, Time: 19.414s
+Validation result. Precision: 3.940%@20, Recall: 6.244%@20, NDCG: 6.489%@20, Time: 0.740s
+Epoch 21/1000, Loss: 0.146203, Time: 19.406s
+Epoch 22/1000, Loss: 0.144479, Time: 19.411s
+Epoch 23/1000, Loss: 0.149463, Time: 19.508s
+Epoch 24/1000, Loss: 0.143657, Time: 19.410s
+Epoch 25/1000, Loss: 0.143802, Time: 19.397s
+Epoch 26/1000, Loss: 0.142716, Time: 19.356s
+Epoch 27/1000, Loss: 0.141660, Time: 19.396s
+Epoch 28/1000, Loss: 0.141576, Time: 19.358s
+Epoch 29/1000, Loss: 0.141121, Time: 19.437s
+Epoch 30/1000, Loss: 0.141020, Time: 19.423s
+Validation result. Precision: 4.030%@20, Recall: 6.381%@20, NDCG: 6.620%@20, Time: 0.740s
+Epoch 31/1000, Loss: 0.138438, Time: 19.482s
+Epoch 32/1000, Loss: 0.136809, Time: 19.436s
+Epoch 33/1000, Loss: 0.135700, Time: 19.435s
+Epoch 34/1000, Loss: 0.136933, Time: 19.454s
+Epoch 35/1000, Loss: 0.137220, Time: 19.684s
+Epoch 36/1000, Loss: 0.134378, Time: 19.581s
+Epoch 37/1000, Loss: 0.135098, Time: 19.549s
+Epoch 38/1000, Loss: 0.136648, Time: 19.495s
+Epoch 39/1000, Loss: 0.132924, Time: 19.553s
+Epoch 40/1000, Loss: 0.134211, Time: 19.628s
+Validation result. Precision: 4.093%@20, Recall: 6.521%@20, NDCG: 6.732%@20, Time: 0.740s
+Epoch 41/1000, Loss: 0.131147, Time: 19.560s
+Epoch 42/1000, Loss: 0.135486, Time: 19.512s
+Epoch 43/1000, Loss: 0.131396, Time: 19.575s
+Epoch 44/1000, Loss: 0.129680, Time: 19.561s
+Epoch 45/1000, Loss: 0.132057, Time: 19.522s
+Epoch 46/1000, Loss: 0.126260, Time: 19.557s
+Epoch 47/1000, Loss: 0.129207, Time: 19.608s
+Epoch 48/1000, Loss: 0.128660, Time: 19.415s
+Epoch 49/1000, Loss: 0.130905, Time: 19.448s
+Epoch 50/1000, Loss: 0.128228, Time: 19.394s
+Validation result. Precision: 4.146%@20, Recall: 6.520%@20, NDCG: 6.780%@20, Time: 0.740s
+Epoch 51/1000, Loss: 0.128536, Time: 19.471s
+Epoch 52/1000, Loss: 0.128917, Time: 19.405s
+Epoch 53/1000, Loss: 0.125837, Time: 19.479s
+Epoch 54/1000, Loss: 0.128919, Time: 19.418s
+Epoch 55/1000, Loss: 0.123084, Time: 19.486s
+Epoch 56/1000, Loss: 0.126167, Time: 19.390s
+Epoch 57/1000, Loss: 0.124733, Time: 19.438s
+Epoch 58/1000, Loss: 0.126128, Time: 19.402s
+Epoch 59/1000, Loss: 0.126494, Time: 19.467s
+Epoch 60/1000, Loss: 0.123553, Time: 19.397s
+Validation result. Precision: 4.152%@20, Recall: 6.550%@20, NDCG: 6.848%@20, Time: 0.740s
+Epoch 61/1000, Loss: 0.122688, Time: 19.451s
+Epoch 62/1000, Loss: 0.124669, Time: 19.365s
+Epoch 63/1000, Loss: 0.120908, Time: 19.487s
+Epoch 64/1000, Loss: 0.123678, Time: 19.413s
+Epoch 65/1000, Loss: 0.123123, Time: 19.441s
+Epoch 66/1000, Loss: 0.122962, Time: 19.435s
+Epoch 67/1000, Loss: 0.120947, Time: 19.473s
+Epoch 68/1000, Loss: 0.123174, Time: 19.363s
+Epoch 69/1000, Loss: 0.120748, Time: 19.429s
+Epoch 70/1000, Loss: 0.119940, Time: 19.399s
+Validation result. Precision: 4.236%@20, Recall: 6.649%@20, NDCG: 6.854%@20, Time: 0.740s
+Epoch 71/1000, Loss: 0.120583, Time: 19.484s
+Epoch 72/1000, Loss: 0.116242, Time: 19.386s
+Epoch 73/1000, Loss: 0.119430, Time: 19.418s
+Epoch 74/1000, Loss: 0.117794, Time: 19.405s
+Epoch 75/1000, Loss: 0.119230, Time: 19.503s
+Epoch 76/1000, Loss: 0.118098, Time: 19.444s
+Epoch 77/1000, Loss: 0.116472, Time: 19.451s
+Epoch 78/1000, Loss: 0.119163, Time: 19.404s
+Epoch 79/1000, Loss: 0.115633, Time: 19.462s
+Epoch 80/1000, Loss: 0.118515, Time: 19.400s
+Validation result. Precision: 4.215%@20, Recall: 6.533%@20, NDCG: 6.806%@20, Time: 0.740s
+Epoch 81/1000, Loss: 0.114395, Time: 19.449s
+Epoch 82/1000, Loss: 0.117777, Time: 19.394s
+Epoch 83/1000, Loss: 0.117275, Time: 19.425s
+Epoch 84/1000, Loss: 0.118120, Time: 19.397s
+Epoch 85/1000, Loss: 0.116993, Time: 19.446s
+Epoch 86/1000, Loss: 0.114332, Time: 19.341s
+Epoch 87/1000, Loss: 0.116845, Time: 19.358s
+Epoch 88/1000, Loss: 0.117218, Time: 19.329s
+Epoch 89/1000, Loss: 0.117616, Time: 19.368s
+Epoch 90/1000, Loss: 0.115929, Time: 19.310s
+Validation result. Precision: 4.205%@20, Recall: 6.523%@20, NDCG: 6.778%@20, Time: 0.742s
+Epoch 91/1000, Loss: 0.113455, Time: 19.440s
+Epoch 92/1000, Loss: 0.116064, Time: 19.345s
+Epoch 93/1000, Loss: 0.115664, Time: 19.325s
+Epoch 94/1000, Loss: 0.113131, Time: 19.399s
+Epoch 95/1000, Loss: 0.112843, Time: 19.371s
+Epoch 96/1000, Loss: 0.115524, Time: 19.375s
+Epoch 97/1000, Loss: 0.113551, Time: 19.329s
+Epoch 98/1000, Loss: 0.115624, Time: 19.362s
+Epoch 99/1000, Loss: 0.111284, Time: 19.342s
+Epoch 100/1000, Loss: 0.111131, Time: 19.346s
+Validation result. Precision: 4.226%@20, Recall: 6.614%@20, NDCG: 6.842%@20, Time: 0.740s
+Epoch 101/1000, Loss: 0.113785, Time: 19.364s
+Epoch 102/1000, Loss: 0.113316, Time: 19.359s
+Epoch 103/1000, Loss: 0.113524, Time: 19.326s
+Epoch 104/1000, Loss: 0.113024, Time: 19.362s
+Epoch 105/1000, Loss: 0.113233, Time: 19.318s
+Epoch 106/1000, Loss: 0.111465, Time: 19.373s
+Epoch 107/1000, Loss: 0.109573, Time: 19.348s
+Epoch 108/1000, Loss: 0.111530, Time: 19.395s
+Epoch 109/1000, Loss: 0.110874, Time: 19.328s
+Epoch 110/1000, Loss: 0.112476, Time: 19.358s
+Validation result. Precision: 4.231%@20, Recall: 6.565%@20, NDCG: 6.851%@20, Time: 0.740s
+Epoch 111/1000, Loss: 0.109114, Time: 19.370s
+Epoch 112/1000, Loss: 0.111210, Time: 19.383s
+Epoch 113/1000, Loss: 0.107883, Time: 19.342s
+Epoch 114/1000, Loss: 0.110371, Time: 19.341s
+Epoch 115/1000, Loss: 0.109793, Time: 19.331s
+Epoch 116/1000, Loss: 0.109245, Time: 19.353s
+Epoch 117/1000, Loss: 0.108247, Time: 19.347s
+Epoch 118/1000, Loss: 0.110496, Time: 19.354s
+Epoch 119/1000, Loss: 0.110017, Time: 19.307s
+Epoch 120/1000, Loss: 0.108966, Time: 19.358s
+Validation result. Precision: 4.221%@20, Recall: 6.586%@20, NDCG: 6.797%@20, Time: 0.740s
+Epoch 121/1000, Loss: 0.108768, Time: 19.341s
+Epoch 122/1000, Loss: 0.108798, Time: 19.349s
+Epoch 123/1000, Loss: 0.109228, Time: 19.332s
+Epoch 124/1000, Loss: 0.111362, Time: 19.377s
+Early stopping!
+NDCG: 0.069, Parameters: {'aux_reg': 0.001, 'dropout': 0.0, 'l2_reg': 0.0, 'lr': 0.001}
+Maximum NDCG!

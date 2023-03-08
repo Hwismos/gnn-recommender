@@ -1,0 +1,51 @@
+>>SEED: 2020
+====================================================
+loading [./data/movie-len]
+====================================================
+
+
+[train_array 체크]
+[[0, 79], [0, 239], [0, 136], [0, 8], [0, 247], [0, 179], [0, 111], [0, 204], [0, 101], [0, 251]]
+
+
+
+63639 interactions for training
+16361 interactions for testing
+movie-len Sparsity : 0.050407386194299054
+movie-len is ready to go
+===========config================
+{'A_n_fold': 100,
+ 'A_split': False,
+ 'K': 3,
+ 'args': Namespace(K=3, a_fold=100, alpha=0.3, alpha1=0.25, alpha2=0.25, avg=0, beta=0.5, bpr_batch=256, comment='gtn', dataset='movie-len', debug=True, decay=0, dropout=0, epochs=1000, gamma=1, gcn_model='GTN', gpu_id=0, incnorm_para=True, keepprob=0.6, lambda2=4.0, layer=3, load=0, lr=0.001, model='gtn', multicore=1, ogb=True, path='./checkpoints', pretrain=0, prop_dropout=0.1, recdim=64, seed=2020, tensorboard=0, testbatch=30, topks='[20]'),
+ 'bigdata': False,
+ 'bpr_batch_size': 256,
+ 'dataset': 'movie-len',
+ 'decay': 0,
+ 'dropout': 0,
+ 'epochs': 1000,
+ 'keep_prob': 0.6,
+ 'lambda2': 4.0,
+ 'latent_dim_rec': 64,
+ 'lr': 0.001,
+ 'multicore': 1,
+ 'pretrain': 0,
+ 'test_u_batch_size': 30}
+cores for test: 24
+comment: gtn
+tensorboard: 0
+LOAD: 0
+Weight path: ./checkpoints
+Test Topks: [20]
+using bpr loss
+===========end===================
+====================================================
+use NORMAL distribution initilizer
+====================================================
+loading adjacency matrix
+successfully loaded...
+[graph 인덱스 체크]
+tensor(indices=tensor([[   0,    0,    0,  ..., 2621, 2624, 2625],
+                       [ 947,  948,  950,  ...,  862,  895,  915]]),
+       values=tensor([1., 1., 1.,  ..., 1., 1., 1.]),
+       device='cuda:0', size=(2626, 2626), nnz=127278, layout=torch.sparse_coo)

@@ -1,0 +1,15 @@
+init dataset ProcessedDataset
+{'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device(type='cuda'), 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': <dataset.ProcessedDataset object at 0x2ab00a48d2e0>}
+Epoch 0/1000, Loss: 0.327601, Time: 21.735s
+Epoch 1/1000, Loss: 0.245307, Time: 18.967s
+Epoch 2/1000, Loss: 0.209570, Time: 20.277s
+Epoch 3/1000, Loss: 0.194478, Time: 19.553s
+Epoch 4/1000, Loss: 0.187014, Time: 19.486s
+Epoch 5/1000, Loss: 0.182356, Time: 19.856s
+Epoch 6/1000, Loss: 0.178813, Time: 19.486s
+Epoch 7/1000, Loss: 0.177085, Time: 19.527s
+Epoch 8/1000, Loss: 0.170655, Time: 19.524s
+Epoch 9/1000, Loss: 0.166616, Time: 19.494s
+Epoch 10/1000, Loss: 0.163198, Time: 19.480s
+Validation result. Precision: 3.897%@20, Recall: 6.241%@20, NDCG: 6.348%@20, Time: 0.740s
+Epoch 11/1000, Loss: 0.162079, Time: 19.523s

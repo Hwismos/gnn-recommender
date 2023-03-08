@@ -1,0 +1,13 @@
+init dataset ProcessedDataset
+{'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device(type='cuda'), 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': <dataset.ProcessedDataset object at 0x2ac4b99fa310>}
+
+
+[Graph 인덱스 체크]
+tensor(indices=tensor([[   0,    0,    0,  ..., 2621, 2624, 2625],
+                       [ 947,  948,  950,  ...,  862,  895,  915]]),
+       values=tensor([0.0082, 0.0126, 0.0061,  ..., 0.1085, 0.0588, 0.0629]),
+       device='cuda:0', size=(2626, 2626), nnz=127278, layout=torch.sparse_coo)
+
+[Graph indices]
+tensor([   0,    0,    0,  ..., 2621, 2624, 2625], device='cuda:0')
+tensor([947, 948, 950,  ..., 862, 895, 915], device='cuda:0')

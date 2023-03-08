@@ -50,17 +50,17 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     users, posItems, negItems = utils.shuffle(users, posItems, negItems)
     
     # ========================================================================================
-    # aux_S = dataloader.AuxiliaryDataset(Recmodel).sampling()
+    aux_S = dataloader.AuxiliaryDataset(Recmodel).sampling()
 
-    # aux_users = torch.Tensor(aux_S[:, 0]).long()  # 41830
-    # aux_posItems = torch.Tensor(aux_S[:, 1]).long()
-    # aux_negItems = torch.Tensor(aux_S[:, 2]).long()
+    aux_users = torch.Tensor(aux_S[:, 0]).long()  # 41830
+    aux_posItems = torch.Tensor(aux_S[:, 1]).long()
+    aux_negItems = torch.Tensor(aux_S[:, 2]).long()
 
-    # aux_users = aux_users.to(world.device)
-    # aux_posItems = aux_posItems.to(world.device)
-    # aux_negItems = aux_negItems.to(world.device)
+    aux_users = aux_users.to(world.device)
+    aux_posItems = aux_posItems.to(world.device)
+    aux_negItems = aux_negItems.to(world.device)
 
-    # aux_users, aux_posItems, aux_negItems = utils.shuffle(aux_users, aux_posItems, aux_negItems)
+    aux_users, aux_posItems, aux_negItems = utils.shuffle(aux_users, aux_posItems, aux_negItems)
     # ========================================================================================
     
     total_batch = len(users) // world.config['bpr_batch_size'] + 1  # 21
@@ -68,83 +68,22 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_mf_loss = 0.0
     aver_reg_loss = 0.0
 
-    '''
-    tensor([[[20305, 32217, 40598]],
-
-        [[ 5718, 23202, 30213]],
-
-        [[14499, 22672, 31074]],
-
-        ...,
-
-        [[23634,  2750, 24274]],
-
-        [[10288, 23247, 37299]],
-
-        [[19462,   170, 28352]]])
-    tensor([[[ 5997, 11856, 17133]],
-
-        [[15768, 23682, 22133]],
-
-        [[20036, 10689, 32474]],
-
-        ...,
-
-        [[16031, 22719, 18521]],
-
-        [[24156, 19909,  2216]],
-
-        [[ 6252, 14524,  7819]]])
-    '''
-    
-    '''
-    batch_data
-    tensor([[[25448, 12367, 19837]],
-
-            [[ 1699, 16913, 34226]],
-
-            [[14856,  6121,  1717]],
-
-            ...,
-
-            [[ 8406,   821,  3345]],
-
-            [[22039, 23720, 15303]],
-
-            [[26734, 21682,  1290]]])
-
-    a_batch_data
-    tensor([[[25952, 20627,  5574]],
-
-            [[16068, 27666, 38229]],
-
-            [[16518, 19576, 13237]],
-
-            ...,
-
-            [[12104, 25097, 30376]],
-
-            [[23307,  4702, 21889]],
-
-            [[13053, 17841, 37854]]])
-    '''
-
-    for (batch_i,
-         (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
-                                                        posItems,
-                                                        negItems, 
-                                                        batch_size=world.config['bpr_batch_size'])):
     # for (batch_i,
-    #      (batch_users, batch_pos, batch_neg, 
-    #       a_batch_users, a_batch_pos, a_batch_neg)) in enumerate(utils.minibatch(users,
+    #      (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
     #                                                     posItems,
-    #                                                     negItems,
-    #                                                     aux_users,
-    #                                                     aux_posItems,
-    #                                                     aux_negItems,
+    #                                                     negItems, 
     #                                                     batch_size=world.config['bpr_batch_size'])):
-        cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
-        # cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg, a_batch_users, a_batch_pos, a_batch_neg)
+    for (batch_i,
+         (batch_users, batch_pos, batch_neg, 
+          a_batch_users, a_batch_pos, a_batch_neg)) in enumerate(utils.minibatch(users,
+                                                        posItems,
+                                                        negItems,
+                                                        aux_users,
+                                                        aux_posItems,
+                                                        aux_negItems,
+                                                        batch_size=world.config['bpr_batch_size'])):
+        # cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg, a_batch_users, a_batch_pos, a_batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss
         aver_reg_loss += reg_loss
@@ -155,7 +94,7 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_reg_loss = aver_reg_loss / total_batch
 
     # ===============================
-    # learning_model.feat_mat_anneal()  
+    learning_model.feat_mat_anneal()  
     # ===============================   
 
     time_info = timer.dict()

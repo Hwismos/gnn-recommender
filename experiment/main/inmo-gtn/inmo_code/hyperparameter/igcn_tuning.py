@@ -4,13 +4,7 @@ sys.path.append('/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/inmo
 
 local_python_path = '/home1/prof/hwang1/.local/lib/python3.8/site-packages'
 if local_python_path in sys.path:
-    sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')
-
-# print()
-# for p in sys.path:
-#     print(p)
-# print()
-    
+    sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')    
 
 from sklearn.model_selection import ParameterGrid
 import torch
@@ -24,13 +18,13 @@ from trainer import get_trainer
 def fitness(lr, l2_reg, dropout, aux_reg):
     set_seed(2021)
     device = torch.device('cuda')
-    dataset_config = {'name': 'ProcessedDataset', 'path': './data/gowalla/',
+    dataset_config = {'name': 'ProcessedDataset', 'path': './data/movie-len/',
                       'device': device}
-    model_config = {'name': 'IGCN', 'embedding_size': 128, 'n_layers': 3, 'device': device,
+    model_config = {'name': 'IGCN', 'embedding_size': 64, 'n_layers': 3, 'device': device,
                     'dropout': dropout, 'feature_ratio': 1.}
     trainer_config = {'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': lr, 'l2_reg': l2_reg, 'aux_reg': aux_reg,
-                      'device': device, 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6,
-                      'test_batch_size': 100, 'topks': [20]}
+                      'device': device, 'n_epochs': 1000, 'batch_size': 256, 'dataloader_num_workers': 6,
+                      'test_batch_size': 30, 'topks': [20]}
     dataset = get_dataset(dataset_config)
     model = get_model(model_config, dataset)
     trainer = get_trainer(trainer_config, dataset, model)
@@ -58,12 +52,12 @@ def main():
 
         # # ! ===================================================================================
 
-        print('NDCG: {:.3f}, Parameters: {:s}'.format(ndcg, str(params)))
+        print('NDCG: {:.5f}, Parameters: {:s}'.format(ndcg, str(params)))
         if ndcg > max_ndcg:
             max_ndcg = ndcg
             best_params = params
     print('Maximum NDCG!')
-    # print('Maximum NDCG: {:.3f}, Best Parameters: {:s}'.format(max_ndcg, str(best_params)))
+    # print('Maximum NDCG: {:.5f}, Best Parameters: {:s}'.format(max_ndcg, str(best_params)))
 
 
 if __name__ == '__main__':

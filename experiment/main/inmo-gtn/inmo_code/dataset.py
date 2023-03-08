@@ -150,7 +150,7 @@ class ProcessedDataset(BasicDataset):
         self.train_array = []
         for user in range(self.n_users):
             self.train_array.extend([[user, item] for item in self.train_data[user]])
-
+            
     def read_data(self, file_path):
         data = []
         with open(file_path, 'r') as f:

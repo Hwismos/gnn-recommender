@@ -22,7 +22,6 @@ def get_trainer(config, dataset, model):
 
 class BasicTrainer:
     def __init__(self, trainer_config):
-        print(trainer_config)
         self.config = trainer_config
         self.name = trainer_config['name']
         self.dataset = trainer_config['dataset']
@@ -92,12 +91,12 @@ class BasicTrainer:
 
             ndcg = metrics['NDCG'][self.topks[0]]
             if ndcg > self.best_ndcg:
-                if self.save_path:
-                    os.remove(self.save_path)
-                self.save_path = os.path.join('checkpoints', '{:s}_{:s}_{:s}_{:.3f}.pth'
-                                              .format(self.model.name, self.name, self.dataset.name, ndcg * 100))
+                # if self.save_path:
+                #     os.remove(self.save_path)
+                # self.save_path = os.path.join('checkpoints_inmo', '{:s}_{:s}_{:s}_{:.3f}.pth'
+                #                               .format(self.model.name, self.name, self.dataset.name, ndcg * 100))
                 self.best_ndcg = ndcg
-                self.model.save(self.save_path)
+                # self.model.save(self.save_path)
                 patience = self.max_patience
                 # print('Best NDCG, save model to {:s}'.format(self.save_path))
             else:
@@ -105,7 +104,7 @@ class BasicTrainer:
                 if patience <= 0:
                     print('Early stopping!')
                     break
-        self.model.load(self.save_path)
+        # self.model.load(self.save_path)
         return self.best_ndcg
 
     def calculate_metrics(self, eval_data, rec_items):

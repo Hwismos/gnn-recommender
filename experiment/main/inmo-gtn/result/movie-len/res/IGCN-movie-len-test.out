@@ -1,6 +1,0 @@
-init dataset ProcessedDataset
-{'name': 'IGCN', 'embedding_size': 128, 'n_layers': 3, 'device': device(type='cuda'), 'dropout': 0.0, 'feature_ratio': 1.0, 'dataset': <dataset.ProcessedDataset object at 0x2b5002cdb2b0>}
-{'name': 'IGCNTrainer', 'optimizer': 'Adam', 'lr': 0.001, 'l2_reg': 0.0, 'aux_reg': 0.001, 'device': device(type='cuda'), 'n_epochs': 1000, 'batch_size': 2048, 'dataloader_num_workers': 6, 'test_batch_size': 100, 'topks': [20], 'dataset': <dataset.ProcessedDataset object at 0x2b5002cdb2b0>, 'model': IGCN(
-  (embedding): Embedding(70841, 128)
-)}
-Epoch 0/1000, Loss: 0.150660, Time: 67.598s
