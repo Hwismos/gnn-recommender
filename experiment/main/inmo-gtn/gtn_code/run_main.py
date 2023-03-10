@@ -36,6 +36,10 @@ np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
 
+print('\n\n[GTN Device Check]')
+print(world.device)
+exit()
+
 # ==================kill============
 utils.set_seed(world.seed)
 print(">>SEED:", world.seed)

@@ -303,7 +303,6 @@ class IGCNTrainer(BasicTrainer):
         for batch_data, a_batch_data in zip(self.dataloader, self.aux_dataloader):
             inputs = batch_data[:, 0, :].to(device=self.device, dtype=torch.int64)
             users, pos_items, neg_items = inputs[:, 0],  inputs[:, 1],  inputs[:, 2]
-            # users: tensor([29828, 29144, 11619,  ...,  9858, 23553, 26086], device='cuda:0')
             users_r, pos_items_r, neg_items_r, l2_norm_sq = self.model.bpr_forward(users, pos_items, neg_items)
             pos_scores = torch.sum(users_r * pos_items_r, dim=1)
             neg_scores = torch.sum(users_r * neg_items_r, dim=1)
@@ -320,9 +319,18 @@ class IGCNTrainer(BasicTrainer):
 
             reg_loss = self.l2_reg * l2_norm_sq.mean() + self.aux_reg * aux_loss
             loss = bpr_loss + reg_loss
+
+            print('\n[역전파 전 임베딩]')
+            print(self.model.embedding.weight)
+
             self.opt.zero_grad()
             loss.backward()
             self.opt.step()
+
+            print('\n[역전파 후 임베딩]')
+            print(self.model.embedding.weight)
+            exit()
+
             losses.update(loss.item(), inputs.shape[0])
         self.model.feat_mat_anneal()
         return losses.avg

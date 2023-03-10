@@ -38,6 +38,7 @@ def get_sparse_tensor(mat, device):
     indexes = torch.tensor(indexes, dtype=torch.int64, device=device)
     data = torch.tensor(coo.data, dtype=torch.float32, device=device)
     sp_tensor = torch.sparse.FloatTensor(indexes, data, torch.Size(coo.shape)).coalesce()
+
     return sp_tensor
 
 

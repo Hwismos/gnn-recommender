@@ -295,13 +295,11 @@ class NGCF(BasicModel):
 
     def bpr_forward(self, users, pos_items, neg_items):
         rep = self.get_rep()
-
-        # return rep  # !
-
         users_r = rep[users, :]
         pos_items_r, neg_items_r = rep[self.n_users + pos_items, :], rep[self.n_users + neg_items, :]
         l2_norm_sq = torch.norm(users_r, p=2, dim=1) ** 2 + torch.norm(pos_items_r, p=2, dim=1) ** 2 \
                      + torch.norm(neg_items_r, p=2, dim=1) ** 2
+
         return users_r, pos_items_r, neg_items_r, l2_norm_sq
 
     def predict(self, users):
@@ -372,7 +370,7 @@ class IGCN(BasicModel):
                                ranking_metric=model_config.get('ranking_metric', 'sort'))
         self.update_feat_mat()
 
-        self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)
+        self.embedding = nn.Embedding(self.feat_mat.shape[1], self.embedding_size)        
         self.w = nn.Parameter(torch.ones([self.embedding_size], dtype=torch.float32, device=self.device))
         normal_(self.embedding.weight, std=0.1)
         self.to(device=self.device)
@@ -437,14 +435,10 @@ class IGCN(BasicModel):
 
         row, column = feat_mat.indices()
 
-        print('\n\n[feat_mat의 인덱스 확인]')
-        print(row[-100:])
-        print(column[-100:])
-        print('\n\n')
-
         g = dgl.graph((column, row), num_nodes=max(self.feat_mat.shape), device=self.device)
         x = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=padding_features, rhs_data=feat_mat.values())
         x = x[:self.feat_mat.shape[0], :]
+
         return x
 
     def get_rep(self):
@@ -454,19 +448,13 @@ class IGCN(BasicModel):
         all_layer_rep = [representations]
         row, column = self.norm_adj.indices()
 
-        print('\n\n[norm_adj의 인덱스 확인]')
-        print(row[-100:])
-        print(column[-100:])
-        print('\n\n[간선 가중치 확인]')
-        print(self.norm_adj.values()[-100:])
-        exit()
-
         g = dgl.graph((column, row), num_nodes=self.norm_adj.shape[0], device=self.device)
         for _ in range(self.n_layers):
             representations = dgl.ops.gspmm(g, 'mul', 'sum', lhs_data=representations, rhs_data=self.norm_adj.values())
             all_layer_rep.append(representations)
         all_layer_rep = torch.stack(all_layer_rep, dim=0)
         final_rep = all_layer_rep.mean(dim=0)
+
         return final_rep
 
     def bpr_forward(self, users, pos_items, neg_items):
