@@ -21,3 +21,5 @@ __pycache__/
 *$py.class
 
 *checkpoints*
+
+*SLURM*

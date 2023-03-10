@@ -1,13 +1,16 @@
-import torch
 import sys
+
+import torch
 from torch.utils.data import TensorDataset, DataLoader
 from torch.optim import Adam, SGD
+import torch.nn.functional as F
+
+import scipy.sparse as sp
 import time
 import numpy as np
 import os
+
 from utils_inmo import AverageMeter, get_sparse_tensor
-import torch.nn.functional as F
-import scipy.sparse as sp
 from dataset import AuxiliaryDataset
 
 

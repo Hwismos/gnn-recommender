@@ -1,16 +1,19 @@
+import sys
+import numpy as np
+import scipy.sparse as sp
+from sklearn.preprocessing import normalize
+
 import torch
 import torch.nn as nn
-import scipy.sparse as sp
-import numpy as np
-from utils_inmo import get_sparse_tensor, graph_rank_nodes, generate_daj_mat
 from torch.nn.init import kaiming_uniform_, xavier_normal, normal_, zeros_, ones_
-import sys
 import torch.nn.functional as F
-from sklearn.preprocessing import normalize
 from torch.utils.checkpoint import checkpoint
+
 import dgl
 import multiprocessing as mp
 import time
+
+from utils_inmo import get_sparse_tensor, graph_rank_nodes, generate_daj_mat
 
 
 def get_model(config, dataset):

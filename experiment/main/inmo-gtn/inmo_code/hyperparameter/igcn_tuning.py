@@ -4,7 +4,7 @@ sys.path.append('/home1/prof/hwang1/seokhwi/gnn-recommender/experiment/main/inmo
 
 local_python_path = '/home1/prof/hwang1/.local/lib/python3.8/site-packages'
 if local_python_path in sys.path:
-    sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')    
+    sys.path.remove('/home1/prof/hwang1/.local/lib/python3.8/site-packages')
 
 from sklearn.model_selection import ParameterGrid
 import torch
@@ -43,21 +43,12 @@ def main():
     best_params = None
     for params in grid:
         ndcg = fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])
-
-        # # ! ===================================================================================
-
-        # final_rep=fitness(params['lr'], params['l2_reg'], params['dropout'], params['aux_reg'])
-        # print('===========================IGCN END=================================================')
-        # return final_rep
-
-        # # ! ===================================================================================
-
         print('NDCG: {:.5f}, Parameters: {:s}'.format(ndcg, str(params)))
         if ndcg > max_ndcg:
             max_ndcg = ndcg
             best_params = params
     print('Maximum NDCG!')
-    # print('Maximum NDCG: {:.5f}, Best Parameters: {:s}'.format(max_ndcg, str(best_params)))
+    print('Maximum NDCG: {:.5f}, Best Parameters: {:s}'.format(max_ndcg, str(best_params)))
 
 
 if __name__ == '__main__':

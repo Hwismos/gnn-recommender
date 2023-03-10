@@ -1,10 +1,13 @@
 import numpy as np
-import torch
 import random
 import os
 import sys
+
+import torch
+
 import scipy.sparse as sp
 from sklearn.preprocessing import normalize
+
 import networkx as nx
 from sortedcontainers import SortedList
 
