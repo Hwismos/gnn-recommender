@@ -27,7 +27,7 @@ import time, datetime
 import Procedure
 from os.path import join
 
-seed = 2020
+seed = 2021
 import random
 import numpy as np
 
@@ -35,10 +35,6 @@ torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
 torch.cuda.manual_seed(seed)
-
-print('\n\n[GTN Device Check]')
-print(world.device)
-exit()
 
 # ==================kill============
 utils.set_seed(world.seed)
@@ -49,6 +45,7 @@ from register import dataset
 
 Recmodel = register.MODELS[world.model_name](world.config, dataset, world.args)
 Recmodel = Recmodel.to(world.device)
+
 bpr = utils.BPRLoss(Recmodel, world.config)
 
 baisc_path_log = "../data/" + str(world.args.dataset) + "/log/"
@@ -81,13 +78,13 @@ try:
     plt.figure()
 
     early_stop_cnt = 0
+    best_ndcg = -987654321
 
     for epoch in range(world.TRAIN_epochs):
         start = time.time()
 
         output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k, w=w)
 
-        best_ndcg = -1
         if epoch != 0 and epoch % 10 == 0:
             cprint("[TEST]")
             results = Procedure.Test(dataset, Recmodel, epoch, w, world.config['multicore'], val=False)
@@ -107,8 +104,8 @@ try:
                     break
 
             if best_ndcg < ndcg:
-                print(f'Best NDCG is {best_ndcg}')
                 best_ndcg = ndcg
+                print(f'Best NDCG is {best_ndcg}')
 
         end = time.time()
         diff = datetime.datetime.fromtimestamp((end - start))

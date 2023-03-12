@@ -46,21 +46,21 @@ class BPRLoss:
         self.weight_decay = config['decay']
         self.lr = config['lr']
         self.opt = optim.Adam(recmodel.parameters(), lr=self.lr)  # weight_decay
-
-    # def stageOne(self, users, pos, neg):
-    def stageOne(self, users, pos, neg, a_users, a_pos, a_neg):
-        # mf_loss, reg_loss = self.model.bpr_loss(users, pos, neg)
-        mf_loss, reg_loss, aux_loss = self.model.bpr_loss(users, pos, neg, a_users, a_pos, a_neg)
+        
+    def stageOne(self, users, pos, neg):
+    # def stageOne(self, users, pos, neg, a_users, a_pos, a_neg):
+        mf_loss, reg_loss = self.model.bpr_loss(users, pos, neg)
+        # mf_loss, reg_loss, aux_loss = self.model.bpr_loss(users, pos, neg, a_users, a_pos, a_neg)
         reg_loss = reg_loss * self.weight_decay
-        # loss = mf_loss + reg_loss
-        loss = mf_loss + reg_loss + aux_loss
-
+        loss = mf_loss + reg_loss
+        # loss = mf_loss + reg_loss + aux_loss
+        
         self.opt.zero_grad()
         loss.backward()
         self.opt.step()
 
-        # return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item()
-        return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item(), self.model 
+        return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item()
+        # return loss.cpu().item(), mf_loss.cpu().item(), reg_loss.cpu().item(), self.model 
 
 
 def UniformSample_original(dataset, neg_ratio=1):

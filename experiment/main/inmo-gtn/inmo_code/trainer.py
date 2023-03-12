@@ -45,6 +45,11 @@ class BasicTrainer:
     def initialize_optimizer(self):
         opt = getattr(sys.modules[__name__], self.config['optimizer'])
         self.opt = opt(self.model.parameters(), lr=self.config['lr'])
+        
+        print('\n[parameters 메소드의 반환값]')
+        for param in self.model.parameters():
+            print(type(param), param.size())
+        exit()
 
     def train_one_epoch(self):
         raise NotImplementedError
@@ -320,16 +325,9 @@ class IGCNTrainer(BasicTrainer):
             reg_loss = self.l2_reg * l2_norm_sq.mean() + self.aux_reg * aux_loss
             loss = bpr_loss + reg_loss
 
-            print('\n[역전파 전 임베딩]')
-            print(self.model.embedding.weight)
-
             self.opt.zero_grad()
             loss.backward()
             self.opt.step()
-
-            print('\n[역전파 후 임베딩]')
-            print(self.model.embedding.weight)
-            exit()
 
             losses.update(loss.item(), inputs.shape[0])
         self.model.feat_mat_anneal()

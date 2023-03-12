@@ -30,7 +30,7 @@ torch.cuda.manual_seed(seed)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Go GTN")
-    parser.add_argument('--bpr_batch', type=int, default=256,
+    parser.add_argument('--bpr_batch', type=int, default=2048,
                         help="the batch size for bpr loss training procedure")  # 512 1024 2048 4096
     parser.add_argument('--layer', type=int, default=3,
                         help="the layer num of lightGCN")
@@ -45,7 +45,7 @@ def parse_args():
                         help="the batch size for bpr loss training procedure")
     parser.add_argument('--a_fold', type=int, default=100,
                         help="the fold num used to split large adj matrix, like gowalla")
-    parser.add_argument('--testbatch', type=int, default=30,
+    parser.add_argument('--testbatch', type=int, default=100,
                         help="the batch size of users for testing, 100")
     parser.add_argument('--path', type=str, default="./checkpoints",
                         help="path to save weights")
@@ -76,11 +76,11 @@ def parse_args():
 
     parser.add_argument('--lr', type=float, default=0.001,
                         help="the learning rate:0.001")  # 0.001
-    parser.add_argument('--dataset', type=str, default='movie-len',
+    parser.add_argument('--dataset', type=str, default='gowalla',
                         help="available datasets: [gowalla,  last-fm, yelp2018, amazon-book]")
     parser.add_argument('--model', type=str, default='gtn', help='rec-model, support [gnt, lgn]')
     parser.add_argument('--avg', type=int, default=0)
-    parser.add_argument('--recdim', type=int, default=64,
+    parser.add_argument('--recdim', type=int, default=128,
                         help="the embedding size of GTN: 128, 256")
     parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--gcn_model', type=str,

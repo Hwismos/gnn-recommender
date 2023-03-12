@@ -176,6 +176,8 @@ class Loader(BasicDataset):
         self.valItem = np.array(valItem)
 
         self.Graph = None
+
+        # 트레인 데이터와 테스트 데이터의 링크 수 출력
         print(f"{self.trainDataSize} interactions for training")
         print(f"{self.testDataSize} interactions for testing")
         print(f"{world.dataset} Sparsity : {(self.trainDataSize + self.testDataSize) / self.n_users / self.m_items}")
@@ -189,6 +191,7 @@ class Loader(BasicDataset):
         self.users_D[self.users_D == 0.] = 1
         self.items_D = np.array(self.UserItemNet.sum(axis=0)).squeeze()
         self.items_D[self.items_D == 0.] = 1.
+        
         # pre-calculate
         self._allPos = self.getUserPosItems(list(range(self.n_user)))
         self.__testDict = self.__build_test()

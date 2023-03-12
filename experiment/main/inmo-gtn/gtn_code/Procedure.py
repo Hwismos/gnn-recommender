@@ -50,17 +50,17 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     users, posItems, negItems = utils.shuffle(users, posItems, negItems)
     
     # ========================================================================================
-    aux_S = dataloader.AuxiliaryDataset(Recmodel).sampling()
+    # aux_S = dataloader.AuxiliaryDataset(Recmodel).sampling()
 
-    aux_users = torch.Tensor(aux_S[:, 0]).long()  # 41830
-    aux_posItems = torch.Tensor(aux_S[:, 1]).long()
-    aux_negItems = torch.Tensor(aux_S[:, 2]).long()
+    # aux_users = torch.Tensor(aux_S[:, 0]).long()  # 41830
+    # aux_posItems = torch.Tensor(aux_S[:, 1]).long()
+    # aux_negItems = torch.Tensor(aux_S[:, 2]).long()
 
-    aux_users = aux_users.to(world.device)
-    aux_posItems = aux_posItems.to(world.device)
-    aux_negItems = aux_negItems.to(world.device)
+    # aux_users = aux_users.to(world.device)
+    # aux_posItems = aux_posItems.to(world.device)
+    # aux_negItems = aux_negItems.to(world.device)
 
-    aux_users, aux_posItems, aux_negItems = utils.shuffle(aux_users, aux_posItems, aux_negItems)
+    # aux_users, aux_posItems, aux_negItems = utils.shuffle(aux_users, aux_posItems, aux_negItems)
     # ========================================================================================
     
     total_batch = len(users) // world.config['bpr_batch_size'] + 1  # 21
@@ -68,22 +68,22 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_mf_loss = 0.0
     aver_reg_loss = 0.0
 
-    # for (batch_i,
-    #      (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
-    #                                                     posItems,
-    #                                                     negItems, 
-    #                                                     batch_size=world.config['bpr_batch_size'])):
     for (batch_i,
-         (batch_users, batch_pos, batch_neg, 
-          a_batch_users, a_batch_pos, a_batch_neg)) in enumerate(utils.minibatch(users,
+         (batch_users, batch_pos, batch_neg)) in enumerate(utils.minibatch(users,
                                                         posItems,
-                                                        negItems,
-                                                        aux_users,
-                                                        aux_posItems,
-                                                        aux_negItems,
+                                                        negItems, 
                                                         batch_size=world.config['bpr_batch_size'])):
-        # cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
-        cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg, a_batch_users, a_batch_pos, a_batch_neg)
+    # for (batch_i,
+    #      (batch_users, batch_pos, batch_neg, 
+    #       a_batch_users, a_batch_pos, a_batch_neg)) in enumerate(utils.minibatch(users,
+    #                                                     posItems,
+    #                                                     negItems,
+    #                                                     aux_users,
+    #                                                     aux_posItems,
+    #                                                     aux_negItems,
+    #                                                     batch_size=world.config['bpr_batch_size'])):
+        cri, mf_loss, reg_loss = bpr.stageOne(batch_users, batch_pos, batch_neg)
+        # cri, mf_loss, reg_loss, learning_model = bpr.stageOne(batch_users, batch_pos, batch_neg, a_batch_users, a_batch_pos, a_batch_neg)
         aver_loss += cri
         aver_mf_loss += mf_loss
         aver_reg_loss += reg_loss
@@ -94,7 +94,7 @@ def BPR_train_original(dataset, recommend_model, loss_class, epoch, neg_k=1, w=N
     aver_reg_loss = aver_reg_loss / total_batch
 
     # ===============================
-    learning_model.feat_mat_anneal()  
+    # learning_model.feat_mat_anneal()  
     # ===============================   
 
     time_info = timer.dict()
@@ -167,6 +167,7 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=1, val=False):
             rating_list.append(rating_K.cpu())
             groundTrue_list.append(groundTrue)
         assert total_batch == len(users_list)
+        
         X = zip(rating_list, groundTrue_list)
         if multicore == 1:
             pre_results = pool.map(test_one_batch, X)
